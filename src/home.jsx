@@ -2,6 +2,7 @@ import React from 'react';
 import { Navbar, Nav, Container, Button, Row, Col, Card } from 'react-bootstrap';
 import { Carousel } from "react-bootstrap";
 import { motion } from 'framer-motion'; 
+import logo from "./assets/logo.png";
 import { 
   FaMapMarkedAlt, FaBrain, FaUserTie, FaVideo, 
   FaWhatsapp, FaSignInAlt, FaArrowRight, FaChevronRight,
@@ -30,6 +31,7 @@ const HomePage = () => {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
   };
+
 
   return (
     <div style={{ backgroundColor: '#fff', overflowX: 'hidden' }}>
@@ -114,184 +116,254 @@ const HomePage = () => {
         <div style={{background:'white', padding:'5px 15px', borderRadius:'20px', fontSize:'12px', fontWeight:'bold', boxShadow:'0 2px 10px rgba(0,0,0,0.1)'}}>Talk to us!</div>
         <a href="#"><FaWhatsapp size={50} color="#25D366" /></a>
       </div>
-
-      {/* 3. NAVBAR */}
-      <Navbar bg="white" expand="lg" className="py-3 sticky-top shadow-sm">
-        <Container>
-          <Navbar.Brand href="#" className="fw-bold fs-3">
-            <span style={{color: darkText}}>career</span><span style={{color: orange}}>jaano</span>
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="navbar-nav" />
-          <Navbar.Collapse id="navbar-nav">
-            <Nav className="mx-auto">
-              {["About", "Career Map", "Counseling", "Psychometric Test", "Top Careers", "Seminars", "Videos"].map((item) => (
-                <Nav.Link key={item} href={`#${item.toLowerCase().replace(" ", "-")}`} className="nav-link-custom">{item}</Nav.Link>
-              ))}
-            </Nav>
-            <Button style={{backgroundColor: orange, border:'none', borderRadius:'25px', padding:'8px 25px'}} className="fw-bold d-flex align-items-center gap-2">
-              <FaSignInAlt /> Login
-            </Button>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-    {/* --- MILAN EDUCATION: PROFESSIONAL DYNAMIC HERO BANNER --- */}
-<section className="hero-banner-section position-relative" style={{ 
-  backgroundColor: '#fdfdfd', 
-  paddingBottom: '160px', // Extra space taaki niche wala section overlap na ho
-  overflow: 'hidden' 
-}}>
-  
-  {/* Modern Subtle Dotted Background */}
-  <div style={{
-    position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-    backgroundImage: `radial-gradient(${orange} 1px, transparent 1px)`,
-    backgroundSize: '30px 30px',
-    opacity: 0.08,
-    zIndex: 1
-  }}></div>
-
-  <Carousel 
-    fade 
-    indicators={true} 
-    controls={false} 
-    interval={4000} 
-    pause={false}
-    className="position-relative"
-    style={{ zIndex: 5 }}
+    {/* 3. NAVBAR */}
+<Navbar
+  bg="white"
+  expand="lg"
+  fixed="top"
+  className="shadow-sm"
+  style={{
+    height: "90px",
+    padding: 0
+  }}
+>
+  <Container
+    fluid
+    className="h-100 d-flex align-items-center"
   >
-    {[
-      {
-        title: "Confused About Your",
-        highlight: "Career Roadmap?",
-        desc: "Milan Education provides personalized guidance to help you navigate through academic choices and professional goals with clarity.",
-        img: "https://i.pinimg.com/1200x/7c/21/e4/7c21e40e8c20c9e72f8ac435538e0261.jpg",
-        cta: "Book Free Counseling"
-      },
-      {
-        title: "Scientific Approach to",
-        highlight: "Success.",
-        desc: "Unlock your hidden potential with our advanced Psychometric Tests designed by industry experts to find the best career fit for you.",
-        img: "https://i.pinimg.com/736x/b1/50/b4/b150b42c3fdf28e8b5f85ec799c9699c.jpg",
-        cta: "Start Your Test"
-      },
-      {
-        title: "Join The Circle of",
-        highlight: "Achievers.",
-        desc: "Over 15,000 students have transformed their lives through our seminars and mentorship programs. Your success story starts here.",
-        img: "https://i.pinimg.com/736x/48/33/26/483326aff12783d4084cdeb21c84fb2b.jpg",
-        cta: "View Workshops"
-      }
-    ].map((slide, index) => (
-      <Carousel.Item key={index}>
-        <Container style={{ minHeight: '550px', display: 'flex', alignItems: 'center' }}>
-          <Row className="align-items-center w-100 py-5">
-            
-            {/* CONTENT SIDE */}
-            <Col lg={6} className="text-start">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                key={`content-${index}`}
-              >
-                <div className="mb-3 d-flex align-items-center gap-2">
-                  <div style={{ width: '40px', height: '2px', backgroundColor: orange }}></div>
-                  <span className="text-uppercase fw-bold" style={{ color: orange, letterSpacing: '2px', fontSize: '13px' }}>Milan Education Hub</span>
-                </div>
+    {/* LOGO */}
+    <Navbar.Brand
+      href="#"
+      className="d-flex align-items-center"
+      style={{
+        padding: 0,
+        margin: 0,
+        height: "110px"
+      }}
+    >
+      <img
+        src={logo}
+        alt="Logo"
+        style={{
+          height: "110px",
+          width: "auto",
+          objectFit: "contain",
+          display: "block"
+        }}
+      />
+    </Navbar.Brand>
 
-                <h1 className="fw-bold mb-3" style={{ color: darkNavy, fontSize: '3rem', lineHeight: '1.1' }}>
-                  {slide.title} <br/>
-                  <span style={{ color: orange }}>{slide.highlight}</span>
-                </h1>
-                
-                <p className="mt-4 fs-5 text-secondary pe-lg-4" style={{ lineHeight: '1.7', maxWidth: '500px' }}>
-                  {slide.desc}
-                </p>
+    <Navbar.Toggle aria-controls="navbar-nav" />
 
-                <div className="mt-5 d-flex gap-3">
-                  <Button className="shadow-lg py-3 px-5 border-0" style={{ background: orange, color: 'white', borderRadius: '12px', fontWeight: 'bold' }}>
-                    {slide.cta}
-                  </Button>
-                  <Button variant="outline-dark" className="py-3 px-4" style={{ borderRadius: '12px', fontWeight: 'bold' }}>
-                    Our Services
-                  </Button>
-                </div>
-              </motion.div>
-            </Col>
+    <Navbar.Collapse id="navbar-nav">
+      <Nav className="mx-auto">
+        {[
+          "About",
+          "Career Map",
+          "Counseling",
+          "Psychometric Test",
+          "Top Careers",
+          "Seminars"
+        ].map((item) => (
+          <Nav.Link
+            key={item}
+            href={`#${item.toLowerCase().replace(" ", "-")}`}
+            className="nav-link-custom"
+          >
+            {item}
+          </Nav.Link>
+        ))}
+      </Nav>
 
-            {/* IMAGE SIDE */}
-            <Col lg={6} className="mt-5 mt-lg-0">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1 }}
-                key={`image-${index}`}
-                className="position-relative"
-              >
-                {/* Modern Geometric Backdrop */}
-                <div style={{ 
-                  position: 'absolute', top: '10%', right: '-5%', 
-                  width: '100%', height: '100%', 
-                  background: `${orange}10`, borderRadius: '30px', 
-                  zIndex: -1, transform: 'rotate(3deg)' 
-                }}></div>
+      <Button
+        style={{
+          backgroundColor: orange,
+          border: "none",
+          borderRadius: "25px",
+          padding: "8px 25px"
+        }}
+        className="fw-bold d-flex align-items-center gap-2"
+      >
+        <FaSignInAlt /> Login
+      </Button>
+    </Navbar.Collapse>
+  </Container>
+</Navbar>
+{/* =================== STRONG HERO SECTION =================== */}
+<section
+  style={{
+    marginTop: "90px",
+    minHeight: "90vh",
+    paddingBottom: "110px", // ✅ next section se safe
+    background: `linear-gradient(120deg, #0b1c2d 0%, #132f4c 60%, ${orange} 140%)`,
+    color: "white",
+    position: "relative",
+    overflow: "hidden",
+    display: "flex",
+    alignItems: "center"
+  }}
+>
+  {/* Overlay Pattern */}
+  <div
+    style={{
+      position: "absolute",
+      inset: 0,
+      backgroundImage:
+        "radial-gradient(rgba(255,255,255,0.12) 1px, transparent 1px)",
+      backgroundSize: "28px 28px",
+      opacity: 0.18,
+      zIndex: 1
+    }}
+  />
 
-                <img 
-                  src={slide.img} 
-                  alt="Education" 
-                  className="img-fluid shadow"
-                  style={{ 
-                    borderRadius: '30px', 
-                    maxHeight: '450px', 
-                    width: '100%', 
-                    objectFit: 'cover',
-                    border: '8px solid white'
-                  }}
-                />
-                
-                {/* Realistic Success Counter */}
-                <div className="bg-white p-3 shadow-lg position-absolute d-flex align-items-center gap-3" style={{ bottom: '-20px', right: '40px', borderRadius: '15px', zIndex: 10 }}>
-                   <div className="rounded-circle d-flex align-items-center justify-content-center" style={{ width: '50px', height: '50px', background: `${orange}15`, color: orange }}>
-                      <FaUserGraduate size={24} />
-                   </div>
-                   <div className="text-start pe-3">
-                      <h5 className="mb-0 fw-bold" style={{ color: darkNavy }}>15k+ Success</h5>
-                      <small className="text-muted fw-semibold">Milan Education Students</small>
-                   </div>
-                </div>
-              </motion.div>
-            </Col>
+  <Container style={{ position: "relative", zIndex: 2 }}>
+    <Row className="align-items-center">
 
-          </Row>
-        </Container>
-      </Carousel.Item>
-    ))}
-  </Carousel>
+      {/* LEFT CONTENT */}
+      <Col lg={6}>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9 }}
+        >
+          <span
+            style={{
+              background: orange,
+              padding: "4px 12px",
+              borderRadius: "30px",
+              fontSize: "10px",
+              fontWeight: "700",
+              letterSpacing: "1px"
+            }}
+          >
+            MILAN EDUCATION
+          </span>
 
-  {/* CSS fixes for fonts and spacing */}
-  <style>{`
-    .hero-banner-section h1 {
-      letter-spacing: -1px;
-    }
-    .carousel-indicators {
-      bottom: 100px !important;
-    }
-    .carousel-indicators [data-bs-target] {
-      background-color: ${orange} !important;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      margin: 0 6px;
-    }
-    @media (max-width: 991px) {
-      .hero-banner-section { padding-bottom: 80px; }
-      h1 { font-size: 2.2rem !important; }
-      .carousel-indicators { bottom: 40px !important; }
-    }
-  `}</style>
+          <h1
+            className="fw-bold mt-4"
+            style={{
+              fontSize: "2.8rem", // ✅ reduced
+              lineHeight: "1.15"
+            }}
+          >
+            Shape Your <br />
+            <span style={{ color: "#ffd8b8" }}>
+              Career With Confidence
+            </span>
+          </h1>
+
+          <p
+            className="mt-4"
+            style={{
+              fontSize: "1.05rem", // ✅ reduced
+              maxWidth: "500px",
+              opacity: 0.9,
+              lineHeight: "1.75"
+            }}
+          >
+            Milan Education helps students choose the right career path
+            through expert counseling, psychometric analysis and
+            result-oriented mentorship.
+          </p>
+
+          {/* CTA */}
+          <div className="mt-5 d-flex gap-3 flex-wrap">
+            <Button
+              size="lg"
+              style={{
+                background: orange,
+                border: "none",
+                padding: "12px 34px",
+                borderRadius: "14px",
+                fontWeight: "700",
+                boxShadow: `0 18px 36px ${orange}55`
+              }}
+            >
+              Book Free Counseling
+            </Button>
+
+            <Button
+              size="lg"
+              variant="outline-light"
+              style={{
+                padding: "12px 30px",
+                borderRadius: "14px",
+                fontWeight: "700"
+              }}
+            >
+              Explore Programs
+            </Button>
+          </div>
+        </motion.div>
+      </Col>
+      {/* RIGHT IMAGE */}
+<Col lg={6} className="mt-5 mt-lg-0">
+  <motion.div
+    initial={{ opacity: 0, scale: 0.92 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 1 }}
+    style={{ position: "relative" }}
+  >
+    {/* Glow */}
+    <div
+      style={{
+        position: "absolute",
+        inset: "-20px",
+        background: `${orange}35`,
+        filter: "blur(70px)",
+        zIndex: -1
+      }}
+    />
+
+    {/* ANIMATED IMAGE */}
+    <motion.img
+      src="https://i.pinimg.com/1200x/bd/38/78/bd3878ed9979f0c56cd39cd5654e5afd.jpg"
+      alt="Education Hero"
+      animate={{ scale: [1, 1.07, 1] }}   // ✅ zoom in → zoom out
+      transition={{
+        duration: 8,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }}
+      style={{
+        width: "100%",
+        height: "460px",
+        objectFit: "cover",
+        borderRadius: "26px",
+        boxShadow: "0 35px 70px rgba(0,0,0,0.35)"
+      }}
+    />
+
+    {/* Stats (NO OVERLAP, SAFE) */}
+    <div
+      style={{
+        position: "absolute",
+        bottom: "18px",
+        left: "18px",
+        background: "white",
+        color: "#000",
+        padding: "14px 20px",
+        borderRadius: "16px",
+        display: "flex",
+        gap: "12px",
+        alignItems: "center",
+        boxShadow: "0 14px 30px rgba(0,0,0,0.25)"
+      }}
+    >
+      <FaUserGraduate size={28} style={{ color: orange }} />
+      <div>
+        <h6 className="mb-0 fw-bold">15,000+</h6>
+        <small className="text-muted">Students Guided</small>
+      </div>
+    </div>
+  </motion.div>
+</Col>
+    </Row>
+  </Container>
 </section>
+
     {/* --- MILAN EDUCATION: NEXT-LEVEL PREMIUM SERVICES --- */}
-<section className="position-relative" style={{ marginTop: '-120px', zIndex: 10, paddingBottom: '50px' }}>
+<section className="position-relative" style={{ marginTop: '-110px', zIndex: 10, paddingBottom: '40px' }}>
   
   {/* Bindu/Dot Pattern background for the cards area */}
   <div style={{
@@ -512,15 +584,19 @@ const HomePage = () => {
              </span>
           </div>
           
-          <h2 className="fw-bold mb-4" style={{ fontSize: '2.5rem', color: '#1a1a2e', lineHeight: '1.2' }}>
-            Transforming Aspirations into <br/>
-            <span style={{ color: orange }}>Real Success Stories</span>
+          <h2 className="fw-bold mb-4" style={{ fontSize: '2.3rem', color: '#1a1a2e', lineHeight: '1.2' }}>
+            Transforming Aspirations into 
+            <span style={{ color: orange }}>  real Success Stories</span>
           </h2>
 
-          <p className="text-muted fs-5 mb-4" style={{ lineHeight: '1.8' }}>
-            <strong>Milan Education</strong> is more than just a career platform. It’s a dedicated ecosystem led by 
-            Mr. <strong>Mohit Bansal</strong>, designed to bridge the gap between student potential and career excellence.
-          </p>
+          <p className="text-muted fs-6 mb-3" style={{ lineHeight: "1.7" }}>
+  <strong>Milan Education</strong> is more than just a career platform. It’s a dedicated ecosystem led by 
+  Mr. <strong>Mohit Bansal</strong>, designed to bridge the gap between student potential and career excellence.
+  With a strong foundation in data-driven counseling and real-world insights, we empower students to make 
+  confident academic and professional decisions.
+  Our mission is to nurture clarity, confidence, and long-term success at every stage of a student’s journey.
+</p>
+
 
           <Row className="mb-5 g-4">
              <Col sm={6}>
@@ -1184,27 +1260,12 @@ const HomePage = () => {
               </div>
             </Col>
           </Row>
-
-          {/* Logo Section */}
-          <div className="mt-5 pt-4">
-             <div className="d-flex align-items-center">
-                <img 
-                  src="https://via.placeholder.com/50" // Replace with your logo icon
-                  alt="Logo" 
-                  className="me-2" 
-                />
-                <div style={{ lineHeight: '1' }}>
-                   <span className="fs-3 fw-bold">career</span><br/>
-                   <span className="fs-5 fw-bold" style={{ color: orange, marginLeft: '20px' }}>Jaano</span>
-                </div>
-             </div>
-          </div>
         </Container>
 
         {/* Copyright Bar */}
         <div className="mt-5 py-3 border-top border-secondary text-center">
            <p className="text-white-50 small mb-0">
-             Copyright © MBSA CAREER JAANO PATHFINDER LLP. All rights reserved
+             Copyright © Milan Education. All rights reserved
            </p>
         </div>
 
