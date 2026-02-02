@@ -1,12 +1,27 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './home'; // Aapka purana home page
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Home from "./home";
+import Aboutus from './aboutus';
+import Careermap from "./careermap";
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
+      {/* Navbar always visible */}
+      <Navbar />
+
+      {/* Page Content */}
+      <div style={{ minHeight: "70vh" }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+           <Route path="/aboutus" element={<Aboutus />} />
+          <Route path="/careermap" element={<Careermap />} />
+        </Routes>
+      </div>
+
+      {/* Footer always visible */}
+      <Footer />
     </Router>
   );
 }
