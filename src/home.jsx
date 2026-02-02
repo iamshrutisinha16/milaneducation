@@ -1265,7 +1265,7 @@ const HomePage = () => {
         {/* Copyright Bar */}
         <div className="mt-5 py-3 border-top border-secondary text-center">
            <p className="text-white-50 small mb-0">
-             Copyright © Milan Education. All rights reserved
+             Copyright 2025 © Milan Education Promoted & Managed by Web2online Solutions. All rights reserved
            </p>
         </div>
 
