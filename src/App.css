@@ -38,12 +38,10 @@ body {
   font-weight: 600;
 }
 
-/* CENTER MENU */
 .navbar-nav {
   align-items: center;
 }
 
-/* LOGIN BUTTON */
 .login-btn {
   background-color: #f47920;
   border: none;
@@ -62,7 +60,6 @@ body {
   background-color: #e56714;
 }
 
-/* ================= DROPDOWN ================= */
 .dropdown-menu {
   border-radius: 12px;
   border: none;
@@ -79,7 +76,6 @@ body {
   color: white;
 }
 
-/* ================= FLOATING BUTTONS ================= */
 .floating-signup {
   position: fixed;
   left: 0;
@@ -146,5 +142,205 @@ body {
 
   .login-btn {
     margin: 15px auto;
+  }
+}
+
+/* =========================
+   Banner Section
+========================= */
+.test-banner {
+  height: 280px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+}
+
+.test-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.test-banner h1 {
+  position: relative;
+  color: white;
+  font-size: 38px;
+  font-weight: 700;
+  max-width: 850px;
+  z-index: 2;
+  line-height: 1.4;
+}
+
+/* =========================
+   Main Wrapper
+========================= */
+.test-wrapper {
+  padding: 80px 20px;
+  background: #f6f7fb;
+  min-height: 70vh;
+}
+
+.test-container {
+  max-width: 900px;
+  margin: auto;
+  text-align: center;
+}
+
+/* =========================
+   Title
+========================= */
+.test-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 25px;
+  color: #1a1a1a;
+}
+
+/* =========================
+   Dropdown
+========================= */
+.test-dropdown {
+  padding: 14px;
+  width: 420px;
+  max-width: 90%;
+  font-size: 16px;
+  border-radius: 6px;
+  border: none;
+  background: #2d2b4e;
+  color: white;
+  cursor: pointer;
+  outline: none;
+  transition: 0.3s;
+}
+
+.test-dropdown:hover {
+  background: #1f1e38;
+}
+
+/* =========================
+   Test Card
+========================= */
+.test-card {
+  margin: 90px auto 0;
+  max-width: 420px;
+  background: white;
+  padding: 50px 25px 35px;
+  border-radius: 18px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.12);
+  position: relative;
+  animation: fadeUp 0.5s ease;
+}
+
+/* Premium Circle */
+.premium-badge {
+  position: absolute;
+  top: -45px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #ff7a00, #ff4d00);
+  color: white;
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  letter-spacing: 1px;
+  font-size: 14px;
+}
+
+/* Test name */
+.test-name {
+  margin-top: 60px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #111;
+}
+
+/* Price */
+.test-price {
+  font-size: 30px;
+  color: #ff6a00;
+  font-weight: bold;
+  margin: 12px 0 0;
+}
+
+/* =========================
+   Video Section
+========================= */
+.video-section {
+  margin-top: 60px;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+  animation: fadeUp 0.6s ease;
+}
+
+.video-section iframe {
+  width: 100%;
+  height: 380px;
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* =========================
+   Animation
+========================= */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(45px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================
+   Responsive
+========================= */
+@media (max-width: 768px) {
+  .test-banner {
+    height: 220px;
+    padding: 0 15px;
+  }
+
+  .test-banner h1 {
+    font-size: 26px;
+  }
+
+  .test-card {
+    margin-top: 70px;
+    padding: 45px 20px 30px;
+  }
+
+  .video-section iframe {
+    height: 260px;
+  }
+}
+
+@media (max-width: 480px) {
+  .test-title {
+    font-size: 18px;
+  }
+
+  .test-dropdown {
+    width: 100%;
+  }
+
+  .test-banner h1 {
+    font-size: 22px;
+  }
+
+  .video-section iframe {
+    height: 220px;
   }
 }

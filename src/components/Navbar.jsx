@@ -40,16 +40,16 @@ const CustomNavbar = () => {
               {/* Courses Dropdown */}
               <li className="nav-item dropdown">
               <span className="nav-link nav-link-custom dropdown-toggle"data-bs-toggle="dropdown" style={{ cursor: "pointer" }}>
-            Courses
+            Learning types
          </span>
             <ul className="dropdown-menu">
          <li>
-           <Link className="dropdown-item" to="/courses/online">
+           <Link className="dropdown-item" to="/online">
              Online Mode
            </Link>
          </li>
           <li>
-           <Link className="dropdown-item" to="/courses/online">
+           <Link className="dropdown-item" to="/offline">
              Offline Mode
           </Link>
           </li>
@@ -68,12 +68,12 @@ const CustomNavbar = () => {
        </span>
      <ul className="dropdown-menu">
       <li>
-      <Link className="dropdown-item" to="/test/career">
+      <Link className="dropdown-item" to="/psychometrictest">
         Psychometric Test
       </Link>
     </li>
          <li>
-            <Link className="dropdown-item" to="/test/skill">
+            <Link className="dropdown-item" to="/personalitytest">
             Personality Test
            </Link>
         </li>

@@ -197,7 +197,7 @@ const orange = "#f47920";
           title: "Psychometric Test", 
           desc: "Scientific analysis of your skills and personality.",
           icon: <FaBrain />, 
-           link: "/psychometrictest",
+           link: "/test",
           color: "#2b2d42" 
         },
         { 

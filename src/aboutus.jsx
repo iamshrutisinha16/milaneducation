@@ -41,7 +41,7 @@ const AboutUs = () => {
           animate={{ opacity: 1, scale: 1 }} 
           transition={{ duration: 0.8 }}
         >
-          <h1 className="display-3 fw-bold">About <span style={{ color: orange }}>Milan Education</span></h1>
+          <h1 className="display-3 fw-bold">About <span style={{ color: orange }}>College Milan</span></h1>
           <p className="lead fs-4 px-3">Sahi Gyaan, Sahi Disha - Aapke Sapno Ka Milan!</p>
           <div style={{ height: '5px', width: '80px', backgroundColor: orange, margin: '20px auto' }}></div>
         </motion.div>
@@ -57,11 +57,11 @@ const AboutUs = () => {
     </h6>
 
     <h2 className="fw-bold mb-4" style={{ color: blue, fontSize: '2.5rem' }}>
-      Milan Education: <span style={{ color: orange }}>A Decade of Trust</span>
+    college Milan : <span style={{ color: orange }}>A Decade of Trust</span>
     </h2>
 
     <p className="text-muted" style={{ lineHeight: '1.9', fontSize: '1.1rem', textAlign: 'justify' }}>
-      Milan Education is not just an institution—it is a mission. We realized that while talent exists in every corner of India, many students lack access to industry-ready skills. Milan Education was founded to bridge this very gap.
+     college Milan is not just an institution—it is a mission. We realized that while talent exists in every corner of India, many students lack access to industry-ready skills. Milan Education was founded to bridge this very gap.
     </p>
 
     <p className="text-muted" style={{ lineHeight: '1.9', fontSize: '1.1rem', textAlign: 'justify' }}>

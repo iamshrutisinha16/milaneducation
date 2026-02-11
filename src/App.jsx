@@ -5,6 +5,7 @@ import Home from "./home";
 import Aboutus from './aboutus';
 import Careermap from "./careermap";
 import Counselling from "./counseling";
+import Testpage from "./pages/testpage";
 
 function App() {
   return (
@@ -18,7 +19,10 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/aboutus" element={<Aboutus />} />
           <Route path="/careermap" element={<Careermap />} />
-           <Route path="/counselling" element={<Counselling/>} />
+          <Route path="/counselling" element={<Counselling/>} />
+          <Route path="/psychometrictest" element={<Testpage />} />
+          <Route path="/personalitytest" element={<Testpage />} />
+            <Route path="/test" element={<Testpage />} />
         </Routes>
       </div>
 
