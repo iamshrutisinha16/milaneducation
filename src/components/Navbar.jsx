@@ -79,9 +79,6 @@ const CustomNavbar = () => {
         </li>
       </ul>
     </li>
-             <li className="nav-item">
-                <Link to="/topcareers" className="nav-link nav-link-custom">Top Careers</Link>
-              </li>
               <li className="nav-item">
                 <Link to="/event&updates" className="nav-link nav-link-custom">Event & Updates</Link>
               </li>

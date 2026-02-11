@@ -15,7 +15,7 @@ body {
 }
 
 .navbar-logo {
-  height: 75px;   
+  height: 85px;   
   width: auto;
   object-fit: contain;
 }
@@ -145,9 +145,7 @@ body {
   }
 }
 
-/* =========================
-   Banner Section
-========================= */
+/* TEST */
 .test-banner {
   height: 280px;
   background-size: cover;
@@ -176,9 +174,6 @@ body {
   line-height: 1.4;
 }
 
-/* =========================
-   Main Wrapper
-========================= */
 .test-wrapper {
   padding: 80px 20px;
   background: #f6f7fb;
@@ -191,9 +186,6 @@ body {
   text-align: center;
 }
 
-/* =========================
-   Title
-========================= */
 .test-title {
   font-size: 22px;
   font-weight: 600;
@@ -201,9 +193,6 @@ body {
   color: #1a1a1a;
 }
 
-/* =========================
-   Dropdown
-========================= */
 .test-dropdown {
   padding: 14px;
   width: 420px;
@@ -222,9 +211,6 @@ body {
   background: #1f1e38;
 }
 
-/* =========================
-   Test Card
-========================= */
 .test-card {
   margin: 90px auto 0;
   max-width: 420px;
@@ -236,7 +222,6 @@ body {
   animation: fadeUp 0.5s ease;
 }
 
-/* Premium Circle */
 .premium-badge {
   position: absolute;
   top: -45px;
@@ -255,7 +240,6 @@ body {
   font-size: 14px;
 }
 
-/* Test name */
 .test-name {
   margin-top: 60px;
   font-size: 22px;
@@ -263,7 +247,6 @@ body {
   color: #111;
 }
 
-/* Price */
 .test-price {
   font-size: 30px;
   color: #ff6a00;
@@ -271,9 +254,6 @@ body {
   margin: 12px 0 0;
 }
 
-/* =========================
-   Video Section
-========================= */
 .video-section {
   margin-top: 60px;
   max-width: 720px;
@@ -290,9 +270,6 @@ body {
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
 }
 
-/* =========================
-   Animation
-========================= */
 @keyframes fadeUp {
   from {
     opacity: 0;
@@ -304,9 +281,6 @@ body {
   }
 }
 
-/* =========================
-   Responsive
-========================= */
 @media (max-width: 768px) {
   .test-banner {
     height: 220px;
@@ -343,4 +317,267 @@ body {
   .video-section iframe {
     height: 220px;
   }
+}
+
+/*conatctus*/
+.contact-wrapper {
+    background-color: #f8f9fa;
+    overflow-x: hidden;
+}
+
+.contact-banner {
+    background: linear-gradient(rgba(0, 51, 102, 0.7), rgba(0, 51, 102, 0.7)), 
+                url('https://i.pinimg.com/736x/62/95/79/62957905868ca297b3f3ad5ea591fac4.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; 
+    height: 550px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+}
+
+.banner-content h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #FF8C00; 
+}
+
+.details-card {
+    background: #003366; 
+    color: white;
+    border-radius: 15px;
+    border-left: 8px solid #FF8C00;
+}
+
+.form-card {
+    background: white;
+    border-radius: 15px;
+}
+
+.form-card h3 {
+    color: #003366;
+    font-weight: 600;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.icon-box {
+    background: #FF8C00;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    color: white;
+}
+
+.info-item h5 {
+    margin-bottom: 2px;
+    color: #FF8C00;
+}
+
+.custom-input {
+    border: 1px solid #ced4da;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.custom-input:focus {
+    border-color: #FF8C00;
+    box-shadow: 0 0 0 0.2rem rgba(255, 140, 0, 0.25);
+}
+
+.btn-send {
+    background-color: #FF8C00 !important;
+    border: none !important;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-send:hover {
+    background-color: #e67e00 !important;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icon {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #FF8C00;
+    color: #FF8C00;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.social-icon:hover {
+    background: #FF8C00;
+    color: white;
+}
+
+.map-section iframe {
+    filter: grayscale(10%) contrast(1.1);
+}
+
+@media (max-width: 768px) {
+    .banner-content h1 {
+        font-size: 2.5rem;
+    }
+    .contact-banner {
+        height: 250px;
+    }
+}
+
+/*events*/
+
+:root {
+    --blue: #003366;
+    --orange: #FF8C00;
+}
+
+.events-main-wrapper {
+    background-color: #ffffff;
+}
+
+/* --- Banner Styling (Premium & Clear) --- */
+.premium-banner {
+    position: relative;
+    height: 550px;
+    background: url('https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1986&auto=format&fit=crop') center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Overlay jo image ko chupaayega nahi, bas text ko visible karega */
+.banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 51, 102, 0.6), rgba(0, 0, 0, 0.3));
+    z-index: 1;
+}
+
+.banner-content-box {
+    position: relative;
+    z-index: 2;
+    color: white;
+    padding: 20px;
+    max-width: 800px;
+}
+
+.banner-title {
+    font-size: 4rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+    margin-bottom: 15px;
+}
+
+.highlight-orange {
+    color: var(--orange);
+}
+
+.title-line {
+    width: 100px;
+    height: 5px;
+    background: var(--orange);
+    margin: 10px auto 20px;
+    border-radius: 5px;
+}
+
+.banner-subtitle {
+    font-size: 1.3rem;
+    font-weight: 300;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* --- Grid Section Styling --- */
+.premium-event-card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: all 0.4s ease;
+    height: 100%;
+}
+
+.premium-event-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    border-bottom: 5px solid var(--orange);
+}
+
+.event-img-container {
+    height: 240px;
+    overflow: hidden;
+}
+
+.event-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.premium-event-card:hover img {
+    transform: scale(1.1);
+}
+
+.event-text-main {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #222;
+    line-height: 1.6;
+}
+
+/* --- Floating Side Badge --- */
+.floating-badge {
+    position: fixed;
+    right: -50px;
+    top: 50%;
+    background: var(--orange);
+    color: white;
+    padding: 12px 30px;
+    transform: rotate(-90deg);
+    font-weight: 600;
+    border-radius: 10px 10px 0 0;
+    letter-spacing: 1px;
+    z-index: 100;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991px) {
+    .banner-title { font-size: 3rem; }
+    .premium-banner { height: 450px; }
+}
+
+@media (max-width: 576px) {
+    .banner-title { font-size: 2.2rem; }
+    .banner-subtitle { font-size: 1rem; }
+    .premium-banner { height: 350px; }
 }
