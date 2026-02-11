@@ -1,34 +1,26 @@
 import React from 'react';
 import { Navbar, Nav, Container, Button, Row, Col, Card } from 'react-bootstrap';
 import { Carousel } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { motion } from 'framer-motion'; 
 import logo from "./assets/logo.png";
-import { 
-  FaMapMarkedAlt, FaBrain, FaUserTie, FaVideo, 
-  FaWhatsapp, FaSignInAlt, FaArrowRight, FaChevronRight,
-  FaUserGraduate, FaChalkboardTeacher, FaAward, FaGlobe, FaPlay
-} from 'react-icons/fa';
+import { FaMapMarkedAlt, FaBrain, FaUserTie, FaVideo,  FaWhatsapp, FaSignInAlt, FaArrowRight, FaChevronRight,
+  FaUserGraduate, FaChalkboardTeacher, FaAward, FaGlobe, FaPlay} from 'react-icons/fa';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const HomePage = () => {
 const orange = "#f47920";
   return (
     <>
- // Hero section
-<section
-  style={{
-    marginTop: "67px",
-    minHeight: "90vh",
-    paddingBottom: "110px", 
-    background: `linear-gradient(120deg, #0b1c2d 0%, #132f4c 60%, ${orange} 140%)`,
-    color: "white",
-    position: "relative",
-    overflow: "hidden",
-    display: "flex",
-    alignItems: "center"
+
+  {/* Hero section */}
+<section style={{marginTop: "67px", minHeight: "90vh",paddingBottom: "110px", background: `linear-gradient(120deg, #0b1c2d 0%, #132f4c 60%, ${orange} 140%)`,color: "white",
+  position: "relative",
+  overflow: "hidden",
+  display: "flex",
+  alignItems: "center"
   }}
 >
-  {/* Overlay Pattern */}
   <div
     style={{
       position: "absolute",
@@ -67,7 +59,7 @@ const orange = "#f47920";
           <h1
             className="fw-bold mt-4"
             style={{
-              fontSize: "2.8rem", // ✅ reduced
+              fontSize: "2.8rem",
               lineHeight: "1.15"
             }}
           >
@@ -80,13 +72,13 @@ const orange = "#f47920";
           <p
             className="mt-4"
             style={{
-              fontSize: "1.05rem", // ✅ reduced
+              fontSize: "1.05rem", 
               maxWidth: "500px",
               opacity: 0.9,
               lineHeight: "1.75"
             }}
           >
-            Milan Education helps students choose the right career path
+            College Education helps students choose the right career path
             through expert counseling, psychometric analysis and
             result-oriented mentorship.
           </p>
@@ -144,7 +136,7 @@ const orange = "#f47920";
     <motion.img
       src="https://i.pinimg.com/1200x/bd/38/78/bd3878ed9979f0c56cd39cd5654e5afd.jpg"
       alt="Education Hero"
-      animate={{ scale: [1, 1.07, 1] }}   // ✅ zoom in → zoom out
+      animate={{ scale: [1, 1.07, 1] }}   
       transition={{
         duration: 8,
         repeat: Infinity,
@@ -187,17 +179,9 @@ const orange = "#f47920";
   </Container>
 </section>
 
-    {/* --- MILAN EDUCATION: NEXT-LEVEL PREMIUM SERVICES --- */}
+    {/*  PREMIUM SERVICES */}
 <section className="position-relative" style={{ marginTop: '-110px', zIndex: 10, paddingBottom: '40px' }}>
-  
-  {/* Bindu/Dot Pattern background for the cards area */}
-  <div style={{
-    position: 'absolute', top: '50px', left: '5%', right: '5%', bottom: '0',
-    backgroundImage: `radial-gradient(${orange} 1.5px, transparent 1.5px)`,
-    backgroundSize: '25px 25px',
-    opacity: 0.05,
-    zIndex: -1
-  }}></div>
+  <div style={{position: 'absolute', top: '50px', left: '5%', right: '5%', bottom: '0', backgroundImage: `radial-gradient(${orange} 1.5px, transparent 1.5px)`,backgroundSize: '25px 25px',opacity: 0.05,zIndex: -1}}></div>
 
   <Container>
     <Row className="g-4 justify-content-center">
@@ -206,24 +190,28 @@ const orange = "#f47920";
           title: "Career Map", 
           desc: "Strategic roadmaps for your academic journey.",
           icon: <FaMapMarkedAlt />, 
+          link: "/careermap",
           color: "#f47920" 
         },
         { 
           title: "Psychometric Test", 
           desc: "Scientific analysis of your skills and personality.",
           icon: <FaBrain />, 
+           link: "/psychometrictest",
           color: "#2b2d42" 
         },
         { 
           title: "Counseling Session", 
           desc: "Personalized 1-on-1 expert career guidance.",
           icon: <FaUserTie />, 
-          color: "#f47920" 
+           link: "/counselling",
+          color: "#866248" 
         },
         { 
           title: "Watch Videos", 
           desc: "Premium video content for career insights.",
           icon: <FaVideo />, 
+          link: "/videos",
           color: "#2b2d42" 
         }
       ].map((item, index) => (
@@ -235,6 +223,7 @@ const orange = "#f47920";
             transition={{ delay: index * 0.1, duration: 0.6 }}
             whileHover={{ y: -15 }}
           >
+            <Link to={item.link} style={{ textDecoration: "none" }}>
             <div className="premium-service-card shadow-lg" style={{
               backgroundColor: '#ffffff',
               borderRadius: '30px',
@@ -293,6 +282,7 @@ const orange = "#f47920";
                 </Button>
               </div>
             </div>
+            </Link>
           </motion.div>
         </Col>
       ))}
@@ -316,166 +306,235 @@ const orange = "#f47920";
   `}</style>
 </section>
 
-    {/* --- MILAN EDUCATION: PREMIUM ABOUT SECTION --- */}
-<section id="about" className="position-relative overflow-hidden" style={{ 
-  padding: '100px 0', 
-  backgroundColor: '#fdfdfd' 
-}}>
-  
-  {/* --- UNIQUE BACKGROUND: BINDU (DOT) GRID --- */}
-  <div style={{
-    position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-    backgroundImage: `radial-gradient(${orange} 1.2px, transparent 1.2px)`,
-    backgroundSize: '25px 25px',
-    opacity: 0.08,
-    zIndex: 1
-  }}></div>
+  {/*  PREMIUM ABOUT SECTION --- */}
+<section
+  id="about"
+  className="position-relative overflow-hidden"
+  style={{
+    padding: "100px 0",
+    backgroundColor: "#fdfdfd",
+  }}
+>
+  <div
+    style={{
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundImage: `radial-gradient(${orange} 1.2px, transparent 1.2px)`,
+      backgroundSize: "25px 25px",
+      opacity: 0.08,
+      zIndex: 1,
+    }}
+  ></div>
 
-  {/* Soft Gradient Mesh for Depth */}
-  <div style={{
-    position: 'absolute', top: '10%', right: '-5%', width: '400px', height: '400px',
-    background: `radial-gradient(circle, ${orange}10 0%, transparent 70%)`,
-    borderRadius: '50%', zIndex: 0
-  }}></div>
+  {/* Soft Gradient Mesh */}
+  <div
+    style={{
+      position: "absolute",
+      top: "10%",
+      right: "-5%",
+      width: "400px",
+      height: "400px",
+      background: `radial-gradient(circle, ${orange}10 0%, transparent 70%)`,
+      borderRadius: "50%",
+      zIndex: 0,
+    }}
+  ></div>
 
   <Container className="position-relative" style={{ zIndex: 10 }}>
     <Row className="align-items-center gy-5">
-      
-      {/* 1. LEFT SIDE: MODERN 3-IMAGE COLLAGE */}
+      {/* LEFT IMAGES */}
       <Col lg={6}>
-        <div className="position-relative" style={{ height: '480px' }}>
-          
-          {/* Main Image (Founder) */}
-          <motion.div 
+        <div className="position-relative" style={{ height: "480px" }}>
+          {/* Main Image */}
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            style={{ 
-              position: 'absolute', top: '0', left: '10%', 
-              width: '65%', height: '85%', zIndex: 3,
-              borderRadius: '20px', overflow: 'hidden',
-              boxShadow: '0 20px 40px rgba(0,0,0,0.12)',
-              border: '6px solid white'
+            style={{
+              position: "absolute",
+              top: "0",
+              left: "10%",
+              width: "65%",
+              height: "85%",
+              zIndex: 3,
+              borderRadius: "20px",
+              overflow: "hidden",
+              boxShadow: "0 20px 40px rgba(0,0,0,0.12)",
+              border: "6px solid white",
             }}
           >
-            <img src="https://i.pinimg.com/736x/63/20/ed/6320ed9a61834db5beb4a6df8788f40d.jpg" alt="Milan Education Founder" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img
+              src="https://i.pinimg.com/736x/63/20/ed/6320ed9a61834db5beb4a6df8788f40d.jpg"
+              alt="Founder"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
           </motion.div>
 
-          {/* Second Image (Workshop/Activity) */}
-          <motion.div 
+          {/* Second Image */}
+          <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            style={{ 
-              position: 'absolute', bottom: '5%', right: '0', 
-              width: '50%', height: '45%', zIndex: 4,
-              borderRadius: '20px', overflow: 'hidden',
-              boxShadow: '0 15px 30px rgba(0,0,0,0.1)',
-              border: `4px solid ${orange}`
+            style={{
+              position: "absolute",
+              bottom: "5%",
+              right: "0",
+              width: "50%",
+              height: "45%",
+              zIndex: 4,
+              borderRadius: "20px",
+              overflow: "hidden",
+              boxShadow: "0 15px 30px rgba(0,0,0,0.1)",
+              border: `4px solid ${orange}`,
             }}
           >
-            <img src="https://i.pinimg.com/736x/cd/49/3f/cd493f8be9b131a98ddaabfb772745a5.jpg" alt="Education Session" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img
+              src="https://i.pinimg.com/736x/cd/49/3f/cd493f8be9b131a98ddaabfb772745a5.jpg"
+              alt="Session"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
           </motion.div>
 
-          {/* Third Image (Candid Moment) */}
-          <motion.div 
+          {/* Third Image */}
+          <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            style={{ 
-              position: 'absolute', top: '15%', left: '-5%', 
-              width: '140px', height: '140px', zIndex: 5,
-              borderRadius: '20px', overflow: 'hidden',
-              boxShadow: '0 10px 20px rgba(0,0,0,0.15)',
-              border: '4px solid white'
+            style={{
+              position: "absolute",
+              top: "15%",
+              left: "-5%",
+              width: "140px",
+              height: "140px",
+              zIndex: 5,
+              borderRadius: "20px",
+              overflow: "hidden",
+              boxShadow: "0 10px 20px rgba(0,0,0,0.15)",
+              border: "4px solid white",
             }}
           >
-            <img src="https://i.pinimg.com/1200x/7a/83/7c/7a837c860b767d640b16c66da66b512b.jpg" alt="Small Detail" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img
+              src="https://i.pinimg.com/1200x/7a/83/7c/7a837c860b767d640b16c66da66b512b.jpg"
+              alt="Detail"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
           </motion.div>
         </div>
       </Col>
 
-      {/* 2. RIGHT SIDE: BALANCED CONTENT */}
+      {/* RIGHT CONTENT */}
       <Col lg={6} className="ps-lg-5">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <div className="d-flex align-items-center mb-3">
-             <span className="fw-bold px-2 py-1" style={{ color: orange, backgroundColor: `${orange}10`, borderRadius: '4px', fontSize: '12px', letterSpacing: '1px' }}>
-               SINCE 2008
-             </span>
-          </div>
-          
-          <h2 className="fw-bold mb-4" style={{ fontSize: '2.3rem', color: '#1a1a2e', lineHeight: '1.2' }}>
-            Transforming Aspirations into 
-            <span style={{ color: orange }}>  real Success Stories</span>
+          <span
+            className="fw-bold px-2 py-1"
+            style={{
+              color: orange,
+              backgroundColor: `${orange}10`,
+              borderRadius: "4px",
+              fontSize: "12px",
+              letterSpacing: "1px",
+            }}
+          >
+            SINCE 2008
+          </span>
+
+          <h2
+            className="fw-bold my-4"
+            style={{
+              fontSize: "2.3rem",
+              color: "#1a1a2e",
+              lineHeight: "1.2",
+            }}
+          >
+            Transforming Aspirations into
+            <span style={{ color: orange }}>
+              {" "}
+              real Success Stories
+            </span>
           </h2>
 
-          <p className="text-muted fs-6 mb-3" style={{ lineHeight: "1.7" }}>
-  <strong>Milan Education</strong> is more than just a career platform. It’s a dedicated ecosystem led by 
-  Mr. <strong>Mohit Bansal</strong>, designed to bridge the gap between student potential and career excellence.
-  With a strong foundation in data-driven counseling and real-world insights, we empower students to make 
-  confident academic and professional decisions.
-  Our mission is to nurture clarity, confidence, and long-term success at every stage of a student’s journey.
-</p>
-
-
-          <Row className="mb-5 g-4">
-             <Col sm={6}>
-                <div className="d-flex align-items-start gap-3">
-                   <div style={{ color: orange, fontSize: '1.5rem' }}><i className="fas fa-check-circle"></i></div>
-                   <div>
-                      <h6 className="fw-bold mb-1">Expert Mentorship</h6>
-                      <p className="small text-muted mb-0">Guided by 15+ years of industry experience.</p>
-                   </div>
-                </div>
-             </Col>
-             <Col sm={6}>
-                <div className="d-flex align-items-start gap-3">
-                   <div style={{ color: orange, fontSize: '1.5rem' }}><i className="fas fa-bullseye"></i></div>
-                   <div>
-                      <h6 className="fw-bold mb-1">Career Mapping</h6>
-                      <p className="small text-muted mb-0">Strategic paths tailored to individual goals.</p>
-                   </div>
-                </div>
-             </Col>
-          </Row>
-
-          <div className="d-flex align-items-center gap-4">
-             <Button 
-               style={{ 
-                 backgroundColor: orange, 
-                 border: 'none', 
-                 borderRadius: '12px', 
-                 padding: '14px 35px', 
-                 fontWeight: 'bold',
-                 fontSize: '1rem' 
-               }}
-               className="shadow"
-             >
-                Discover More
-             </Button>
-             
-             <div className="d-flex align-items-center" style={{ cursor: 'pointer' }}>
-                <div style={{ 
-                  width: '45px', height: '45px', borderRadius: '50%', 
-                  border: `2px solid ${orange}`, display: 'flex', 
-                  alignItems: 'center', justifyContent: 'center', color: orange 
-                }}>
-                   <i className="fas fa-play small"></i>
-                </div>
-                <span className="ms-2 fw-bold small text-dark">VIRTUAL TOUR</span>
-             </div>
-          </div>
+          <p className="text-muted">
+             <strong>College Milan</strong> is more than just a career platform.
+             It’s a dedicated ecosystem led by Mr.
+             <strong> Mohit Bansal</strong>, designed to bridge the gap
+             between student potential and career excellence.
+             <br /><br />
+             Our mission is to guide students at every stage of their journey,
+             from choosing the right college to building a successful career.
+             We provide expert counseling, trusted college connections,
+             and real-world opportunities that help students grow with confidence.
+            <br /><br />
+             With a strong focus on mentorship, transparency, and results,
+            <strong> College Milan</strong> empowers students to make smarter
+            decisions and achieve their dreams.
+          </p>
+          <Button
+            style={{
+              backgroundColor: orange,
+              border: "none",
+              borderRadius: "12px",
+              padding: "14px 35px",
+              fontWeight: "bold",
+            }}
+          >
+            Discover More
+          </Button>
         </motion.div>
       </Col>
-
     </Row>
   </Container>
 </section>
+
+{/* VIDEO SECTION */}
+<section style={{ padding: "10px 0", background: "#ffffff" }}>
+  <Container>
+    <Row className="justify-content-center">
+      <Col lg={10}>
+       <div className="text-center mb-5">
+        <h2 style={{fontWeight: "bold",fontSize: "2.2rem",color: "#f47920", }}>
+          Discover How We Shape Careers
+       </h2>
+     <p
+    style={{color: "#444",fontSize: "1.05rem",}}>
+    Watch how College Milan is transforming student futures.
+   </p>
+    </div>
+      <div style={{borderRadius: "20px",overflow: "hidden",boxShadow: "0 20px 60px rgba(0,0,0,0.15)",}}>
+          <iframe
+            width="100%"
+            height="500"
+            src="https://www.youtube.com/embed/3n-DOKBffuU"
+            title="Education Video"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        </div>
+      </Col>
+    </Row>
+  </Container>
+</section>
+
 {/* --- MILAN EDUCATION: PRO PARALLAX SECTIONS --- */}
 <style>{`
   .parallax-pro-section {

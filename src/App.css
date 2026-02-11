@@ -1,42 +1,150 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+body {
+  padding-top: 15px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.navbar {
+  height: 85px;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  padding: 0;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.navbar .container {
+  max-width: 1250px;
+}
+
+.navbar-logo {
+  height: 75px;   
+  width: auto;
+  object-fit: contain;
+}
+
+.nav-link-custom {
+  color: #555 !important;
+  font-weight: 500;
+  margin: 0 8px;   
+  transition: 0.3s;
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.nav-link-custom:hover {
+  color: #f47920 !important;
+}
+
+.nav-link-custom.active {
+  color: #f47920 !important;
+  font-weight: 600;
+}
+
+/* CENTER MENU */
+.navbar-nav {
+  align-items: center;
+}
+
+/* LOGIN BUTTON */
+.login-btn {
+  background-color: #f47920;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 22px;
+  font-weight: bold;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.3s;
+  white-space: nowrap;
+}
+
+.login-btn:hover {
+  background-color: #e56714;
+}
+
+/* ================= DROPDOWN ================= */
+.dropdown-menu {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.dropdown-item {
+  padding: 10px 18px;
+  font-size: 14px;
+}
+
+.dropdown-item:hover {
+  background: #f47920;
+  color: white;
+}
+
+/* ================= FLOATING BUTTONS ================= */
+.floating-signup {
+  position: fixed;
+  left: 0;
+  top: 40%;
+  z-index: 1000;
+  background: #f47920;
+  color: white;
+  padding: 12px 6px;
+  writing-mode: vertical-rl;
+  border-radius: 0 12px 12px 0;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.floating-signup:hover {
+  background: #e56714;
+}
+
+.whatsapp-float {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.whatsapp-text {
+  background: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+}
+
+@media (max-width: 991px) {
+
+  body {
+    padding-top: 15px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .navbar {
+    height: auto;
+    padding: 10px 0;
   }
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  .navbar-logo {
+    height: 55px;
   }
-}
 
-.card {
-  padding: 2em;
-}
+  .navbar-nav {
+    text-align: center;
+    padding-top: 15px;
+  }
 
-.read-the-docs {
-  color: #888;
+  .nav-link-custom {
+    margin: 10px 0;
+    font-size: 16px;
+  }
+
+  .login-btn {
+    margin: 15px auto;
+  }
 }

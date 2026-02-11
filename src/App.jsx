@@ -4,6 +4,7 @@ import Footer from "./components/Footer";
 import Home from "./home";
 import Aboutus from './aboutus';
 import Careermap from "./careermap";
+import Counselling from "./counseling";
 
 function App() {
   return (
@@ -15,8 +16,9 @@ function App() {
       <div style={{ minHeight: "70vh" }}>
         <Routes>
           <Route path="/" element={<Home />} />
-           <Route path="/aboutus" element={<Aboutus />} />
+          <Route path="/aboutus" element={<Aboutus />} />
           <Route path="/careermap" element={<Careermap />} />
+           <Route path="/counselling" element={<Counselling/>} />
         </Routes>
       </div>
 

@@ -32,12 +32,12 @@ const Footer = () => {
             <Col lg={3} md={6}>
               <h6 className="fw-bold mb-4 text-uppercase">Explore</h6>
               <ul className="list-unstyled">
-                <li><a href="#" className="footer-link">Career Map</a></li>
-                <li><a href="#" className="footer-link">Youtube Videos</a></li>
-                <li><a href="#" className="footer-link">Youtube Shorts</a></li>
-                <li><a href="#" className="footer-link">Events</a></li>
-                <li><a href="#" className="footer-link">Blog</a></li>
-                <li><a href="#" className="footer-link">Inquire Now</a></li>
+                <li><a href="#" className="footer-link">Top career</a></li>
+                <li><a href="#" className="footer-link">Career map</a></li>
+                <li><a href="#" className="footer-link">Youtube </a></li>
+                <li><a href="#" className="footer-link">Counseling</a></li>
+                <li><a href="#" className="footer-link">Psychometric Test</a></li>
+                <li><a href="#" className="footer-link">Contact us</a></li>
               </ul>
             </Col>
 
