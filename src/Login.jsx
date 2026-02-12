@@ -24,7 +24,7 @@ const Login = () => {
     // Yahan Backend API call hogi
     try {
       // Example: 
-      // const response = await axios.post('https://your-api.com/login', formData);
+      // const response = await axios.post('http://localhost:5000/api/auth/login', formData);
       
       console.log("Sending Data to DB:", formData);
       
