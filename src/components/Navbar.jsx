@@ -88,9 +88,9 @@ const CustomNavbar = () => {
             </ul>
 
             {/* LOGIN */}
-            <button className="login-btn">
-              <FaSignInAlt /> Login
-            </button>
+            <Link to="/login" className="login-btn">
+           <FaSignInAlt /> Login
+           </Link>
           </div>
         </div>
       </nav>

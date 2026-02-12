@@ -43,18 +43,6 @@ const orange = "#f47920";
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9 }}
         >
-          <span
-            style={{
-              background: orange,
-              padding: "4px 12px",
-              borderRadius: "30px",
-              fontSize: "10px",
-              fontWeight: "700",
-              letterSpacing: "1px"
-            }}
-          >
-            MILAN EDUCATION
-          </span>
 
           <h1
             className="fw-bold mt-4"
@@ -87,6 +75,7 @@ const orange = "#f47920";
           <div className="mt-5 d-flex gap-3 flex-wrap">
             <Button
               size="lg"
+              onClick={() => navigate("/careermap")}
               style={{
                 background: orange,
                 border: "none",
@@ -96,20 +85,9 @@ const orange = "#f47920";
                 boxShadow: `0 18px 36px ${orange}55`
               }}
             >
-              Book Free Counseling
+             Explore Programs
             </Button>
 
-            <Button
-              size="lg"
-              variant="outline-light"
-              style={{
-                padding: "12px 30px",
-                borderRadius: "14px",
-                fontWeight: "700"
-              }}
-            >
-              Explore Programs
-            </Button>
           </div>
         </motion.div>
       </Col>
