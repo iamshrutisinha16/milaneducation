@@ -224,34 +224,29 @@ const HomePage = () => {
         </Container>
       </section>
 
-      {/* ================= VIDEO SECTION ================= */}
       <section className="video-section">
-        <Container>
-          <Row className="justify-content-center">
-            <Col lg={10}>
-              <div className="text-center mb-5">
-                <h2 style={{fontWeight: "bold", fontSize: "2.2rem", color: "#f47920"}}>
-                  Discover How We Shape Careers
-                </h2>
-                <p style={{color: "#444", fontSize: "1.05rem"}}>
-                  Watch how College Milan is transforming student futures.
-                </p>
-              </div>
-              <div className="video-container">
-                <iframe
-                  width="100%"
-                  height="500"
-                  src="https://www.youtube.com/embed/3n-DOKBffuU"
-                  title="Education Video"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-              </div>
-            </Col>
-          </Row>
-        </Container>
-      </section>
+      <Container>
+        <Row className="justify-content-center">
+          <Col lg={10}>
+            <div className="text-center">
+              <h2>Discover How We Shape Careers</h2>
+              <p>Watch how College Milan is transforming student futures.</p>
+            </div>
+            <div className="video-container">
+              <iframe
+                width="100%"  
+                height="500"
+                src="https://www.youtube.com/embed/3n-DOKBffuU"
+                title="Education Video"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+    </section>
 
       {/* ================= PARALLAX SECTIONS ================= */}
       {/* 1. CAREER MAP */}
@@ -269,7 +264,8 @@ const HomePage = () => {
             <p className="pro-subtext">
               Explore, navigate, and achieve your professional goals with Milan Education's dynamic Career Map.
             </p>
-            <Button className="hero-btn-main d-flex align-items-center gap-2">
+            <Button className="hero-btn-main d-flex align-items-center gap-2"
+             href="/careermap">
               Explore Career Map <FaArrowRight />
             </Button>
           </motion.div>
@@ -292,7 +288,8 @@ const HomePage = () => {
               Uncover your true potential through our scientific testing methods. We analyze aptitude and personality.
             </p>
             <div className="text-end">
-              <Button className="hero-btn-main d-inline-flex align-items-center gap-2">
+              <Button className="hero-btn-main d-inline-flex align-items-center gap-2"
+               href="/test">
                 Take Assessment <FaBrain />
               </Button>
             </div>
@@ -315,7 +312,8 @@ const HomePage = () => {
             <p className="pro-subtext">
               Get direct access to industry veterans and experienced mentors. 
             </p>
-            <Button className="hero-btn-main d-flex align-items-center gap-2">
+            <Button className="hero-btn-main d-flex align-items-center gap-2"
+             href="/counselling">
               Book Private Session <FaUserTie />
             </Button>
           </motion.div>

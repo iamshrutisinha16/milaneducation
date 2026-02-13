@@ -360,6 +360,11 @@ body {
 }
 
 /*conatctus*/
+.info-item a {
+  text-decoration: none;
+  color: inherit;   
+}
+
 .contact-wrapper {
     background-color: #f8f9fa;
     overflow-x: hidden;
@@ -1378,17 +1383,56 @@ body {
 
 /* ================= VIDEO SECTION ================= */
 .video-section {
-  padding: 10px 0;
+  padding-top: 20px;
+  padding-bottom: 20px;
   background: #ffffff;
+  margin-top: 0;
+}
+
+.video-section .text-center {
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.video-section h2 {
+  font-weight: bold;
+  font-size: 2.2rem;
+  color: #f47920;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.video-section p {
+  color: #444;
+  font-size: 1.05rem;
+  margin: 0;
 }
 
 .video-container {
+  width: 100%;            
+  max-width: 900px;      
+  margin: 0 auto;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 20px 60px rgba(0,0,0,0.15);
 }
 
-/* ================= PARALLAX SECTIONS ================= */
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .video-section h2 {
+    font-size: 1.8rem;
+  }
+
+  .video-section p {
+    font-size: 1rem;
+  }
+
+  .video-container {
+    max-width: 100%;
+  }
+}
+
 .parallax-pro-section {
   min-height: 500px;
   background-attachment: fixed;
@@ -1663,5 +1707,65 @@ body {
   .hero-section button {
     width: 100%;
     max-width: 240px;
+  }
+}
+
+/*learning types*/
+.cm-wrapper {
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+.cm-hero {
+  background: linear-gradient(135deg, #f47920, #ff9a3c);
+  padding: 70px 15px;
+}
+
+.section-title {
+  font-weight: 600;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 8px;
+}
+
+.submit-btn {
+  border-radius: 30px;
+  transition: 0.3s;
+}
+
+.submit-btn:hover {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.cm-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  z-index: 999;
+}
+
+.modal-box {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 420px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .cm-hero {
+    padding: 50px 15px;
+  }
+
+  .cm-hero h1 {
+    font-size: 26px;
+  }
+
+  .submit-btn {
+    width: 100%;
   }
 }

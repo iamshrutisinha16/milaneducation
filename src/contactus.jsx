@@ -37,7 +37,12 @@ const ContactPage = () => {
                                 <div className="icon-box"><FaMapMarkerAlt /></div>
                                 <div>
                                     <h5>Address</h5>
-                                    <p>123 College Street, Knowledge Park, India</p>
+                                    <p>
+                                        <a href="https://www.google.com/maps?q=C917,Sector7,Dwarka,New+Delhi-110075"
+                                         target="_blank"
+                                         rel="noopener noreferrer"
+                                      >  C917,Sector7,Dwarka,New Delhi-110075</a>
+                                      </p>
                                 </div>
                             </div>
 
@@ -45,7 +50,10 @@ const ContactPage = () => {
                                 <div className="icon-box"><FaPhoneAlt /></div>
                                 <div>
                                     <h5>Call Us</h5>
-                                    <p>+91 98765 43210</p>
+                                    <p>
+                                        <a href="tel:+919773784854">
+                                       +91 9773784854</a>
+                                    </p>
                                 </div>
                             </div>
 
@@ -53,7 +61,11 @@ const ContactPage = () => {
                                 <div className="icon-box"><FaEnvelope /></div>
                                 <div>
                                     <h5>Email Us</h5>
-                                    <p>support@collegemilan.com</p>
+                                    <p>
+                                         <a href="mailto:enquiry@collagemilan.com">
+                                         enquiry@collagemilan.com
+                                         </a>
+                                       </p>
                                 </div>
                             </div>
 

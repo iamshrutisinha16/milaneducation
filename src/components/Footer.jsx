@@ -2,7 +2,7 @@
 import { Container, Row, Col, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const orange = "#f47920"; // ✅ define color once
+const orange = "#f47920";
 
 const Footer = () => {
   return (
@@ -22,8 +22,8 @@ const Footer = () => {
             <Col lg={2} md={6}>
               <h6 className="fw-bold mb-4 text-uppercase">Who We Are</h6>
               <ul className="list-unstyled">
-                <li><a href="#" className="footer-link">About Us</a></li>
-                <li><a href="#" className="footer-link">About The Founder</a></li>
+                <li><a href="aboutus" className="footer-link">About Us</a></li>
+                <li><a href="aboutus" className="footer-link">About The Founder</a></li>
                 <li><a href="#" className="footer-link">Disclaimer</a></li>
               </ul>
             </Col>
@@ -32,12 +32,11 @@ const Footer = () => {
             <Col lg={3} md={6}>
               <h6 className="fw-bold mb-4 text-uppercase">Explore</h6>
               <ul className="list-unstyled">
-                <li><a href="#" className="footer-link">Top career</a></li>
-                <li><a href="#" className="footer-link">Career map</a></li>
+                <li><a href="careermap" className="footer-link">Career map</a></li>
                 <li><a href="#" className="footer-link">Youtube </a></li>
-                <li><a href="#" className="footer-link">Counseling</a></li>
-                <li><a href="#" className="footer-link">Psychometric Test</a></li>
-                <li><a href="#" className="footer-link">Contact us</a></li>
+                <li><a href="#" className="footer-link">Learning Types</a></li>
+                <li><a href="test" className="footer-link">Psychometric Test</a></li>
+                <li><a href="contactus" className="footer-link">Contact us</a></li>
               </ul>
             </Col>
 
@@ -45,10 +44,10 @@ const Footer = () => {
             <Col lg={2} md={6}>
               <h6 className="fw-bold mb-4 text-uppercase">Resources</h6>
               <ul className="list-unstyled">
-                <li><a href="#" className="footer-link">Terms & Conditions</a></li>
-                <li><a href="#" className="footer-link">Refund Policy</a></li>
-                <li><a href="#" className="footer-link">Cancellation Policy</a></li>
-                <li><a href="#" className="footer-link">Privacy Policy</a></li>
+                <li><a href="term&condition" className="footer-link">Terms & Conditions</a></li>
+                <li><a href="refundpolicy" className="footer-link">Refund Policy</a></li>
+                <li><a href="cancellationpolicy" className="footer-link">Cancellation Policy</a></li>
+                <li><a href="privacypolicy" className="footer-link">Privacy Policy</a></li>
               </ul>
             </Col>
 

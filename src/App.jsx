@@ -8,6 +8,7 @@ import Careermap from "./careermap";
 import Contactus from "./contactus";
 import Counselling from "./counseling";
 import Testpage from "./pages/testpage";
+import LearningTypes from "./pages/learningtypes";
 import Login from "./Login";
 import EventsPage from "./eventandupdate";
 
@@ -31,6 +32,9 @@ function App() {
           <Route path="/psychometrictest" element={<Testpage />} />
           <Route path="/personalitytest" element={<Testpage />} />
           <Route path="/test" element={<Testpage />} />
+          <Route path="/online" element={<LearningTypes />} />
+          <Route path="/offline" element={<LearningTypes />} />
+           <Route path="/distance" element={<LearningTypes />} />
         </Routes>
       </div>
 

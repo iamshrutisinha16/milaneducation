@@ -64,7 +64,7 @@ const CareerMap = () => {
                   <label className="text-white mb-2 fw-bold ms-1">Tell Me Your Current Qualification</label>
                   <Form.Control 
                     type="text" 
-                    placeholder="E.g. 10th, 12th, Graduate..." 
+                    placeholder="Write here your current qualification..." 
                     className="py-3 px-4"
                     style={{ borderRadius: '15px', border: 'none', fontSize: '1rem' }}
                   />
@@ -78,6 +78,7 @@ const CareerMap = () => {
                   >
                     <option>Select Your Dream Career</option>
                     <option>Software Engineer</option>
+                    <option>Web/Software Developer</option>
                     <option>Data Scientist</option>
                     <option>Doctor / Medical</option>
                     <option>Business / MBA</option>
