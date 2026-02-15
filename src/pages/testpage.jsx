@@ -54,7 +54,8 @@ function Testpage() {
         <h2>Tap on the dropdown menu to choose your qualification</h2>
 
         {/* Dropdown */}
-        <select
+        <select style={{ width: "200px" }}
+
           className="test-dropdown"
           value={qualification}
           onChange={(e) => setQualification(e.target.value)}
