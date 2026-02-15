@@ -3,7 +3,6 @@
 }
 
 body {
-  padding-top: 15px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   overflow-x: hidden;
 }
@@ -17,6 +16,7 @@ body {
 
 .navbar .container {
   max-width: 1250px;
+  
 }
 
 .navbar-logo {
@@ -184,10 +184,20 @@ body {
   }
 }
 
-
 /* TEST */
+/* Page Wrapper */
+.psychometric-test-page {
+  background: #f6f7fb;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Banner */
 .test-banner {
-  height: 280px;
+  height: 420px;
+  background:
+    linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+    url("../assets/event1.jpeg");
   background-size: cover;
   background-position: center;
   display: flex;
@@ -195,50 +205,44 @@ body {
   justify-content: center;
   text-align: center;
   position: relative;
-}
-
-.test-banner::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  padding: 0 20px;
 }
 
 .test-banner h1 {
-  position: relative;
-  color: white;
-  font-size: 38px;
-  font-weight: 700;
+  font-size: 42px;
+  font-weight: 800;
   max-width: 850px;
-  z-index: 2;
-  line-height: 1.4;
+  line-height: 1.3;
+  letter-spacing: 0.5px;
+  background: linear-gradient(90deg, #ff9a2f, #ff5e00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  animation: fadeUp 0.8s ease;
 }
 
-.test-wrapper {
-  padding: 80px 20px;
-  background: #f6f7fb;
-  min-height: 70vh;
-}
-
-.test-container {
-  max-width: 900px;
+/* Content Wrapper */
+.test-content-wrapper {
+  padding: 70px 20px;
+  max-width: 1000px;
   margin: auto;
   text-align: center;
 }
 
-.test-title {
-  font-size: 22px;
+.test-content-wrapper h2 {
+  font-size: 24px;
   font-weight: 600;
   margin-bottom: 25px;
   color: #1a1a1a;
 }
 
+/* Dropdown */
 .test-dropdown {
   padding: 14px;
-   width: 100%;
+  width: 100%;
   max-width: 420px;
   font-size: 16px;
-  border-radius: 6px;
+  border-radius: 8px;
   border: none;
   background: #2d2b4e;
   color: white;
@@ -251,18 +255,33 @@ body {
   background: #1f1e38;
 }
 
-.test-card {
-  margin: 90px auto 0;
+/* Card Container */
+.test-card-container {
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+  padding: 0 15px;
+}
+
+/* Card */
+.card-main {
+  width: 100%;
   max-width: 420px;
   background: white;
-  padding: 50px 25px 35px;
+  padding: 55px 25px 35px;
   border-radius: 18px;
   box-shadow: 0 18px 50px rgba(0, 0, 0, 0.12);
   position: relative;
-  animation: fadeUp 0.5s ease;
+  transition: 0.3s;
 }
 
-.premium-badge {
+.card-main:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+}
+
+/* Badge */
+.regular-tag {
   position: absolute;
   top: -45px;
   left: 50%;
@@ -278,38 +297,100 @@ body {
   font-weight: bold;
   letter-spacing: 1px;
   font-size: 14px;
+  box-shadow: 0 8px 25px rgba(255, 90, 0, 0.4);
 }
 
-.test-name {
+/* Title */
+.assessment-title {
   margin-top: 60px;
   font-size: 22px;
   font-weight: 600;
   color: #111;
 }
 
-.test-price {
+/* Price */
+.price-tag {
+  margin: 15px 0 10px;
+}
+
+.current-price {
   font-size: 30px;
   color: #ff6a00;
   font-weight: bold;
-  margin: 12px 0 0;
+  margin-right: 10px;
 }
 
-.video-section {
-  margin-top: 60px;
-  max-width: 720px;
+.old-price {
+  font-size: 18px;
+  color: #888;
+  text-decoration: line-through;
+}
+
+/* Deliverables */
+.deliverables-box {
+  margin-top: 25px;
+  text-align: left;
+}
+
+.deliverables-box h4 {
+  margin-bottom: 10px;
+}
+
+.deliverables-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+}
+
+.deliverables-box li {
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+.tick-icon {
+  color: #22c55e;
+  margin-right: 6px;
+}
+
+/* Button */
+.buy-now-btn {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #ff7a00, #ff4d00);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.buy-now-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(255, 90, 0, 0.4);
+}
+
+/* Video Section */
+.video-placeholder {
+  margin-top: 70px;
+  width: 100%;
+  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
   animation: fadeUp 0.6s ease;
 }
 
-.video-section iframe {
+/* Responsive video ratio */
+.video-placeholder iframe {
   width: 100%;
-  height: 380px;
+  aspect-ratio: 16 / 9;
   border: none;
   border-radius: 14px;
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
 }
 
+/* Animation */
 @keyframes fadeUp {
   from {
     opacity: 0;
@@ -321,43 +402,104 @@ body {
   }
 }
 
+/* Tablet */
 @media (max-width: 768px) {
   .test-banner {
-    height: 220px;
+    height: 240px;
     padding: 0 15px;
   }
 
   .test-banner h1 {
-    font-size: 26px;
+    font-size: 28px;
+    max-width: 100%;
   }
 
-  .test-card {
-    margin-top: 70px;
-    padding: 45px 20px 30px;
-  }
-
-  .video-section iframe {
-    height: 260px;
-  }
-}
-
-@media (max-width: 480px) {
-  .test-title {
-    font-size: 18px;
+  .test-content-wrapper {
+    padding: 50px 15px;
   }
 
   .test-dropdown {
-    width: 100%;
+    max-width: 100%;
+    font-size: 15px;
+    padding: 12px;
+  }
+
+  .card-main {
+    padding: 45px 20px 30px;
+  }
+
+  .assessment-title {
+    font-size: 20px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .test-banner {
+    height: 200px;
+    padding: 0 12px;
   }
 
   .test-banner h1 {
-    font-size: 22px;
+    font-size: 20px;
+    line-height: 1.4;
   }
 
-  .video-section iframe {
-    height: 220px;
+  .test-content-wrapper {
+    padding: 40px 12px;
+  }
+
+  .test-content-wrapper h2 {
+    font-size: 17px;
+  }
+
+  /* Dropdown fix */
+  .test-dropdown {
+    width: 100%;
+    max-width: 100%;
+    font-size: 14px;
+    padding: 11px;
+  }
+
+  .test-card-container {
+    margin-top: 40px;
+  }
+
+  .card-main {
+    padding: 40px 16px 25px;
+    border-radius: 14px;
+  }
+
+  .regular-tag {
+    width: 75px;
+    height: 75px;
+    font-size: 12px;
+    top: -35px;
+  }
+
+  .assessment-title {
+    margin-top: 45px;
+    font-size: 18px;
+  }
+
+  .current-price {
+    font-size: 24px;
+  }
+
+  .old-price {
+    font-size: 15px;
+  }
+
+  .deliverables-box li {
+    font-size: 14px;
+  }
+
+  .buy-now-btn {
+    padding: 12px;
+    font-size: 15px;
   }
 }
+
 
 /*conatctus*/
 .info-item a {
@@ -626,318 +768,212 @@ body {
     .premium-banner { height: 350px; }
 }
 
-/*homepopup*/
+/*homepopup*/  
+/* ===== Overlay ===== */
 .popup-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(5px);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   z-index: 9999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 15px;          /* ADD THIS */
-  box-sizing: border-box; /* ADD THIS */
+  padding: 15px;
 }
 
-.popup-container {
-  background: white;
-  width: 90%;
-  max-width: 800px;
-  border-radius: 15px;
-  position: relative;
+/* ===== Main Card ===== */
+.popup-card {
+  width: 100%;
+  max-width: 560px;
+  background: #ffffff;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-.animate-pop {
-  animation: popIn 0.5s ease-out forwards;
-}
-
-@keyframes popIn {
-  0% { transform: scale(0.5); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-.close-btn {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: #333;
-  border: none;
-  border-radius: 50%;
-  width: 35px;
-  height: 35px;
-  cursor: pointer;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s;
-}
-
-.close-btn:hover {
-  transform: rotate(90deg);
-  background: #ff5722;
-}
-
-.popup-body {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 30px 30px 0 30px;
   position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  animation: popupFade 0.35s ease;
 }
 
-.popup-content {
-  flex: 1;
-  min-width: 300px;
-  padding-right: 20px;
+/* ===== Close Button ===== */
+.popup-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #ff7a00;
+  border: none;
+  color: white;
+  border-radius: 50%;
+  padding: 6px;
+  cursor: pointer;
   z-index: 2;
 }
 
-.popup-logo {
-  height: 50px;
-  margin-bottom: 20px;
-}
-
-.main-heading {
-  font-size: 2rem;
-  font-weight: 800;
-  color: #1a1a2e; 
-  margin-bottom: 20px;
-  line-height: 1.2;
-}
-
-.light-text {
-  font-weight: 300;
-  color: #555;
-}
-
-.problem-list {
+/* ===== Main Layout ===== */
+.popup-main {
   display: flex;
-  align-items: center;
-  margin-bottom: 20px;
+  min-height: 260px;
 }
 
-.problem-list ul {
+/* ===== Left Side ===== */
+.popup-left {
+  flex: 1;
+  padding: 22px;
+}
+
+.popup-logo {
+  height: 36px;
+  margin-bottom: 10px;
+}
+
+.popup-heading {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.popup-heading span {
+  font-weight: 400;
+}
+
+/* List */
+.popup-list {
   list-style: none;
   padding: 0;
-  font-weight: 700;
-  color: #ff5722; 
-  font-size: 1.1rem;
-  line-height: 1.8;
+  margin: 10px 0;
 }
 
-.big-question-mark {
-  font-size: 8rem;
+.popup-list li {
+  font-size: 15px;
+  color: #e66a10;
   font-weight: bold;
-  color: #ff5722;
-  line-height: 0;
-  margin-left: 20px;
-  margin-top: -20px;
+  margin: 4px 0;
 }
 
-.solution-tag {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-  font-size: 1.5rem;
+/* Solution badge */
+.popup-solution {
+  margin-top: 12px;
+}
+
+.bubble {
+  background: #2f2f2f;
+  color: white;
+  padding: 5px 11px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.solution-text {
+  color: #ff7a00;
   font-weight: 700;
+  margin-left: 6px;
 }
 
-.dark-bubble {
-  background: #1a1a2e;
-  color: white;
-  padding: 5px 15px;
-  border-radius: 20px 0 0 20px;
-}
-
-.orange-text {
-  color: #ff5722;
-  padding-left: 5px;
-}
-
-/* Right Side Image Section */
-.popup-image-section {
+/* ===== Right Image ===== */
+.popup-right {
   flex: 1;
-  min-width: 250px;
-  position: relative;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
+  max-width: 240px;
+  background: #f6f6f6;
 }
 
-/* Orange Blob Background shape */
-.orange-blob {
-  position: absolute;
-  top: 0;
-  right: -50px;
-  width: 300px;
-  height: 300px;
-  background: #ff5722;
-  border-radius: 50% 0 0 50%;
-  z-index: 0;
-}
-
-.person-img {
+.popup-right img {
   width: 100%;
-  max-width: 280px; /* Image size control */
-  z-index: 1;
-  position: relative;
-  margin-bottom: -5px; /* Chipak ke footer se */
+  height: 100%;
+  object-fit: cover;
 }
 
-/* Footer Section */
+/* ===== Footer ===== */
 .popup-footer {
-  background: #2d2d44; /* Dark footer bg */
+  background: #2f2f2f;
   color: white;
-  padding: 15px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 3;
+  padding: 10px 18px;
+  font-size: 14px;
 }
 
-.popup-footer p {
-  margin: 0;
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-.book-now-btn {
-  background: linear-gradient(90deg, #ff8c00, #ff5722);
+.popup-footer button {
+  background: #ff7a00;
   border: none;
   color: white;
-  padding: 10px 25px;
-  border-radius: 30px;
-  font-weight: bold;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s;
-  text-transform: uppercase;
-  font-size: 0.9rem;
+  transition: 0.25s;
 }
 
-.book-now-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 10px #ff5722;
+.popup-footer button:hover {
+  background: #e66d00;
 }
 
-/* Tablet */
+/* ===== Animation ===== */
+@keyframes popupFade {
+  from {
+    transform: scale(0.88);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ============================= */
+/* ===== Tablet Responsive ===== */
+/* ============================= */
 @media (max-width: 768px) {
-  .popup-container {
-    width: 95%;
-    max-width: 500px;
+  .popup-card {
+    max-width: 480px;
   }
 
-  .popup-body {
+  .popup-right {
+    max-width: 200px;
+  }
+
+  .popup-heading {
+    font-size: 18px;
+  }
+}
+
+/* ============================= */
+/* ===== Mobile Responsive ===== */
+/* ============================= */
+@media (max-width: 600px) {
+  .popup-main {
     flex-direction: column;
+  }
+
+  .popup-right {
+    max-width: 100%;
+    height: 200px;
+  }
+
+  .popup-left {
     text-align: center;
-    padding: 25px 20px 0 20px;
-  }
-
-  .popup-content {
-    padding-right: 0;
-  }
-
-  .main-heading {
-    font-size: 1.6rem;
-  }
-
-  .problem-list {
-    justify-content: center;
-  }
-
-  .problem-list ul {
-    font-size: 1rem;
-  }
-
-  .big-question-mark {
-    font-size: 5rem;
-    margin-left: 10px;
-  }
-
-  .solution-tag {
-    justify-content: center;
-    font-size: 1.2rem;
-  }
-
-  .orange-blob {
-    width: 180px;
-    height: 180px;
-    top: 20px;
-    right: 50%;
-    transform: translateX(50%);
-    border-radius: 50%;
-  }
-
-  .person-img {
-    max-width: 180px;
-    margin-top: 10px;
+    padding: 18px;
   }
 
   .popup-footer {
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     text-align: center;
-    padding: 15px;
+  }
+
+  .popup-footer button {
+    width: 100%;
+    max-width: 200px;
   }
 }
 
-/* Small mobile screens */
-@media (max-width: 480px) {
-  .popup-container {
-    width: 100%;
-    max-width: 100%;
-    border-radius: 12px;
+/* ===== Small Phones ===== */
+@media (max-width: 400px) {
+  .popup-heading {
+    font-size: 17px;
   }
 
-  .popup-body {
-    padding: 20px 12px 0 12px;
-  }
-
-   .orange-blob {
-    right: 45%;
-    transform: translateX(50%);
-  }
-
-  .main-heading {
-    font-size: 1.3rem;
-  }
-
-  .problem-list ul {
-    font-size: 0.9rem;
-    line-height: 1.6;
-  }
-
-  .big-question-mark {
-    font-size: 3.5rem;
-  }
-
-  .solution-tag {
-    font-size: 1rem;
-  }
-
-  .popup-logo {
-    height: 40px;
-  }
-
-  .person-img {
-    max-width: 150px;
-  }
-
-  .popup-footer p {
-    font-size: 0.8rem;
-  }
-
-  .book-now-btn {
-    padding: 8px 18px;
-    font-size: 0.8rem;
+  .popup-list li {
+    font-size: 13px;
   }
 }
 
@@ -1767,5 +1803,257 @@ body {
 
   .submit-btn {
     width: 100%;
+  }
+}
+
+/*career map*/
+/* ================= HERO SECTION ================= */
+
+.career-hero {
+  position: relative;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+      rgba(0, 0, 0, 0.55),
+      rgba(0, 0, 0, 0.55)
+    ),
+    url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f");
+  background-size: cover;
+  background-position: center;
+  color: white;
+  padding: 80px 20px;
+  text-align: center;
+  overflow: visible;
+}
+
+/* ================= TITLES ================= */
+
+.career-title {
+  font-size: 48px;
+  font-weight: 700;
+}
+
+.career-subtitle {
+  font-size: 20px;
+  color: #ff6a00;
+  margin-bottom: 40px;
+}
+
+/* ================= FORM ================= */
+
+.career-form {
+  max-width: 700px;
+  margin: auto;
+  text-align: left;
+  position: relative;
+  z-index: 20;
+}
+
+.career-form label {
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: white;
+}
+
+/* INPUT + SELECT */
+.career-form input,
+.career-form select,
+.form-select {
+  width: 100%;
+  height: 55px;
+  border-radius: 8px;
+  border: none;
+  padding: 0 15px;
+  font-size: 16px;
+  outline: none;
+  background-color: #fff !important;
+  color: #000 !important;
+  position: relative;
+  z-index: 30;
+}
+
+/* Ensure dropdown options visible */
+.career-form select option {
+  color: #000;
+  background: #fff;
+}
+
+/* ================= BUTTON ================= */
+
+.career-btn {
+  width: 100%;
+  background: #ff6a00;
+  border: none;
+  padding: 14px;
+  font-size: 18px;
+  border-radius: 30px;
+  font-weight: 600;
+  margin-top: 10px;
+  transition: 0.3s ease;
+}
+
+.career-btn:hover {
+  background: #e85d00;
+}
+
+.career-hint {
+  color: #ff6a00;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* ================= CAREER PATH RESULT ================= */
+
+.career-path {
+  background: white;
+  color: black;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 30px;
+  text-align: left;
+}
+
+.career-path ul {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.career-path {
+  margin-top: 40px;
+  text-align: left;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 30px;
+  border-left: 3px solid #ff6a00;
+}
+
+.timeline-step {
+  position: relative;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+}
+
+.timeline-number {
+  position: absolute;
+  left: -18px;
+  background: #ff6a00;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.timeline-content {
+  background: #f8f9fa;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-left: 15px;
+  width: 100%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.career-video {
+  padding: 80px 20px;
+  background: #f5f5f5;
+  text-align: center;
+}
+
+.video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.video-wrapper iframe {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  border: 0;
+}
+
+/* ================= RESPONSIVE BREAKPOINTS ================= */
+
+/* Tablets */
+@media (max-width: 992px) {
+  .career-title {
+    font-size: 38px;
+  }
+
+  .career-subtitle {
+    font-size: 18px;
+  }
+
+  .career-form {
+    max-width: 600px;
+  }
+}
+
+/* Large Mobiles */
+@media (max-width: 768px) {
+  .career-hero {
+    padding: 60px 15px;
+  }
+
+  .career-title {
+    font-size: 32px;
+  }
+
+  .career-subtitle {
+    font-size: 16px;
+  }
+
+  .career-form input,
+  .career-form select {
+    height: 50px;
+    font-size: 15px;
+  }
+
+  .career-btn {
+    font-size: 16px;
+    padding: 12px;
+  }
+}
+
+/* Small Mobiles */
+@media (max-width: 480px) {
+  .career-title {
+    font-size: 26px;
+  }
+
+  .career-subtitle {
+    font-size: 14px;
+  }
+
+  .career-form {
+    max-width: 100%;
+  }
+
+  .career-form input,
+  .career-form select {
+    height: 45px;
+    font-size: 14px;
+  }
+
+  .career-btn {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  .career-path {
+    padding: 15px;
+    font-size: 14px;
   }
 }

@@ -1,143 +1,175 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import { motion } from 'framer-motion';
-import Typewriter from 'typewriter-effect';
 
 const CareerMap = () => {
-  const orange = "#f47920";
-  const blue = "#003366";
+  const [careers, setCareers] = useState([]);
+  const [qualification, setQualification] = useState('');
+  const [dreamCareer, setDreamCareer] = useState('');
+  const [careerPath, setCareerPath] = useState([]);
 
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
+  // Fetch careers from backend
+  useEffect(() => {
+    fetch('http://localhost:5000/api/careers')
+      .then(res => res.json())
+      .then(data => {
+        setCareers(data);
+      })
+      .catch(err => console.error(err));
+  }, []);
+
+  // Unique qualifications
+  const qualifications = [
+    ...new Set(careers.map(item => item.qualification))
+  ];
+
+  // Filter careers based on selected qualification
+  const filteredCareers = careers.filter(
+    item => item.qualification === qualification
+  );
+
+  // Submit form
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!qualification || !dreamCareer) {
+      alert("Please select qualification and career");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        'http://localhost:5000/api/careers/submit',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ qualification, dreamCareer })
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.steps) {
+        setCareerPath(data.steps);
+      } else {
+        alert(data.message || "No career path found");
+        setCareerPath([]);
+      }
+
+    } catch (err) {
+      console.error(err);
+      alert("Server error");
+    }
   };
 
   return (
-    <div style={{
-      paddingTop: '100px', 
-      paddingBottom: '50px',
-      minHeight: '100vh',
-      background: `linear-gradient(rgba(0, 51, 102, 0.85), rgba(0, 51, 102, 0.85)), url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundAttachment: 'fixed', 
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center', 
-      alignItems: 'center',     
-    }}>
-      <Container>
-        <Row className="justify-content-center w-100 m-0">
-          <Col lg={7} md={9} sm={12} className="text-center">
-            
-            {/* --- TYPEWRITER HEADING --- */}
-            <div className="mb-4" style={{ minHeight: '120px' }}> 
-              <h1 className="display-5 fw-bold text-white">
-                <Typewriter
-                  options={{
-                    strings: [ 'Let us know something about yourself', 'Career Map','Apna Sahi Rasta Chunein'],
-                    autoStart: true,
-                    loop: true,
-                    delay: 50,
-                  }}
-                />
-              </h1>
-            </div>
+    <>
+      {/* HERO SECTION */}
+      <section className="career-hero">
+        <Container>
+          <Row className="justify-content-center text-center">
+            <Col lg={8}>
+              <h1 className="career-title">Career Map</h1>
+              <p className="career-subtitle">
+                Let us know something about yourself
+              </p>
 
-            {/* --- CENTRAL CARD --- */}
-            <motion.div 
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-              style={{
-                background: 'rgba(255, 255, 255, 0.15)',
-                backdropFilter: 'blur(15px)',
-                borderRadius: '25px',
-                padding: '40px 30px',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                boxShadow: '0 15px 35px rgba(0, 0, 0, 0.4)'
-              }}
-            >
-              <Form>
-                <div className="mb-4 text-start">
-                  <label className="text-white mb-2 fw-bold ms-1">Tell Me Your Current Qualification</label>
-                  <Form.Control 
-                    type="text" 
-                    placeholder="Write here your current qualification..." 
-                    className="py-3 px-4"
-                    style={{ borderRadius: '15px', border: 'none', fontSize: '1rem' }}
-                  />
-                </div>
-
-                <div className="mb-4 text-start">
-                  <label className="text-white mb-2 fw-bold ms-1">Write here, What do you want to become</label>
-                  <Form.Select 
-                    className="py-3 px-4"
-                    style={{ borderRadius: '15px', border: 'none', fontSize: '1rem' }}
+              <Form onSubmit={handleSubmit} className="career-form">
+                
+                {/* Qualification Dropdown */}
+                <Form.Group className="mb-3">
+                  <Form.Label>
+                    Select Your Current Qualification
+                  </Form.Label>
+                  <Form.Select
+                    value={qualification}
+                    onChange={(e) => {
+                      setQualification(e.target.value);
+                      setDreamCareer('');
+                    }}
                   >
-                    <option>Select Your Dream Career</option>
-                    <option>Software Engineer</option>
-                    <option>Web/Software Developer</option>
-                    <option>Data Scientist</option>
-                    <option>Doctor / Medical</option>
-                    <option>Business / MBA</option>
+                    <option value="">Select Qualification</option>
+                    {qualifications.map((qual) => (
+                      <option key={qual} value={qual}>
+                        {qual}
+                      </option>
+                    ))}
                   </Form.Select>
-                </div>
+                </Form.Group>
 
-                <p style={{ color: orange, fontWeight: '600' }} className="mb-4">
+                {/* Career Dropdown */}
+                <Form.Group className="mb-4">
+                  <Form.Label>
+                    Select Your Dream Career
+                  </Form.Label>
+                  <Form.Select
+                    value={dreamCareer}
+                    onChange={(e) => setDreamCareer(e.target.value)}
+                    disabled={!qualification}
+                  >
+                    <option value="">Select Career</option>
+                    {filteredCareers.map((item) => (
+                      <option
+                        key={`${item.qualification}-${item.career}`}
+                        value={item.career}
+                      >
+                        {item.career}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </Form.Group>
+
+                <p className="career-hint">
                   Get Your Career Path in One Click
                 </p>
 
-                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                  <Button 
-                    className="w-100 py-3 shadow"
-                    style={{
-                      backgroundColor: orange,
-                      border: 'none',
-                      borderRadius: '15px',
-                      fontSize: '1.2rem',
-                      fontWeight: 'bold'
-                    }}
-                  >
-                    GET CAREER MAP 🚀
-                  </Button>
-                </motion.div>
+                <Button type="submit" className="career-btn">
+                  Get Career Map
+                </Button>
               </Form>
-            </motion.div>
 
-            {/* --- BOTTOM TAGS --- */}
-            <div className="mt-5 d-flex justify-content-center gap-2 flex-wrap">
-              {['100% Free', 'Expert Guidance', 'Instant Result'].map((tag, i) => (
-                <span key={i} className="badge p-2 px-3" 
-                  style={{ 
-                    background: 'rgba(255, 255, 255, 0.1)', 
-                    border: `1px solid ${orange}`,
-                    borderRadius: '20px',
-                    color: '#fff'
-                  }}>
-                  {tag}
-                </span>
-              ))}
-            </div>
+              {/* Career Path Result */}
+              {careerPath.length > 0 && (
+                <div className="career-path">
+                  <h4 className='mb-4'>Your Career Roadmap</h4>
+               <div className="timeline">
+               {careerPath.map((step, index) => (
+                 <div className="timeline-step" key={index}>
+                <div className="timeline-number">
+                {index + 1}
+              </div>
+               <div className="timeline-content">
+                {step}
+               </div>
+              </div>
+                ))}
+               </div>
+             </div>
+               )}
+            </Col>
+          </Row>
+        </Container>
+      </section>
 
-          </Col>
-        </Row>
-      </Container>
+      {/* VIDEO SECTION */}
+      <section className="career-video">
+        <Container>
+          <Row className="justify-content-center text-center">
+            <Col lg={8}>
+              <h2 className="mb-4">Watch Career Guidance Video</h2>
 
-      <style>
-        {`
-          .Typewriter__wrapper {
-            color: ${orange};
-          }
-          .form-control:focus, .form-select:focus {
-            box-shadow: 0 0 15px ${orange};
-            outline: none;
-          }
-          body { overflow-x: hidden; }
-        `}
-      </style>
-    </div>
+              <div className="video-wrapper">
+                <iframe
+                  src="https://www.youtube.com/embed/ysz5S6PUM-U"
+                  title="Career Guidance"
+                  frameBorder="0"
+                  allowFullScreen
+                ></iframe>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </section>
+    </>
   );
 };
 

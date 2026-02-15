@@ -12,7 +12,6 @@ const HomePage = () => {
 
   return (
     <>
-      {/* ================= HERO SECTION ================= */}
       <section className="hero-section">
         <div className="hero-pattern-overlay" />
 
@@ -181,7 +180,7 @@ const HomePage = () => {
                   transition={{ duration: 0.8, delay: 0.2 }}
                   className="collage-img-2"
                 >
-                  <img src="https://i.pinimg.com/736x/cd/49/3f/cd493f8be9b131a98ddaabfb772745a5.jpg" alt="Session" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  <img src="/assets/event10.jpeg" alt="Session" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 </motion.div>
 
                 <motion.div

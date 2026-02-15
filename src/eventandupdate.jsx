@@ -6,36 +6,91 @@ const EventsPage = () => {
     // Ye tumhara cards ka data hai
     const eventData = [
         {
-            id: 1,
-            title: "Honored to receive the Green Youth Icon Award 2024!",
-            image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop",
-        },
-        {
-            id: 2,
-            title: "Nominated for the Excellence in Education Award by Raghuraaj Foundation.",
-            image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070&auto=format&fit=crop",
-        },
-        {
-            id: 3,
-            title: "Live Interview with Industry Experts on our College Milan Podcast.",
-            image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=2070&auto=format&fit=crop",
-        },
-        {
-            id: 4,
-            title: "Interaction session with students at Global International Campus.",
-            image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop",
-        },
-        {
-            id: 5,
-            title: "Discussion on future career maps and placement opportunities.",
-            image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=2070&auto=format&fit=crop",
-        },
-        {
-            id: 6,
-            title: "Milan Education Summit 2024 - A huge success for our students!",
-            image: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?q=80&w=2012&auto=format&fit=crop",
-        }
-    ];
+    id: 1,
+    title: "Green Youth Icon Award 2024 felicitation ceremony.",
+    image: "/assets/event1.jpeg",
+  },
+  {
+    id: 2,
+    title: "Excellence in Education Award nomination meeting.",
+    image: "/assets/event2.jpeg",
+  },
+  {
+    id: 3,
+    title: "Industry experts podcast interview session.",
+    image: "/assets/event3.jpeg",
+  },
+  {
+    id: 4,
+    title: "Student interaction session at Global International Campus.",
+    image: "/assets/event4.jpeg",
+  },
+  {
+    id: 5,
+    title: "Career guidance and placement discussion.",
+    image: "/assets/event5.jpeg",
+  },
+  {
+    id: 6,
+    title: "Podcast discussion with students and faculty.",
+    image: "/assets/update1.jpeg",
+  },
+   {
+    id: 5,
+    title: "Career planning and placement strategy discussion session.",
+    image: "/assets/update5.jpeg",
+  },
+  {
+    id: 6,
+    title: "Milan Education Summit 2024 – Celebrating student achievements.",
+    image: "/assets/event6.jpeg",
+  },
+  {
+    id: 7,
+    title: "Interactive guidance session with Global International Campus students.",
+    image: "/assets/update4.jpeg",
+  },
+  {
+    id: 8,
+    title: "Leadership interaction and mentorship session with students.",
+    image: "/assets/update6.jpeg",
+  },
+  {
+    id: 9,
+    title: "Academic discussion and career roadmap briefing.",
+    image: "/assets/update7.jpeg",
+  },
+  {
+    id: 10,
+    title: "Institutional visit and student engagement program.",
+    image: "/assets/update8.jpeg",
+  },
+   {
+    id: 11,
+    title: "Media interaction at Chhattisgarh News studio during education summit coverage.",
+    image: "/assets/event7.jpeg",
+  },
+  {
+    id: 12,
+    title: "Participation in principals and counselors meet at Milan Education Summit.",
+    image: "/assets/event8.jpeg",
+  },
+  {
+    id: 13,
+    title: "Milan Education Summit 2024 organized with support from industry partners.",
+    image: "/assets/event9.jpeg",
+  },
+  {
+    id: 14,
+    title: "Career guidance seminar conducted for students at the summit.",
+    image: "/assets/event10.jpeg",
+  },
+  {
+    id: 15,
+    title: "Student interaction session during Milan Education Summit 2024.",
+    image: "/assets/event6.jpeg",
+  }
+];
 
     return (
         <div className="events-main-wrapper">

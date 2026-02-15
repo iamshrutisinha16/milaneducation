@@ -1,81 +1,77 @@
-import {useState, useEffect} from 'react';
-import { useNavigate} from 'react-router-dom';
-import {X} from 'lucide-react';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { X } from "lucide-react";
 
-const Homepopup = ()=>{
-   const [showModal, setShowModal] = useState(false);
-   const navigate = useNavigate();
+const Homepopup = () => {
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
-   useEffect(()=> {
-    const hasSeenPopup = sessionStorage.getItem('hasseenPopup');
-    // if (!hasSeenPopup) {
-      setTimeout(() => {
-        setShowModal(true);
-        // sessionStorage.setItem('hasSeenPopup', 'true'); 
-      }, 500);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowModal(true);
+    }, 600);
 
- }, []);
+    return () => clearTimeout(timer);
+  }, []);
 
- const handleClose =() => {
-      setShowModal(false);
- };
+  const handleClose = () => setShowModal(false);
 
- const handleBookNow = () => {
+  const handleBookNow = () => {
     setShowModal(false);
     navigate("/counselling");
- };
+  };
 
- if(!showModal) return null;
- return(
+  if (!showModal) return null;
+
+  return (
     <div className="popup-overlay">
-      <div className="popup-container animate-pop">
-        {/* Close Button */}
-        <button className="close-btn" onClick={handleClose}>
-          <X size={24} color="#fff" />
+      <div className="popup-card">
+        {/* Close */}
+        <button className="popup-close" onClick={handleClose}>
+          <X size={18} />
         </button>
 
-        <div className="popup-body">
-          {/* Left Side: Content */}
-          <div className="popup-content">
-              <img src="https://your-logo-url.png" alt="College Milan"className="popup-logo"/>
-            
-            <h2 className="main-heading">
-              CONFUSED <span className="light-text">ABOUT YOUR</span>
-            </h2>
-            
-            <div className="problem-list">
-              <ul>
-                <li>↘ SUBJECTS</li>
-                <li>↘ COURSE</li>
-                <li>↘ ADMISSION</li>
-                <li>↘ CAREER</li>
-              </ul>
-              <div className="big-question-mark">?</div>
-            </div>
+        {/* Main Content */}
+        <div className="popup-main">
+          {/* Left */}
+          <div className="popup-left">
+            <img
+              src="/assets/logo.png"
+              alt="College Milan"
+              className="popup-logo"
+            />
 
-            <div className="solution-tag">
-              <span className="dark-bubble">I am the</span>
-              <span className="orange-text"> Solution</span>
+            <h2 className="popup-heading">
+              CONFUSED <span>ABOUT YOUR</span>
+            </h2>
+
+            <ul className="popup-list">
+              <li>Subjects</li>
+              <li>Course</li>
+              <li>Admission</li>
+              <li>Career</li>
+            </ul>
+
+            <div className="popup-solution">
+              <span className="bubble">I am the</span>
+              <span className="solution-text">Solution</span>
             </div>
           </div>
 
-          {/* Right Side: Image */}
-          <div className="popup-image-section">
-            <div className="orange-blob"></div>
-            <img src="https://your-image-url.png" alt="Expert Counselor"className="person-img"/>
+          {/* Right */}
+          <div className="popup-right">
+            <img src="/assets/update4.jpeg"/>
           </div>
         </div>
 
-        {/* Bottom Bar */}
+        {/* Bottom Strip */}
         <div className="popup-footer">
           <p>Book Your Slot to meet me Online/Offline</p>
-          <button className="book-now-btn" onClick={handleBookNow}>
-            Book Now
-          </button>
+          <button onClick={handleBookNow}>Book Now</button>
         </div>
       </div>
     </div>
- );
+  );
 };
 
 export default Homepopup;

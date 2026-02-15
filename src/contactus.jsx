@@ -1,13 +1,66 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { motion } from 'framer-motion';
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 
 const ContactPage = () => {
+    const recaptchaRef = useRef();
     const fadeInUp = {
         hidden: {opacity: 0, y: 30},
         visible:  { opacity: 1, y: 0, transition: { duration: 0.6 } }
     };
+
+    //form data
+    const[formData, setFormData] = useState({
+        firstName:'',
+        lastName:'',
+        email:'',
+        subject:'',
+        message:'',
+        captchaToken:''
+    });
+
+    //captcha
+    const[captchaToken, setCaptchaToken] = useState(null);
+
+    //form data handler
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
+
+    //captcha handler
+    const handleCaptchaChange = (token) => {
+      setCaptchaToken(token);
+    } 
+
+    const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!captchaToken) {
+        alert("Please verify that you are not a robot.");
+        return;
+    }
+
+    try {
+        const response = await axios.post('http://localhost:5000/api/contact', {
+            ...formData,
+            captchaToken
+        });
+
+        if (response.data.success) {
+            alert("Form submitted successfully!");
+            setFormData({ firstName: '', lastName: '', email: '', subject: '', message: '' });
+            setCaptchaToken(null);
+            recaptchaRef.current.reset(); 
+        } else {
+            alert("Captcha verification failed. Try again.");
+        }
+    } catch (error) {
+        console.error(error);
+        alert("Something went wrong. Please try again later.");
+    }
+}
 
     return(
         <div className='contact-wrapper'>
@@ -23,7 +76,6 @@ const ContactPage = () => {
               {/* 2. Form and Details Section */}
             <Container className="py-5">
                 <Row className="gy-4">
-                    {/* Contact Details & Icons */}
                     <Col lg={5}>
                         <motion.div 
                             initial="hidden" 
@@ -90,34 +142,58 @@ const ContactPage = () => {
                             className="form-card shadow-lg p-4 h-100"
                         >
                             <h3 className="mb-4">Send Us a Message</h3>
-                            <Form>
+                            <Form onSubmit={handleSubmit}>
                                 <Row>
                                     <Col md={6} className="mb-3">
                                         <Form.Group>
                                             <Form.Label>First Name</Form.Label>
-                                            <Form.Control type="text" placeholder="John" className="custom-input" />
+                                            <Form.Control type="text" placeholder="John" className="custom-input"
+                                             name='firstname'
+                                             value={formData.firstName} 
+                                             onChange={handleChange}/>
                                         </Form.Group>
                                     </Col>
                                     <Col md={6} className="mb-3">
                                         <Form.Group>
                                             <Form.Label>Last Name</Form.Label>
-                                            <Form.Control type="text" placeholder="Doe" className="custom-input" />
+                                            <Form.Control type="text" placeholder="Doe" className="custom-input"
+                                            name='lastname'
+                                            value={formData.lastName}
+                                            onChange={handleChange} />
                                         </Form.Group>
                                     </Col>
                                 </Row>
                                 <Form.Group className="mb-3">
                                     <Form.Label>Email Address</Form.Label>
-                                    <Form.Control type="email" placeholder="name@example.com" className="custom-input" />
+                                    <Form.Control type="email" placeholder="name@example.com" className="custom-input"
+                                    name='email'
+                                    value={formData.email}
+                                    onChange={handleChange} />
                                 </Form.Group>
                                 <Form.Group className="mb-3">
                                     <Form.Label>Subject</Form.Label>
-                                    <Form.Control type="text" placeholder="How can we help?" className="custom-input" />
+                                    <Form.Control type="text" placeholder="How can we help?" className="custom-input"
+                                     name='subject'
+                                    value={formData.subject}
+                                    onChange={handleChange} />
                                 </Form.Group>
                                 <Form.Group className="mb-4">
                                     <Form.Label>Message</Form.Label>
-                                    <Form.Control as="textarea" rows={4} placeholder="Type your message here..." className="custom-input" />
+                                    <Form.Control as="textarea" rows={4} placeholder="Type your message here..." className="custom-input"
+                                     name='message'
+                                    value={formData.message}
+                                    onChange={handleChange} />
+                                </Form.Group>
+                                 <Form.Group className="mb-4 d-flex justify-content-center">
+                                    <ReCAPTCHA
+                                        sitekey="YOUR_GOOGLE_RECAPTCHA_SITE_KEY" 
+                                        onChange={handleCaptchaChange}
+                                        ref={recaptchaRef}
+                                        
+                                    />
                                 </Form.Group>
                                 <Button className="btn-send w-100 py-2">Submit Message</Button>
+                                
                             </Form>
                         </motion.div>
                     </Col>
