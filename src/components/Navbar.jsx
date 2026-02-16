@@ -21,7 +21,7 @@ const CustomNavbar = () => {
       {/* Floating WhatsApp */}
       <div className="whatsapp-float">
         <div className="whatsapp-text">Talk to us!</div>
-        <a href="https://wa.me/yournumber" target="_blank" rel="noreferrer">
+        <a href="https://wa.me/9773784854" target="_blank" rel="noreferrer">
           <FaWhatsapp size={48} color="#25D366" />
         </a>
       </div>

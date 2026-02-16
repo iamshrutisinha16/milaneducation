@@ -9,7 +9,7 @@ const CareerMap = () => {
 
   // Fetch careers from backend
   useEffect(() => {
-    fetch('http://localhost:5000/api/careers')
+    fetch('https://collegemilan-backend-2.onrender.com/api/careers')
       .then(res => res.json())
       .then(data => {
         setCareers(data);
@@ -38,7 +38,7 @@ const CareerMap = () => {
 
     try {
       const response = await fetch(
-        'http://localhost:5000/api/careers/submit',
+        'https://collegemilan-backend-2.onrender.com/api/careers/submit',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

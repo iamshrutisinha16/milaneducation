@@ -6,7 +6,7 @@ function Testpage() {
   const [qualification, setQualification] = useState("");
   const [testDetails, setTestDetails] = useState(null);
 
-  const API_BASE_URL = "http://localhost:5000";
+  const API_BASE_URL = "https://collegemilan-backend-2.onrender.com/";
 
   // Fetch dropdown qualifications
   useEffect(() => {

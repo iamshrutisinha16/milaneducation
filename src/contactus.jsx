@@ -43,7 +43,7 @@ const ContactPage = () => {
     }
 
     try {
-        const response = await axios.post('http://localhost:5000/api/contact', {
+        const response = await axios.post('https://collegemilan-backend-2.onrender.com/api/contact', {
             ...formData,
             captchaToken
         });

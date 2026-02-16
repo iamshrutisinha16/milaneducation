@@ -32,7 +32,7 @@ const LearningTypes = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/universities")
+      .get("https://collegemilan-backend-2.onrender.com/api/universities")
       .then((res) => {
         setUniversities(res.data); 
       })
@@ -45,7 +45,7 @@ const LearningTypes = () => {
       formData.university !== SRM_UNIVERSITY.id
     ) {
       axios
-        .get(`http://localhost:5000/api/courses/${formData.university}`)
+        .get(`https://collegemilan-backend-2.onrender.com/api/courses/${formData.university}`)
         .then((res) => setCourses(res.data))
         .catch((err) => console.error(err));
     } else {
@@ -66,7 +66,7 @@ const LearningTypes = () => {
     }
 
     axios
-    .post("http://localhost:5000/api/enquiries", formData)
+    .post("https://collegemilan-backend-2.onrender.com/api/enquiries", formData)
     .then(() => {
       setIsSubmitted(true); 
     })

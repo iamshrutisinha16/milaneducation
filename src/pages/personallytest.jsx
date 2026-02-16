@@ -47,7 +47,7 @@ const PersonalityTest = () => {
 
       // Backend API Call
       const res = await axios.post(
-        "http://localhost:5000/api/enquiries",
+        "https://collegemilan-backend-2.onrender.com/api/enquiries",
         submissionData
       );
 

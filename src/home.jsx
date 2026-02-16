@@ -28,7 +28,7 @@ const HomePage = () => {
         source: "Book a Session Form" 
       };
 
-      const res = await axios.post("http://localhost:5000/api/enquiries", submissionData);
+      const res = await axios.post("https://collegemilan-backend-2.onrender.com/api/enquiries", submissionData);
       
       if (res.status === 200 || res.status === 201) {
         alert("Success! We will call you back soon.");
