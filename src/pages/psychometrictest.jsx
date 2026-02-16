@@ -6,15 +6,14 @@ function Testpage() {
   const [qualification, setQualification] = useState("");
   const [testDetails, setTestDetails] = useState(null);
 
-  const API_BASE_URL = "https://collegemilan-backend-2.onrender.com";
+ const API_BASE_URL = "https://collegemilan-backend-2.onrender.com";
 
-  // Fetch dropdown qualifications
-  useEffect(() => {
-    fetch(`${API_BASE_URL}/api/qualifications`)
-      .then((res) => res.json())
-      .then((data) => setQualificationList(data))
-      .catch((err) => console.error("Error fetching list:", err));
-  }, []);
+useEffect(() => {
+  fetch(`${API_BASE_URL}/api/qualifications`)
+    .then((res) => res.json())
+    .then((data) => setQualificationList(data))
+    .catch((err) => console.error("Error fetching list:", err));
+}, []);
 
   // Fetch test details based on qualification
   useEffect(() => {
