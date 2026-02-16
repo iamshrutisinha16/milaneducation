@@ -7,7 +7,8 @@ import Aboutus from './aboutus';
 import Careermap from "./careermap";
 import Contactus from "./contactus";
 import Counselling from "./counseling";
-import Testpage from "./pages/testpage";
+import Testpage from "./pages/psychometrictest";
+import Personallytest from './pages/personallytest';
 import LearningTypes from "./pages/learningtypes";
 import Login from "./Login";
 import EventsPage from "./eventandupdate";
@@ -30,7 +31,7 @@ function App() {
           <Route path="/contactus" element={<Contactus/>} />
            <Route path="/event&updates" element={<EventsPage/>} />
           <Route path="/psychometrictest" element={<Testpage />} />
-          <Route path="/personalitytest" element={<Testpage />} />
+          <Route path="/personalitytest" element={<Personallytest />} />
           <Route path="/test" element={<Testpage />} />
           <Route path="/online" element={<LearningTypes />} />
           <Route path="/offline" element={<LearningTypes />} />

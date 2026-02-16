@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from "react";
 import { Container, Button, Row, Col, Carousel } from 'react-bootstrap';
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from 'framer-motion'; 
@@ -9,6 +9,36 @@ import {
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    fullName: "",
+    city: "",
+    email: "",
+    mobile: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const submissionData = { 
+        ...formData, 
+        source: "Book a Session Form" 
+      };
+
+      const res = await axios.post("http://localhost:5000/api/enquiries", submissionData);
+      
+      if (res.status === 200 || res.status === 201) {
+        alert("Success! We will call you back soon.");
+        setFormData({ fullName: "", city: "", email: "", mobile: "" });
+      }
+    } catch (err) {
+      console.error("Submission Error:", err);
+      alert("Something went wrong. Please try again.");
+    }
+  };
 
   return (
     <>
@@ -445,36 +475,71 @@ const HomePage = () => {
                 </Carousel>
               </motion.div>
             </Col>
-
-            {/* INQUIRY FORM */}
-            <Col lg={{ span: 5, offset: 1 }}>
-              <motion.div 
-                initial={{ opacity: 0, y: 50 }} 
-                whileInView={{ opacity: 1, y: 0 }} 
-                viewport={{ once: true }}
-                className="premium-inquiry-box"
-              >
-                <div className="text-center mb-4">
-                  <h3 className="fw-bold text-white mb-2">Book a Session</h3>
-                  <p style={{ color: '#94a3b8' }}>Fill the form, we will call you back!</p>
-                </div>
-                
-                <form>
-                  <input type="text" className="form-control premium-input mb-3" placeholder="Full Name" />
-                  <input type="text" className="form-control premium-input mb-3" placeholder="City" />
-                  <input type="email" className="form-control premium-input mb-3" placeholder="Email Address" />
-                  <input type="tel" className="form-control premium-input mb-4" placeholder="Phone Number" />
-                  
-                  <motion.button 
-                    whileHover={{ scale: 1.02 }}
-                    className="btn w-100 py-3 fw-bold text-white shadow-lg" 
-                    style={{ background: "#f47920", borderRadius: '15px', border: 'none' }}
-                  >
-                    Get Expert Advice <FaArrowRight className="ms-2" />
-                  </motion.button>
-                </form>
-              </motion.div>
-            </Col>
+          <Col lg={{ span: 5, offset: 1 }}>
+     <motion.div 
+    initial={{ opacity: 0, y: 50 }} 
+    whileInView={{ opacity: 1, y: 0 }} 
+    viewport={{ once: true }}
+    className="premium-inquiry-box"
+  >
+    <div className="text-center mb-4">
+      <h3 className="fw-bold text-white mb-2">Book a Session</h3>
+      <p style={{ color: '#94a3b8' }}>Fill the form, we will call you back!</p>
+    </div>
+    
+    {/* Form tag mein onSubmit joda gaya hai */}
+    <form onSubmit={handleSubmit}>
+      <input 
+        type="text" 
+        name="fullName"
+        value={formData.fullName}
+        onChange={handleChange}
+        className="form-control premium-input mb-3" 
+        placeholder="Full Name" 
+        required 
+      />
+      
+      <input 
+        type="text" 
+        name="city"
+        value={formData.city}
+        onChange={handleChange}
+        className="form-control premium-input mb-3" 
+        placeholder="City" 
+        required 
+      />
+      
+      <input 
+        type="email" 
+        name="email"
+        value={formData.email}
+        onChange={handleChange}
+        className="form-control premium-input mb-3" 
+        placeholder="Email Address" 
+        required 
+      />
+      
+      <input 
+        type="tel" 
+        name="mobile"
+        value={formData.mobile}
+        onChange={handleChange}
+        className="form-control premium-input mb-4" 
+        placeholder="Phone Number" 
+        required 
+      />
+      
+      <motion.button 
+        type="submit" 
+        whileHover={{ scale: 1.02 }}
+        className="btn w-100 py-3 fw-bold text-white shadow-lg" 
+        style={{ background: "#f47920", borderRadius: '15px', border: 'none' }}
+      >
+        Get Expert Advice <FaArrowRight className="ms-2" />
+      </motion.button>
+    </form>
+  </motion.div>
+   </Col>
 
           </Row>
         </Container>

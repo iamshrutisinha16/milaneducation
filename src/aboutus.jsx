@@ -20,7 +20,7 @@ const AboutUs = () => {
   ];
 
   return (
-    <div style={{ overflowX: 'hidden', backgroundColor: '#fff', fontFamily: "'Poppins', sans-serif" }}>
+    <div style={{ overflowX: 'hidden', backgroundColor: '#fff' }}>
       
       {/* 1. HERO BANNER SECTION */}
       <section style={{
@@ -56,19 +56,19 @@ const AboutUs = () => {
       HOW DID IT ALL BEGIN?
     </h6>
 
-    <h2 className="fw-bold mb-4" style={{ color: blue, fontSize: '2.5rem' }}>
+    <h2 className="fw-bold mb-4" style={{ color: blue, fontSize: '2.3rem' }}>
     college Milan : <span style={{ color: orange }}>A Decade of Trust</span>
     </h2>
 
-    <p className="text-muted" style={{ lineHeight: '1.9', fontSize: '1.1rem', textAlign: 'justify' }}>
+    <p className="text-muted" style={{ lineHeight: '1.5', fontSize: '1rem', textAlign: 'justify' }}>
      college Milan is not just an institution—it is a mission. We realized that while talent exists in every corner of India, many students lack access to industry-ready skills. Milan Education was founded to bridge this very gap.
     </p>
 
-    <p className="text-muted" style={{ lineHeight: '1.9', fontSize: '1.1rem', textAlign: 'justify' }}>
+    <p className="text-muted" style={{ lineHeight: '1.5', fontSize: '1rem', textAlign: 'justify' }}>
       For over a decade, we have been empowering students in technology, competitive examinations, and personality development. We don’t just complete the syllabus; we prepare every student to become a leader. At Milan Education, we believe that <strong>“Education is not just learning facts, but training the mind to think.”</strong>
     </p>
 
-    <p className="text-muted" style={{ lineHeight: '1.9', fontSize: '1.1rem', textAlign: 'justify' }}>
+    <p className="text-muted" style={{ lineHeight: '1.5', fontSize: '1rem', textAlign: 'justify' }}>
       Today, we are connected with 500+ mentors who have worked with leading companies such as Google, Microsoft, and other top organizations. Every course we offer is designed by industry experts to ensure you always stay ahead.
     </p>
   </motion.div>
@@ -123,9 +123,9 @@ const AboutUs = () => {
           <Col md={6}>
             <motion.div whileHover={{ y: -10 }} transition={{ duration: 0.3 }}>
               <Card className="h-100 p-5 border-0 shadow-sm" style={{ backgroundColor: '#f8f9fa', borderRadius: '30px' }}>
-                <div className="mb-4" style={{ fontSize: '4rem', color: orange }}>🎯</div>
+                <div className="mb-4" style={{ fontSize: '3rem', color: orange }}>🎯</div>
                 <h3 style={{ color: blue }} className="fw-bold">Our Mission</h3>
-                <p className="text-muted fs-5">
+                <p className="text-muted fs-6">
                  “To equip every student with the skills that set them apart and make them excel in today’s competitive world. We aim to make education so accessible and effective that every child can achieve their dreams.”
                 </p>
               </Card>
@@ -134,9 +134,9 @@ const AboutUs = () => {
           <Col md={6}>
             <motion.div whileHover={{ y: -10 }} transition={{ duration: 0.3 }}>
               <Card className="h-100 p-5 border-0 shadow-sm" style={{ borderBottom: `8px solid ${orange}`, borderRadius: '30px' }}>
-                <div className="mb-4" style={{ fontSize: '4rem', color: blue }}>👁️‍🗨️</div>
+                <div className="mb-4" style={{ fontSize: '3rem', color: blue }}>👁️‍🗨️</div>
                 <h3 style={{ color: blue }} className="fw-bold">Our Vision</h3>
-                <p className="text-muted fs-5">
+                <p className="text-muted fs-6">
                  “To become India’s most trusted education platform, where learning is not just a necessity but a passion. We are shaping the innovators and leaders of tomorrow.”
                 </p>
               </Card>
@@ -149,7 +149,7 @@ const AboutUs = () => {
       <section className="py-5" style={{ backgroundColor: '#f1f4f9' }}>
         <Container>
           <div className="text-center mb-5">
-            <h2 className="fw-bold" style={{ color: blue, fontSize: '2.5rem' }}>Why Trust Us? <span style={{ color: orange }}>Milan Education</span></h2>
+            <h2 className="fw-bold" style={{ color: blue, fontSize: '2.3rem' }}>Why Trust Us? <span style={{ color: orange }}>Milan Education</span></h2>
             <div style={{ height: '4px', width: '80px', background: orange, margin: '10px auto' }}></div>
           </div>
           <Row>
@@ -180,15 +180,15 @@ const AboutUs = () => {
       <section className="py-5 text-center text-white" style={{ background: `linear-gradient(45deg, ${blue}, #001f40)` }}>
         <Container>
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1 }}>
-            <h2 className="display-5 fw-bold mb-4">Do You Want to Become a Part of Milan Education?</h2>
-            <p className="lead mb-4 mx-auto" style={{ maxWidth: '800px' }}>
+            <h2 className="display-5 fw-bold mb-5">Do You Want to Become a Part of Milan Education?</h2>
+            <p className="lead mb-5 mx-auto" style={{ maxWidth: '800px' }}>
              Speak to our counseling team today and give your career a new direction. Your future is just one click away.</p>
             <Button 
               size="lg" 
               style={{ 
                 backgroundColor: orange, 
                 border: 'none', 
-                padding: '18px 50px', 
+                padding: '15px 40px', 
                 fontWeight: 'bold', 
                 borderRadius: '50px',
                 boxShadow: '0 10px 20px rgba(0,0,0,0.3)'

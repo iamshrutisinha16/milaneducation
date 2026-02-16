@@ -7,6 +7,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const orange = "#f47920";
 
+const SRM_UNIVERSITY = {
+  id: "srm-direct",
+  name: "SRM University",
+  url: "https://www.srmist.edu.in/"
+};
+
 const LearningTypes = () => {
   const [formData, setFormData] = useState({
     course: "",
@@ -24,33 +30,26 @@ const LearningTypes = () => {
   const [courses, setCourses] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // Fetch universities
   useEffect(() => {
-    axios.get("http://localhost:5000/api/universities")
+    axios
+      .get("http://localhost:5000/api/universities")
       .then((res) => {
-        const data = res.data;
-
-        // Ensure SRM always exists
-        const hasSRM = data.some(u => u.name === "SRM University");
-        if (!hasSRM) {
-          data.unshift({
-            id: "srm-direct",
-            name: "SRM University"
-          });
-        }
-
-        setUniversities(data);
+        setUniversities(res.data); 
       })
       .catch((err) => console.error(err));
   }, []);
 
-  // Fetch courses when university changes
   useEffect(() => {
-    if (formData.university && formData.university !== "srm-direct") {
+    if (
+      formData.university &&
+      formData.university !== SRM_UNIVERSITY.id
+    ) {
       axios
         .get(`http://localhost:5000/api/courses/${formData.university}`)
         .then((res) => setCourses(res.data))
         .catch((err) => console.error(err));
+    } else {
+      setCourses([]);
     }
   }, [formData.university]);
 
@@ -61,15 +60,18 @@ const LearningTypes = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // If SRM selected → redirect
-    if (formData.university === "srm-direct") {
-      window.open("https://www.srmist.edu.in/", "_blank");
+    if (formData.university === SRM_UNIVERSITY.id) {
+      window.open(SRM_UNIVERSITY.url, "_blank");
       return;
     }
 
-    // Otherwise show enquiry success
-    setIsSubmitted(true);
-  };
+    axios
+    .post("http://localhost:5000/api/enquiries", formData)
+    .then(() => {
+      setIsSubmitted(true); 
+    })
+    .catch((err) => console.error(err));
+   };
 
   return (
     <div className="cm-wrapper">
@@ -80,7 +82,7 @@ const LearningTypes = () => {
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <h1 className="fw-bold">Find Your Dream Course</h1>
+          <h1 className="fw-bold mt-5">Find Your Dream Course</h1>
           <p>Partnering with 500+ Top Universities across India</p>
         </motion.div>
       </section>
@@ -109,15 +111,26 @@ const LearningTypes = () => {
                 <label className="form-label">
                   <GraduationCap size={16}/> Select University*
                 </label>
+
                 <Select
-                  options={universities.map((u) => ({
-                    value: u.id,
-                    label: u.name,
-                  }))}
+                  options={[
+                    {
+                      value: SRM_UNIVERSITY.id,
+                      label: SRM_UNIVERSITY.name,
+                    },
+                    ...universities.map((u) => ({
+                      value: u._id,
+                      label: u.name,
+                    })),
+                  ]}
                   onChange={(selected) =>
-                    setFormData({ ...formData, university: selected.value })
+                    setFormData({
+                      ...formData,
+                      university: selected.value,
+                    })
                   }
                   placeholder="Search university..."
+                  menuPlacement="top"
                 />
               </div>
 
@@ -126,14 +139,20 @@ const LearningTypes = () => {
                 <label className="form-label">Select Course*</label>
                 <Select
                   options={courses.map((c) => ({
-                    value: c.id,
+                    value: c._id,
                     label: c.course_name,
                   }))}
                   onChange={(selected) =>
-                    setFormData({ ...formData, course: selected.value })
+                    setFormData({
+                      ...formData,
+                      course: selected.value,
+                    })
                   }
                   placeholder="Search course..."
-                  isDisabled={formData.university === "srm-direct"}
+                  isDisabled={
+                    formData.university === SRM_UNIVERSITY.id
+                  }
+                   menuPlacement="top"
                 />
               </div>
 
@@ -249,8 +268,8 @@ const LearningTypes = () => {
                 className="btn submit-btn px-5 py-2 fw-bold"
                 style={{ background: orange, color: "#fff" }}
               >
-                {formData.university === "srm-direct"
-                  ? "Visit SRM Website"
+                {formData.university === SRM_UNIVERSITY.id
+                  ? "Visit"
                   : "Submit Enquiry"}
               </motion.button>
             </div>
@@ -286,3 +305,4 @@ const LearningTypes = () => {
 };
 
 export default LearningTypes;
+
