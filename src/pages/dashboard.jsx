@@ -17,7 +17,7 @@ const Dashboard = () => {
                 const token = localStorage.getItem('token');
                 
                 if (!token) {
-                    navigate('/login'); // Agar login nahi hai toh bhej do
+                    navigate('/login'); 
                     return;
                 }
                 const config = {
