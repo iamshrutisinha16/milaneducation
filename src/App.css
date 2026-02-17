@@ -2252,3 +2252,89 @@ html, body {
   }
 }
 
+/*register*/
+.reg-page {
+    background: #fdfdfd;
+    position: relative;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Card Styling - Fixed Width to avoid stretching */
+.reg-card {
+    max-width: 950px;
+    width: 100%;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid #eee;
+}
+
+/* Side Orange Tab */
+.side-tab-orange {
+    position: fixed;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    transform-origin: left;
+    background-color: #F17022;
+    color: white;
+    padding: 10px 25px;
+    font-weight: 600;
+    border-radius: 0 0 15px 15px;
+    font-size: 13px;
+    z-index: 99;
+}
+
+/* Inputs - Less padding to keep it compact */
+.compact-input {
+    border-radius: 8px !important;
+    padding: 10px 15px !important;
+    border: 1.5px solid #ececec !important;
+    font-size: 14px !important;
+    background-color: #f9f9f9 !important;
+}
+
+.compact-input:focus {
+    border-color: #F17022 !important;
+    background-color: #fff !important;
+    box-shadow: none !important;
+}
+
+/* Button */
+.btn-orange-submit {
+    background-color: #F17022;
+    color: white;
+    border-radius: 8px;
+    transition: 0.3s;
+    border: none;
+}
+
+.btn-orange-submit:hover {
+    background-color: #d65d18;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.text-orange-link {
+    color: #F17022;
+}
+
+/* Right Side Blue/Orange Section */
+.bg-orange-side {
+    background: linear-gradient(135deg, #F17022 0%, #ff8c42 100%);
+    position: relative;
+}
+
+.feat h6 {
+    margin-bottom: 5px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .reg-card {
+        margin: 20px;
+    }
+    .side-tab-orange {
+        display: none;
+    }
+}
