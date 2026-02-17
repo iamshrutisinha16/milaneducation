@@ -22,9 +22,7 @@ const Dashboard = () => {
         }
 
         const config = {
-          headers: {
-            "x-auth-token": token,
-          },
+          headers: { "x-auth-token": token },
         };
 
         const res = await axios.get(
@@ -32,19 +30,14 @@ const Dashboard = () => {
           config
         );
 
-        console.log("Dashboard Data:", res.data);
-
-        // SAFE DATA ASSIGNMENT
         setProfile(res.data?.profile || null);
         setTests(Array.isArray(res.data?.tests) ? res.data.tests : []);
-        setPayments(Array.isArray(res.data?.payments) ? res.data.payments : []);
+        setPayments(
+          Array.isArray(res.data?.payments) ? res.data.payments : []
+        );
       } catch (err) {
         console.error("Dashboard error:", err);
-
-        if (err.response?.status === 401) {
-          localStorage.removeItem("token");
-          navigate("/login");
-        }
+        navigate("/login");
       } finally {
         setLoading(false);
       }
@@ -59,148 +52,141 @@ const Dashboard = () => {
     navigate("/login");
   };
 
-  // Loading Spinner
   if (loading) {
     return (
-      <div
-        className="d-flex justify-content-center align-items-center"
-        style={{ height: "100vh" }}
-      >
+      <div className="dashboard-loader">
         <div className="spinner-border text-primary"></div>
       </div>
     );
   }
 
-  // If profile missing
   if (!profile) {
-    return (
-      <div className="text-center mt-5">
-        <h5>User not found.</h5>
-        <button
-          className="btn btn-primary mt-3"
-          onClick={() => navigate("/login")}
-        >
-          Go to Login
-        </button>
-      </div>
-    );
+    return <div className="text-center mt-5">User not found</div>;
   }
 
   return (
-    <div className="container my-4">
-      {/* Profile Section */}
-      <div className="card mb-4 shadow-sm border-0 bg-light">
-        <div className="card-body">
-          <h5 className="card-title text-primary">
-            Welcome, {profile?.name || "User"}
-          </h5>
-          <p className="mb-1">
-            <strong>Email:</strong> {profile?.email || "N/A"}
-          </p>
-          <p className="mb-1">
-            <strong>Role:</strong>{" "}
-            <span className="badge bg-info">
-              {profile?.role || "User"}
-            </span>
-          </p>
-          <button className="btn btn-sm btn-outline-primary mt-2">
-            Edit Profile
+    <div className="dashboard-page">
+      <div className="container py-5">
+        {/* Header */}
+        <div className="dashboard-header mb-4">
+          <div>
+            <h3 className="mb-1">
+              Welcome, <span>{profile.name}</span>
+            </h3>
+            <p className="text-muted mb-0">{profile.email}</p>
+          </div>
+          <button className="btn btn-danger" onClick={handleLogout}>
+            Logout
           </button>
         </div>
-      </div>
 
-      {/* Tests Section */}
-      <div className="card mb-4 shadow-sm">
-        <div className="card-header bg-white">
-          <strong>Active Tests</strong>
+        {/* Stats Cards */}
+        <div className="row g-4 mb-4">
+          <div className="col-md-4">
+            <div className="dashboard-card stat-card">
+              <h6>Total Tests</h6>
+              <h3>{tests.length}</h3>
+            </div>
+          </div>
+
+          <div className="col-md-4">
+            <div className="dashboard-card stat-card">
+              <h6>Completed</h6>
+              <h3>
+                {
+                  tests.filter((t) => t.status === "Completed")
+                    .length
+                }
+              </h3>
+            </div>
+          </div>
+
+          <div className="col-md-4">
+            <div className="dashboard-card stat-card">
+              <h6>Total Payments</h6>
+              <h3>₹{payments.reduce((a, b) => a + (b.amount || 0), 0)}</h3>
+            </div>
+          </div>
         </div>
-        <ul className="list-group list-group-flush">
-          {Array.isArray(tests) && tests.length > 0 ? (
+
+        {/* Active Tests */}
+        <div className="dashboard-card mb-4">
+          <div className="card-header-custom">
+            <h5>Active Tests</h5>
+          </div>
+
+          {tests.length > 0 ? (
             tests.map((test) => (
-              <li
+              <div
                 key={test._id}
-                className="list-group-item d-flex justify-content-between align-items-center"
+                className="test-row d-flex justify-content-between align-items-center"
               >
                 <div>
-                  <h6 className="mb-0">{test?.title || "Untitled Test"}</h6>
+                  <h6 className="mb-0">{test.title}</h6>
                   <small className="text-muted">
-                    {test?.qualification || "N/A"}
+                    {test.qualification}
                   </small>
                 </div>
-                <span>
+
+                <div>
                   <span
                     className={`badge ${
-                      test?.status === "Completed"
+                      test.status === "Completed"
                         ? "bg-success"
                         : "bg-warning"
-                    } me-2`}
+                    } me-3`}
                   >
-                    {test?.status || "Pending"}
+                    {test.status}
                   </span>
 
-                  {test?.status === "Pending" && (
+                  {test.status === "Pending" && (
                     <button className="btn btn-sm btn-primary">
-                      Start
+                      Start Test
                     </button>
                   )}
-                </span>
-              </li>
+                </div>
+              </div>
             ))
           ) : (
-            <li className="list-group-item text-center py-3 text-muted">
+            <p className="text-muted text-center py-4">
               No tests assigned yet.
-            </li>
+            </p>
           )}
-        </ul>
-      </div>
-
-      {/* Payment Section */}
-      <div className="card mb-4 shadow-sm">
-        <div className="card-header bg-white">
-          <strong>Recent Transactions</strong>
         </div>
-        <div className="table-responsive">
-          <table className="table mb-0">
-            <thead className="table-light">
-              <tr>
-                <th>Date</th>
-                <th>Test</th>
-                <th>Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Array.isArray(payments) && payments.length > 0 ? (
-                payments.map((pay) => (
+
+        {/* Transactions */}
+        <div className="dashboard-card">
+          <div className="card-header-custom">
+            <h5>Recent Transactions</h5>
+          </div>
+
+          {payments.length > 0 ? (
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Test</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {payments.map((pay) => (
                   <tr key={pay._id}>
                     <td>
-                      {pay?.date
-                        ? new Date(pay.date).toLocaleDateString()
-                        : "N/A"}
+                      {new Date(pay.date).toLocaleDateString()}
                     </td>
-                    <td>{pay?.test?.title || "N/A"}</td>
-                    <td>₹{pay?.amount || 0}</td>
+                    <td>{pay.test?.title || "N/A"}</td>
+                    <td>₹{pay.amount}</td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td
-                    colSpan="3"
-                    className="text-center py-3 text-muted"
-                  >
-                    No history.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p className="text-muted text-center py-4">
+              No payment history.
+            </p>
+          )}
         </div>
-      </div>
-
-      {/* Logout */}
-      <div className="text-end">
-        <button className="btn btn-danger" onClick={handleLogout}>
-          Logout
-        </button>
       </div>
     </div>
   );
