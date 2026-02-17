@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Eye, EyeOff, CheckCircle, Mail, Lock, Chrome } from "lucide-react";
+import { Eye, EyeOff, CheckCircle, Mail, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { GoogleLogin } from "@react-oauth/google";
@@ -7,7 +7,6 @@ import { GoogleLogin } from "@react-oauth/google";
 const Login = () => {
   const navigate = useNavigate();
 
-  // State for Login Form
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -23,7 +22,7 @@ const Login = () => {
 
   // Handle Login Submit
   const handleLoginSubmit = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     setIsLoading(true);
 
     try {
@@ -32,12 +31,25 @@ const Login = () => {
         formData
       );
 
+      console.log("Login response:", response.data);
+
+      // Safe token extraction
+      const token = response.data.token;
+
+      if (!token) {
+        alert("Token not received from server");
+        return;
+      }
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(response.data));
+
       alert("Login Successful!");
-      setIsLoading(false);
-      navigate("/dashboard"); 
+      navigate("/dashboard");
     } catch (error) {
       console.error("Login Failed", error);
-      alert("Invalid email or password");
+      alert(error.response?.data?.message || "Invalid email or password");
+    } finally {
       setIsLoading(false);
     }
   };
@@ -48,14 +60,24 @@ const Login = () => {
       const res = await axios.post(
         "https://collegemilan-backend-2.onrender.com/api/auth/google",
         {
-          email: credentialResponse.clientId,
+          token: credentialResponse.credential,
         }
       );
+
+      const token = res.data.token;
+      if (!token) {
+        alert("Google token missing");
+        return;
+      }
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(res.data));
 
       alert("Google Login Successful");
       navigate("/dashboard");
     } catch (error) {
       console.error("Google login error", error);
+      alert("Google login failed");
     }
   };
 
@@ -78,7 +100,6 @@ const Login = () => {
             <h3 className="section-title">New User</h3>
 
             <div className="d-grid gap-3 mt-4">
-              {/* Google Login */}
               <GoogleLogin
                 onSuccess={handleGoogleSuccess}
                 onError={() => console.log("Login Failed")}
@@ -86,7 +107,6 @@ const Login = () => {
 
               <div className="divider">OR</div>
 
-              {/* Email Signup */}
               <button
                 className="btn btn-dark create-account-btn"
                 onClick={() => navigate("/register")}
@@ -167,7 +187,7 @@ const Login = () => {
                 className="btn btn-primary login-btn"
                 disabled={isLoading}
               >
-                {isLoading ? "Signing In..." : "Sign In"}
+                {isLoading ? "Logging In..." : "Login"}
               </button>
             </form>
           </div>
