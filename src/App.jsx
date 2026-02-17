@@ -12,6 +12,7 @@ import Personallytest from './pages/personallytest';
 import LearningTypes from "./pages/learningtypes";
 import Login from "./Login";
 import EventsPage from "./eventandupdate";
+import Dashboard from "./pages/dashboard";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="/online" element={<LearningTypes />} />
           <Route path="/offline" element={<LearningTypes />} />
            <Route path="/distance" element={<LearningTypes />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </div>
 

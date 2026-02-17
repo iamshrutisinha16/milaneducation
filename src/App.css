@@ -2208,3 +2208,47 @@ html, body {
     font-size: 14px;
   }
 }
+
+/*Dashboard*/
+/* App.css ya Dashboard.css me */
+.card {
+  border-radius: 12px;       /* thoda rounded card */
+  transition: transform 0.3s; /* hover animation */
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-header {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.list-group-item {
+  transition: background-color 0.2s;
+}
+
+.list-group-item:hover {
+  background-color: #f1f1f1;
+}
+
+.table th, .table td {
+  vertical-align: middle;
+}
+
+.btn {
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .card-body {
+    padding: 1rem;
+  }
+
+  .btn {
+    font-size: 0.85rem;
+  }
+}
+
