@@ -11,6 +11,7 @@ import Testpage from "./pages/psychometrictest";
 import Personallytest from './pages/personallytest';
 import LearningTypes from "./pages/learningtypes";
 import Login from "./Login";
+import Register from './register';
 import EventsPage from "./eventandupdate";
 import Dashboard from "./pages/dashboard";
 
@@ -25,6 +26,7 @@ function App() {
       <div style={{ minHeight: "70vh" }}>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/aboutus" element={<Aboutus />} />
           <Route path="/careermap" element={<Careermap />} />

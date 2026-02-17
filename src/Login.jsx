@@ -34,7 +34,7 @@ const Login = () => {
 
       alert("Login Successful!");
       setIsLoading(false);
-      navigate("/dashboard"); // change if needed
+      navigate("/dashboard"); 
     } catch (error) {
       console.error("Login Failed", error);
       alert("Invalid email or password");
@@ -89,7 +89,7 @@ const Login = () => {
               {/* Email Signup */}
               <button
                 className="btn btn-dark create-account-btn"
-                onClick={() => navigate("/signup")}
+                onClick={() => navigate("/register")}
               >
                 CREATE ACCOUNT (Email/Pass)
               </button>
