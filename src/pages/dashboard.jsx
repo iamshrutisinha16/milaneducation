@@ -9,7 +9,7 @@ const Dashboard = () => {
   const [tests, setTests] = useState([]);
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   const navigate = useNavigate();
 
@@ -22,27 +22,18 @@ const Dashboard = () => {
           return;
         }
 
-        const config = {
-          headers: { "x-auth-token": token },
-        };
-
+        const config = { headers: { "x-auth-token": token } };
         const res = await axios.get(
           "https://collegemilan-backend-2.onrender.com/api/user/dashboard-data",
           config
         );
 
-        // Backend response check
-        console.log("Dashboard Data:", res.data);
-
-        // Safe state updates
-        setProfile(res.data?.profile || res.data?.user || null);
+        setProfile(res.data?.profile || null);
         setTests(Array.isArray(res.data?.tests) ? res.data.tests : []);
         setPayments(Array.isArray(res.data?.payments) ? res.data.payments : []);
       } catch (err) {
         console.error("Dashboard error:", err);
-        if (err.response?.status === 401) {
-             navigate("/login");
-        }
+        navigate("/login");
       } finally {
         setLoading(false);
       }
@@ -58,194 +49,155 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="loader-container">
-        <div className="spinner-border text-primary" role="status"></div>
-        <p className="mt-3 fw-bold text-secondary">Loading College Milan Dashboard...</p>
+      <div className="loader-wrapper">
+        <div className="custom-loader"></div>
+        <p>Syncing your profile...</p>
       </div>
     );
   }
 
-  // Safe Name and Initial logic
-  const userName = profile?.name || "Student";
-  const userInitial = userName.charAt(0).toUpperCase();
-
   return (
-    <div className={`d-flex ${sidebarOpen ? "toggled" : ""}`} id="wrapper">
+    <div className={`dashboard-container ${isSidebarOpen ? "sidebar-open" : "sidebar-closed"}`}>
       {/* Sidebar */}
-      <div className="bg-white border-right shadow-sm" id="sidebar-wrapper">
-        <div className="sidebar-heading text-primary fw-bold fs-4 border-bottom">
-           COLLEGE MILAN
+      <aside className="sidebar shadow">
+        <div className="sidebar-logo">
+          <h2 className="brand-text">CM<span>.</span></h2>
         </div>
-        <div className="list-group list-group-flush pt-3">
-          <a href="#" className="list-group-item list-group-item-action active mx-2 rounded mb-1"> Dashboard</a>
-          <a href="#" className="list-group-item list-group-item-action mx-2 rounded mb-1"> My Profile</a>
-          <a href="#" className="list-group-item list-group-item-action mx-2 rounded mb-1"> My Tests</a>
-          <a href="#" className="list-group-item list-group-item-action mx-2 rounded mb-1"> Reports</a>
-          <button onClick={handleLogout} className="list-group-item list-group-item-action text-danger mt-5">Logout</button>
-        </div>
-      </div>
-
-      {/* Page Content */}
-      <div id="page-content-wrapper">
-        <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom px-4 shadow-sm sticky-top">
-          <button className="btn btn-outline-primary btn-sm" onClick={() => setSidebarOpen(!sidebarOpen)}>
-            ☰
-          </button>
-          
-          <div className="ms-auto d-flex align-items-center">
-            <span className="me-3 d-none d-md-block text-muted">
-                Welcome, <strong>{userName}</strong>
-            </span>
-            <div className="profile-circle">{userInitial}</div>
-          </div>
+        <nav className="sidebar-nav">
+          <div className="nav-item active"><span>📊</span> Dashboard</div>
+          <div className="nav-item"><span>📝</span> My Tests</div>
+          <div className="nav-item"><span>💳</span> Payments</div>
+          <div className="nav-item"><span>👤</span> Profile</div>
         </nav>
+        <div className="sidebar-footer">
+          <button className="logout-btn" onClick={handleLogout}>Logout</button>
+        </div>
+      </aside>
 
-        <div className="container-fluid p-4">
-          <div className="d-flex justify-content-between align-items-center mb-4">
-             <h4 className="fw-bold m-0">Student Overview</h4>
-             <span className="text-muted small">{new Date().toDateString()}</span>
+      {/* Main Content */}
+      <main className="main-content">
+        {/* Top Navbar */}
+        <header className="top-nav shadow-sm">
+          <button className="toggle-btn" onClick={() => setSidebarOpen(!isSidebarOpen)}>☰</button>
+          <div className="user-info">
+             <div className="user-text text-end d-none d-sm-block">
+                <h6 className="mb-0">{profile?.name}</h6>
+                <small className="text-muted">{profile?.email}</small>
+             </div>
+             <div className="user-avatar ms-3">
+                {profile?.name ? profile.name.charAt(0).toUpperCase() : "S"}
+             </div>
+          </div>
+        </header>
+
+        <div className="content-padding">
+          {/* Hero Section */}
+          <div className="welcome-banner mb-4">
+            <h1>Welcome back, {profile?.name.split(' ')[0]}! 👋</h1>
+            <p>Here is what's happening with your college preparation today.</p>
           </div>
 
-          {/* Stats Cards */}
+          {/* Stats Section */}
           <div className="row g-4 mb-4">
-            <div className="col-md-4">
-              <div className="card border-0 shadow-sm stat-card gradient-blue text-white">
-                <div className="card-body">
-                  <h6 className="opacity-75">Assigned Tests</h6>
-                  <h2 className="fw-bold">{tests.length}</h2>
+            <div className="col-lg-4 col-sm-6">
+              <div className="stat-card blue shadow-sm">
+                <div className="stat-icon">📚</div>
+                <div className="stat-data">
+                  <h3>{tests.length}</h3>
+                  <p>Total Tests</p>
                 </div>
               </div>
             </div>
-            <div className="col-md-4">
-              <div className="card border-0 shadow-sm stat-card gradient-green text-white">
-                <div className="card-body">
-                  <h6 className="opacity-75">Completed</h6>
-                  <h2 className="fw-bold">
-                    {tests.filter((t) => t.status === "Completed").length}
-                  </h2>
+            <div className="col-lg-4 col-sm-6">
+              <div className="stat-card green shadow-sm">
+                <div className="stat-icon">✅</div>
+                <div className="stat-data">
+                  <h3>{tests.filter(t => t.status === "Completed").length}</h3>
+                  <p>Completed</p>
                 </div>
               </div>
             </div>
-            <div className="col-md-4">
-              <div className="card border-0 shadow-sm stat-card gradient-dark text-white">
-                <div className="card-body">
-                  <h6 className="opacity-75">Total Spent</h6>
-                  <h2 className="fw-bold">₹{payments.reduce((a, b) => a + (b.amount || 0), 0)}</h2>
+            <div className="col-lg-4 col-sm-12">
+              <div className="stat-card orange shadow-sm">
+                <div className="stat-icon">💰</div>
+                <div className="stat-data">
+                  <h3>₹{payments.reduce((a, b) => a + (b.amount || 0), 0)}</h3>
+                  <p>Paid Amount</p>
                 </div>
               </div>
             </div>
           </div>
 
           <div className="row">
-            {/* Tests List */}
-            <div className="col-lg-8 mb-4">
-              <div className="card border-0 shadow-sm h-100">
-                <div className="card-header bg-white py-3 border-0">
-                  <h5 className="mb-0 fw-bold">Active Tests</h5>
+            {/* Tests Table */}
+            <div className="col-xl-8 mb-4">
+              <div className="custom-card shadow-sm h-100">
+                <div className="card-head">
+                  <h5>Active Exams & Tests</h5>
+                  <button className="btn-link">View All</button>
                 </div>
-                <div className="card-body p-0">
-                  <div className="table-responsive">
-                    <table className="table table-hover align-middle mb-0">
-                      <thead className="bg-light text-muted small uppercase">
-                        <tr>
-                          <th className="px-4">Test Details</th>
-                          <th>Category</th>
-                          <th>Status</th>
-                          <th className="text-center">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {tests.length > 0 ? (
-                          tests.map((test) => (
-                            <tr key={test._id}>
-                              <td className="px-4">
-                                <div className="fw-bold">{test.title}</div>
-                                <div className="small text-muted">ID: {test._id.slice(-6)}</div>
-                              </td>
-                              <td className="small">{test.qualification || "N/A"}</td>
-                              <td>
-                                <span className={`badge px-3 py-2 rounded-pill ${test.status === "Completed" ? "bg-success-subtle text-success" : "bg-warning-subtle text-warning"}`}>
-                                  {test.status}
-                                </span>
-                              </td>
-                              <td className="text-center">
-                                {test.status === "Pending" ? (
-                                  <button className="btn btn-primary btn-sm px-4 shadow-sm">Start Test</button>
-                                ) : (
-                                  <button className="btn btn-outline-secondary btn-sm px-4">View Result</button>
-                                )}
-                              </td>
-                            </tr>
-                          ))
-                        ) : (
-                          <tr><td colSpan="4" className="text-center py-5 text-muted">No tests assigned yet.</td></tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Mini Profile Card */}
-            <div className="col-lg-4 mb-4">
-              <div className="card border-0 shadow-sm p-4 text-center h-100">
-                <div className="profile-avatar mx-auto mb-3 shadow-sm">
-                    {userInitial}
-                </div>
-                <h5 className="fw-bold mb-1">{userName}</h5>
-                <p className="text-muted small mb-4">{profile?.email}</p>
-                <div className="bg-light p-3 rounded-3 text-start mb-3">
-                    <div className="mb-2">
-                        <small className="text-muted d-block">Phone Number</small>
-                        <span className="fw-semibold small">{profile?.phone || "Not Updated"}</span>
-                    </div>
-                    <div>
-                        <small className="text-muted d-block">Account Status</small>
-                        <span className="text-success small fw-bold">● Active Student</span>
-                    </div>
-                </div>
-                <button className="btn btn-outline-primary w-100 btn-sm">Edit Profile Details</button>
-              </div>
-            </div>
-          </div>
-
-          {/* Payments Section */}
-          <div className="card border-0 shadow-sm mt-2">
-            <div className="card-header bg-white py-3 border-0">
-              <h5 className="mb-0 fw-bold text-secondary">Recent Transactions</h5>
-            </div>
-            <div className="table-responsive">
-               <table className="table mb-0 align-middle">
-                 <thead className="bg-light small">
-                    <tr>
-                        <th className="px-4">Transaction ID</th>
-                        <th>Date</th>
-                        <th>Item</th>
-                        <th>Amount</th>
+                <div className="table-responsive mt-3">
+                  <table className="table custom-table">
+                    <thead>
+                      <tr>
+                        <th>Exam Name</th>
+                        <th>Qualification</th>
                         <th>Status</th>
-                    </tr>
-                 </thead>
-                 <tbody>
-                    {payments.length > 0 ? (
-                        payments.map((pay) => (
-                        <tr key={pay._id}>
-                            <td className="px-4 text-muted small">#TXN-{pay._id.slice(-8).toUpperCase()}</td>
-                            <td className="small">{new Date(pay.date).toLocaleDateString()}</td>
-                            <td className="small">{pay.test?.title || "Test Registration"}</td>
-                            <td className="fw-bold">₹{pay.amount}</td>
-                            <td><span className="badge bg-success-subtle text-success">Paid</span></td>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {tests.length > 0 ? tests.map((test) => (
+                        <tr key={test._id}>
+                          <td><span className="fw-bold">{test.title}</span></td>
+                          <td><span className="text-muted">{test.qualification}</span></td>
+                          <td>
+                            <span className={`status-badge ${test.status.toLowerCase()}`}>
+                              {test.status}
+                            </span>
+                          </td>
+                          <td>
+                            {test.status === "Pending" ? (
+                              <button className="btn btn-primary btn-sm rounded-pill px-3">Start Now</button>
+                            ) : (
+                              <button className="btn btn-outline-secondary btn-sm rounded-pill px-3">Result</button>
+                            )}
+                          </td>
                         </tr>
-                        ))
-                    ) : (
-                        <tr><td colSpan="5" className="text-center py-4 text-muted">No transactions found.</td></tr>
-                    )}
-                 </tbody>
-               </table>
+                      )) : (
+                        <tr><td colSpan="4" className="text-center py-5">No tests assigned yet.</td></tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            {/* Recent Payments */}
+            <div className="col-xl-4 mb-4">
+              <div className="custom-card shadow-sm h-100">
+                <div className="card-head">
+                  <h5>Recent Payments</h5>
+                </div>
+                <div className="payment-list mt-3">
+                  {payments.length > 0 ? payments.map((pay) => (
+                    <div className="payment-item" key={pay._id}>
+                      <div className="p-icon">💸</div>
+                      <div className="p-info">
+                        <h6>{pay.test?.title || "Registration Fee"}</h6>
+                        <small>{new Date(pay.date).toLocaleDateString()}</small>
+                      </div>
+                      <div className="p-amount text-success fw-bold">₹{pay.amount}</div>
+                    </div>
+                  )) : (
+                    <div className="text-center py-4 text-muted">No history.</div>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 };
