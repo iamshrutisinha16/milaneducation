@@ -2,43 +2,55 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from "react-route
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Homepopup from "./components/HomePopup";
+
 import Home from "./home";
-import Aboutus from './aboutus';
+import Aboutus from "./aboutus";
 import Careermap from "./careermap";
 import Contactus from "./contactus";
 import Counselling from "./counseling";
 import Testpage from "./pages/psychometrictest";
-import Personallytest from './pages/personallytest';
+import Personallytest from "./pages/personallytest";
 import LearningTypes from "./pages/learningtypes";
 import Login from "./Login";
-import Register from './register';
+import Register from "./register";
 import EventsPage from "./eventandupdate";
 import Dashboard from "./pages/dashboard";
 
-// Humne ek alag component banaya hai taaki useLocation() ka use kar sakein
+/* ADMIN IMPORTS */
+import AdminLogin from "./admin/AdminLogin";
+import AdminLayout from "./admin/AdminLayout";
+import AdminDashboard from "./admin/Dashboard";
+import ProtectAdmin from "./admin/ProtectAdmin";
+import Colleges from './admin/Colleges';
+import Courses from './admin/Courses';
+
 function LayoutWrapper() {
   const location = useLocation();
-  
-  // Check karein ki current page dashboard toh nahi hai
-  const isDashboard = location.pathname === "/dashboard";
+
+  const isUserDashboard = location.pathname === "/dashboard";
+
+  // Hide Navbar/Footer on all admin routes
+  const isAdminRoute = location.pathname.startsWith("/admin");
 
   return (
     <div className="App">
-      {/* Agar dashboard nahi hai, tabhi Popup aur Navbar dikhao */}
-      {!isDashboard && <Homepopup />}
-      {!isDashboard && <Navbar />}
+      
+      {/* Hide popup/navbar/footer for admin + user dashboard */}
+      {!isUserDashboard && !isAdminRoute && <Homepopup />}
+      {!isUserDashboard && !isAdminRoute && <Navbar />}
 
-      {/* Page Content */}
-      <div style={{ minHeight: isDashboard ? "100vh" : "70vh" }}>
+      <div style={{ minHeight: isUserDashboard || isAdminRoute ? "100vh" : "70vh" }}>
         <Routes>
+          
+          {/* ===== PUBLIC ROUTES ===== */}
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/aboutus" element={<Aboutus />} />
           <Route path="/careermap" element={<Careermap />} />
-          <Route path="/counselling" element={<Counselling/>} />
-          <Route path="/contactus" element={<Contactus/>} />
-          <Route path="/event&updates" element={<EventsPage/>} />
+          <Route path="/counselling" element={<Counselling />} />
+          <Route path="/contactus" element={<Contactus />} />
+          <Route path="/event&updates" element={<EventsPage />} />
           <Route path="/psychometrictest" element={<Testpage />} />
           <Route path="/personalitytest" element={<Personallytest />} />
           <Route path="/test" element={<Testpage />} />
@@ -46,11 +58,28 @@ function LayoutWrapper() {
           <Route path="/offline" element={<LearningTypes />} />
           <Route path="/distance" element={<LearningTypes />} />
           <Route path="/dashboard" element={<Dashboard />} />
+
+          {/* ===== ADMIN LOGIN ===== */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+
+          {/* ===== ADMIN PROTECTED ROUTES ===== */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectAdmin>
+                <AdminLayout />
+              </ProtectAdmin>
+            }
+          >
+            <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="colleges" element={<Colleges />} />
+              <Route path="courses" element={<Courses />} />
+          </Route>
+
         </Routes>
       </div>
 
-      {/* Agar dashboard nahi hai, tabhi Footer dikhao */}
-      {!isDashboard && <Footer />}
+      {!isUserDashboard && !isAdminRoute && <Footer />}
     </div>
   );
 }
