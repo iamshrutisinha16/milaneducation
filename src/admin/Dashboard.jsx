@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = "https://collegemilan-backend-2.onrender.com"; 
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [stats, setStats] = useState({
     totalUsers: 0,
     totalColleges: 0,
@@ -49,7 +51,12 @@ const Dashboard = () => {
       {/* PAGE TITLE */}
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h3 className="fw-bold">Admin Dashboard</h3>
-        <button className="btn btn-primary">+ Add College</button>
+        <button 
+        onClick={() => navigate('/admin/colleges')} 
+        className="btn btn-primary"
+      >
+        + Add College
+      </button>
       </div>
 
       {/* STATS CARDS */}

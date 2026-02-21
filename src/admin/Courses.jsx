@@ -19,7 +19,6 @@ const AdminCourses = () => {
     },
   };
 
-  //Fetch Courses
   const fetchCourses = async () => {
     const res = await axios.get(
       "https://collegemilan-backend-2.onrender.com/api/courses/admin/all",
@@ -28,9 +27,10 @@ const AdminCourses = () => {
     setCourses(res.data);
   };
 
-  //Fetch Universities (for dropdown)
   const fetchUniversities = async () => {
-    const res = await axios.get("https://collegemilan-backend-2.onrender.com/api/university");
+    const res = await axios.get(
+      "https://collegemilan-backend-2.onrender.com/api/university"
+    );
     setUniversities(res.data);
   };
 
@@ -39,12 +39,10 @@ const AdminCourses = () => {
     fetchUniversities();
   }, []);
 
-  // Handle Input
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  //Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -67,9 +65,8 @@ const AdminCourses = () => {
     fetchCourses();
   };
 
-  // 🔹 Delete
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure?")) {
+    if (window.confirm("Delete this course?")) {
       await axios.delete(
         `https://collegemilan-backend-2.onrender.com/api/courses/admin/${id}`,
         config
@@ -78,7 +75,6 @@ const AdminCourses = () => {
     }
   };
 
-  // Edit
   const handleEdit = (course) => {
     setFormData({
       course_name: course.course_name,
@@ -89,83 +85,101 @@ const AdminCourses = () => {
   };
 
   return (
-    <div className="admin-course-container">
-      <h2>Manage Courses</h2>
+    <div className="admin-course-page">
+      <div className="admin-course-header">
+        <h2>Course Management</h2>
+        <p>Manage all courses from here</p>
+      </div>
 
-      {/* FORM */}
-      <form onSubmit={handleSubmit} className="course-form">
-        <input
-          type="text"
-          name="course_name"
-          placeholder="Course Name"
-          value={formData.course_name}
-          onChange={handleChange}
-          required
-        />
+      <div className="admin-course-card">
+        <form onSubmit={handleSubmit} className="course-form">
+          <div className="form-group">
+            <label>Course Name</label>
+            <input
+              type="text"
+              name="course_name"
+              value={formData.course_name}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <select
-          name="university"
-          value={formData.university}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Select University</option>
-          {universities.map((uni) => (
-            <option key={uni._id} value={uni._id}>
-              {uni.name}
-            </option>
-          ))}
-        </select>
+          <div className="form-group">
+            <label>University</label>
+            <select
+              name="university"
+              value={formData.university}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select University</option>
+              {universities.map((uni) => (
+                <option key={uni._id} value={uni._id}>
+                  {uni.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <select
-          name="status"
-          value={formData.status}
-          onChange={handleChange}
-        >
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
-        </select>
+          <div className="form-group">
+            <label>Status</label>
+            <select
+              name="status"
+              value={formData.status}
+              onChange={handleChange}
+            >
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
 
-        <button type="submit">
-          {editId ? "Update Course" : "Add Course"}
-        </button>
-      </form>
+          <button className="primary-btn">
+            {editId ? "Update Course" : "Add Course"}
+          </button>
+        </form>
+      </div>
 
-      {/* TABLE */}
-      <table>
-        <thead>
-          <tr>
-            <th>Course</th>
-            <th>University</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {courses.map((course) => (
-            <tr key={course._id}>
-              <td>{course.course_name}</td>
-              <td>{course.university?.name}</td>
-              <td>
-                <span className={course.status}>
-                  {course.status}
-                </span>
-              </td>
-              <td>
-                <button onClick={() => handleEdit(course)}>
-                  Edit
-                </button>
-                <button
-                  className="delete-btn"
-                  onClick={() => handleDelete(course._id)}
-                >
-                  Delete
-                </button>
-              </td>
+      <div className="table-card">
+        <table className="admin-table">
+          <thead>
+            <tr>
+              <th>Course</th>
+              <th>University</th>
+              <th>Status</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody>
+            {courses.map((course) => (
+              <tr key={course._id}>
+                <td>{course.course_name}</td>
+                <td>{course.university?.name}</td>
+                <td>
+                  <span className={`status ${course.status}`}>
+                    {course.status}
+                  </span>
+                </td>
+                <td>
+                  <button
+                    className="edit-btn"
+                    onClick={() => handleEdit(course)}
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    className="delete-btn"
+                    onClick={() => handleDelete(course._id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

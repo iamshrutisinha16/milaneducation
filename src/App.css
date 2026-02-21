@@ -2340,7 +2340,6 @@ html, body {
 }
 
 /* Pagedashboard */
-/* Variables for consistency */
 :root {
   --primary-color: #4e73df;
   --secondary-color: #6f42c1;
@@ -2692,4 +2691,138 @@ html, body {
   .sb-open .db-sidebar { transform: translateX(0); }
   .db-main-area { margin-left: 0; width: 100%; }
   .db-content-container { padding: 1rem; }
+}
+
+/*admincourses*/
+.admin-course-page {
+  padding: 40px;
+  background: #f5f7fb;
+  min-height: 100vh;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.admin-course-header h2 {
+  font-size: 28px;
+  margin-bottom: 5px;
+  color: #1e293b;
+}
+
+.admin-course-header p {
+  color: #64748b;
+  margin-bottom: 30px;
+}
+
+.admin-course-card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+}
+
+.course-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  align-items: end;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #334155;
+}
+
+.form-group input,
+.form-group select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  outline: none;
+  transition: 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #2563eb;
+}
+
+.primary-btn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.primary-btn:hover {
+  background: #1e40af;
+}
+
+.table-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table th {
+  text-align: left;
+  padding: 12px;
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.admin-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.status {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status.active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status.inactive {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.edit-btn {
+  background: #f59e0b;
+  border: none;
+  padding: 6px 12px;
+  color: white;
+  border-radius: 6px;
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background: #ef4444;
+  border: none;
+  padding: 6px 12px;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
 }
