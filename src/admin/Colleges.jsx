@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const API_URL = "https://collegemilan-backend-2.onrender.com";
+// Correct backend URL
+const API_URL = "https://collegemilan-backend-2.onrender.com/api/admin/colleges";
 
 const CollegeManagement = () => {
   const [colleges, setColleges] = useState([]);
@@ -14,50 +15,49 @@ const CollegeManagement = () => {
   });
   const [editId, setEditId] = useState(null);
 
-  // Token get karna (Ensure karo ki login ke time ye token save ho raha ho)
+  // Admin token
   const token = localStorage.getItem("adminToken");
 
-  // --- READ (Data laana) ---
+  // --- READ (Fetch Colleges) ---
   const fetchColleges = async () => {
     try {
-      const res = await axios.get(`${API_URL}/api/admin/colleges`, {
+      const res = await axios.get(API_URL, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setColleges(res.data);
     } catch (error) {
       console.error("Colleges laane me error:", error);
-      // Agar 401 error aaye matlab token expire ho gaya ya login nahi hai
       if (error.response && error.response.status === 401) {
-          alert("Session expired! Please login again.");
+        alert("Session expired! Please login again.");
       }
     }
   };
 
   useEffect(() => {
     fetchColleges();
-  }, []); // Component load hote hi data layega
+  }, []);
 
-  // --- CREATE & UPDATE (Add aur Edit karna) ---
+  // --- CREATE & UPDATE ---
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       if (editId) {
-        // UPDATE Logic
-        await axios.put(`${API_URL}/api/admin/colleges/${editId}`, form, {
+        // UPDATE
+        await axios.put(`${API_URL}/${editId}`, form, {
           headers: { Authorization: `Bearer ${token}` },
         });
         alert("College Updated Successfully!");
         setEditId(null);
       } else {
-        // CREATE Logic
-        await axios.post(`${API_URL}/api/admin/colleges`, form, {
+        // CREATE
+        await axios.post(API_URL, form, {
           headers: { Authorization: `Bearer ${token}` },
         });
         alert("New College Added Successfully!");
       }
 
-      // Form ko khali karna
+      // Clear form
       setForm({
         name: "",
         location: "",
@@ -66,7 +66,6 @@ const CollegeManagement = () => {
         description: "",
       });
 
-      // Data wapas fetch karna taki table update ho jaye
       fetchColleges();
     } catch (error) {
       console.error("Save karne me error:", error);
@@ -74,17 +73,17 @@ const CollegeManagement = () => {
     }
   };
 
-  // --- Edit Button pe click karne ka function ---
+  // --- Edit Button ---
   const handleEdit = (college) => {
     setForm(college);
     setEditId(college._id);
   };
 
-  // --- DELETE (Remove karna) ---
+  // --- DELETE ---
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this college?")) {
       try {
-        await axios.delete(`${API_URL}/api/admin/colleges/${id}`, {
+        await axios.delete(`${API_URL}/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         alert("College Deleted!");
@@ -177,7 +176,6 @@ const CollegeManagement = () => {
                   <td>{college.location}</td>
                   <td>{college.state}</td>
                   <td>
-                    {/* Agar backend se status na aaye toh default 'Active' dikhega */}
                     <span className="badge bg-success">
                       {college.status || "Active"}
                     </span>
@@ -198,7 +196,6 @@ const CollegeManagement = () => {
                   </td>
                 </tr>
               ))}
-              {/* Jab list khali ho tab ka design */}
               {colleges.length === 0 && (
                 <tr>
                   <td colSpan="5" className="text-center">
