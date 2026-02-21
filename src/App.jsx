@@ -20,9 +20,11 @@ import Dashboard from "./pages/dashboard";
 import AdminLogin from "./admin/AdminLogin";
 import AdminLayout from "./admin/AdminLayout";
 import AdminDashboard from "./admin/Dashboard";
+import Users from "./admin/Users";
+import Enquiries from "./admin/Enquiries";
 import ProtectAdmin from "./admin/ProtectAdmin";
-import Colleges from './admin/Colleges';
 import Courses from './admin/Courses';
+import AdminQualifications from './admin/AdminQualifications';
 
 function LayoutWrapper() {
   const location = useLocation();
@@ -72,7 +74,9 @@ function LayoutWrapper() {
             }
           >
             <Route path="dashboard" element={<AdminDashboard />} />
-              <Route path="colleges" element={<Colleges />} />
+             <Route path="users" element={<Users />} />
+             <Route path="enquiries" element={<Enquiries />} />
+               <Route path="qualifications" element={<AdminQualifications/>} />
               <Route path="courses" element={<Courses />} />
           </Route>
 

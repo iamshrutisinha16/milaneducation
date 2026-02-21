@@ -3,183 +3,185 @@ import axios from "axios";
 
 const AdminCourses = () => {
   const [courses, setCourses] = useState([]);
-  const [universities, setUniversities] = useState([]);
+  const [qualifications, setQualifications] = useState([]);
   const [formData, setFormData] = useState({
-    course_name: "",
-    university: "",
-    status: "active",
+    name: "",
+    qualification: "",
+    duration: "",
   });
-  const [editId, setEditId] = useState(null);
+  const [editingId, setEditingId] = useState(null);
 
+  const API_BASE_URL = "https://collegemilan-backend-2.onrender.com";
   const token = localStorage.getItem("adminToken");
 
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+  const headers = {
+    Authorization: `Bearer ${token}`,
   };
 
+  // Fetch Courses
   const fetchCourses = async () => {
     const res = await axios.get(
-      "https://collegemilan-backend-2.onrender.com/api/courses/admin/all",
-      config
+      `${API_BASE_URL}/api/admin/courses`,
+      { headers }
     );
     setCourses(res.data);
   };
 
-  const fetchUniversities = async () => {
+  // Fetch Qualifications for Dropdown
+  const fetchQualifications = async () => {
     const res = await axios.get(
-      "https://collegemilan-backend-2.onrender.com/api/university"
+      `${API_BASE_URL}/api/admin/qualifications`,
+      { headers }
     );
-    setUniversities(res.data);
+    setQualifications(res.data);
   };
 
   useEffect(() => {
     fetchCourses();
-    fetchUniversities();
+    fetchQualifications();
   }, []);
 
+  // Handle Input Change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Add / Update
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (editId) {
+    if (editingId) {
       await axios.put(
-        `https://collegemilan-backend-2.onrender.com/api/courses/admin/${editId}`,
+        `${API_BASE_URL}/api/admin/courses/${editingId}`,
         formData,
-        config
+        { headers }
       );
     } else {
       await axios.post(
-        "https://collegemilan-backend-2.onrender.com/api/courses/admin",
+        `${API_BASE_URL}/api/admin/courses`,
         formData,
-        config
+        { headers }
       );
     }
 
-    setFormData({ course_name: "", university: "", status: "active" });
-    setEditId(null);
+    setFormData({ name: "", qualification: "", duration: "" });
+    setEditingId(null);
     fetchCourses();
   };
 
+  // Delete
   const handleDelete = async (id) => {
-    if (window.confirm("Delete this course?")) {
-      await axios.delete(
-        `https://collegemilan-backend-2.onrender.com/api/courses/admin/${id}`,
-        config
-      );
-      fetchCourses();
-    }
+    if (!window.confirm("Delete this course?")) return;
+
+    await axios.delete(
+      `${API_BASE_URL}/api/admin/courses/${id}`,
+      { headers }
+    );
+
+    fetchCourses();
   };
 
+  // Edit
   const handleEdit = (course) => {
     setFormData({
-      course_name: course.course_name,
-      university: course.university._id,
-      status: course.status,
+      name: course.name,
+      qualification: course.qualification._id,
+      duration: course.duration,
     });
-    setEditId(course._id);
+    setEditingId(course._id);
   };
 
   return (
-    <div className="admin-course-page">
-      <div className="admin-course-header">
-        <h2>Course Management</h2>
-        <p>Manage all courses from here</p>
-      </div>
+    <div>
+      <h3 className="mb-4">Manage Courses</h3>
 
-      <div className="admin-course-card">
-        <form onSubmit={handleSubmit} className="course-form">
-          <div className="form-group">
-            <label>Course Name</label>
+      {/* Form */}
+      <form onSubmit={handleSubmit} className="mb-4">
+        <div className="row g-2">
+
+          <div className="col-md-4">
             <input
               type="text"
-              name="course_name"
-              value={formData.course_name}
+              name="name"
+              placeholder="Course Name"
+              className="form-control"
+              value={formData.name}
               onChange={handleChange}
               required
             />
           </div>
 
-          <div className="form-group">
-            <label>University</label>
+          <div className="col-md-4">
             <select
-              name="university"
-              value={formData.university}
+              name="qualification"
+              className="form-control"
+              value={formData.qualification}
               onChange={handleChange}
               required
             >
-              <option value="">Select University</option>
-              {universities.map((uni) => (
-                <option key={uni._id} value={uni._id}>
-                  {uni.name}
+              <option value="">Select Qualification</option>
+              {qualifications.map((q) => (
+                <option key={q._id} value={q._id}>
+                  {q.name}
                 </option>
               ))}
             </select>
           </div>
 
-          <div className="form-group">
-            <label>Status</label>
-            <select
-              name="status"
-              value={formData.status}
+          <div className="col-md-3">
+            <input
+              type="text"
+              name="duration"
+              placeholder="Duration (e.g. 3 Years)"
+              className="form-control"
+              value={formData.duration}
               onChange={handleChange}
-            >
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
+            />
           </div>
 
-          <button className="primary-btn">
-            {editId ? "Update Course" : "Add Course"}
-          </button>
-        </form>
-      </div>
+          <div className="col-md-1">
+            <button className="btn btn-primary w-100">
+              {editingId ? "✔" : "+"}
+            </button>
+          </div>
 
-      <div className="table-card">
-        <table className="admin-table">
-          <thead>
-            <tr>
-              <th>Course</th>
-              <th>University</th>
-              <th>Status</th>
-              <th>Actions</th>
+        </div>
+      </form>
+
+      {/* Table */}
+      <table className="table table-bordered table-hover">
+        <thead className="table-light">
+          <tr>
+            <th>Name</th>
+            <th>Qualification</th>
+            <th>Duration</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {courses.map((course) => (
+            <tr key={course._id}>
+              <td>{course.name}</td>
+              <td>{course.qualification?.name}</td>
+              <td>{course.duration}</td>
+              <td>
+                <button
+                  className="btn btn-sm btn-warning me-2"
+                  onClick={() => handleEdit(course)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="btn btn-sm btn-danger"
+                  onClick={() => handleDelete(course._id)}
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
-          </thead>
-
-          <tbody>
-            {courses.map((course) => (
-              <tr key={course._id}>
-                <td>{course.course_name}</td>
-                <td>{course.university?.name}</td>
-                <td>
-                  <span className={`status ${course.status}`}>
-                    {course.status}
-                  </span>
-                </td>
-                <td>
-                  <button
-                    className="edit-btn"
-                    onClick={() => handleEdit(course)}
-                  >
-                    Edit
-                  </button>
-
-                  <button
-                    className="delete-btn"
-                    onClick={() => handleDelete(course._id)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
