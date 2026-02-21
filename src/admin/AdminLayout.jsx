@@ -4,6 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const AdminLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const [openAcademics, setOpenAcademics] = useState(false);
+  const [openContent, setOpenContent] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -33,36 +35,100 @@ const AdminLayout = () => {
         </div>
 
         <ul className="nav flex-column">
+
+          {/* Dashboard */}
           <li className="nav-item mb-2">
             <Link className="nav-link text-white" to="/admin/dashboard">
               📊 {!collapsed && "Dashboard"}
             </Link>
           </li>
 
-          <li className="nav-item mb-2">
-            <Link className="nav-link text-white" to="/admin/colleges">
-              🎓 {!collapsed && "Colleges"}
-            </Link>
-          </li>
-
-          <li className="nav-item mb-2">
-            <Link className="nav-link text-white" to="/admin/courses">
-              📚 {!collapsed && "Courses"}
-            </Link>
-          </li>
-
+          {/* Users */}
           <li className="nav-item mb-2">
             <Link className="nav-link text-white" to="/admin/users">
               👥 {!collapsed && "Users"}
             </Link>
           </li>
 
+          {/* Academics Dropdown */}
+          <li className="nav-item mb-2">
+            <div
+              className="nav-link text-white"
+              style={{ cursor: "pointer" }}
+              onClick={() => setOpenAcademics(!openAcademics)}
+            >
+              🎓 {!collapsed && "Academics ▾"}
+            </div>
+
+            {openAcademics && !collapsed && (
+              <ul className="nav flex-column ms-3">
+                <li className="nav-item">
+                  <Link className="nav-link text-white" to="/admin/qualifications">
+                    Qualifications
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link text-white" to="/admin/courses">
+                    Courses
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link text-white" to="/admin/universities">
+                    Universities
+                  </Link>
+                </li>
+              </ul>
+            )}
+          </li>
+
+          {/* Tests */}
+          <li className="nav-item mb-2">
+            <Link className="nav-link text-white" to="/admin/tests">
+              🧠 {!collapsed && "Tests"}
+            </Link>
+          </li>
+
+          {/* Enquiries */}
           <li className="nav-item mb-2">
             <Link className="nav-link text-white" to="/admin/enquiries">
               📩 {!collapsed && "Enquiries"}
             </Link>
           </li>
 
+          {/* Content Dropdown */}
+          <li className="nav-item mb-2">
+            <div
+              className="nav-link text-white"
+              style={{ cursor: "pointer" }}
+              onClick={() => setOpenContent(!openContent)}
+            >
+              📝 {!collapsed && "Content ▾"}
+            </div>
+
+            {openContent && !collapsed && (
+              <ul className="nav flex-column ms-3">
+                <li className="nav-item">
+                  <Link className="nav-link text-white" to="/admin/events">
+                    Events
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link text-white" to="/admin/learning-types">
+                    Learning Types
+                  </Link>
+                </li>
+              </ul>
+            )}
+          </li>
+
+          {/* Settings */}
+          <li className="nav-item mb-2">
+            <Link className="nav-link text-white" to="/admin/settings">
+              ⚙ {!collapsed && "Settings"}
+            </Link>
+          </li>
+
+          {/* Logout */}
           <li className="nav-item mt-4">
             <button
               className="btn btn-danger w-100"
@@ -71,23 +137,20 @@ const AdminLayout = () => {
               {!collapsed ? "Logout" : "⎋"}
             </button>
           </li>
+
         </ul>
       </div>
 
-      {/* Main Content Area */}
+      {/* Main Content */}
       <div className="flex-grow-1">
-        
-        {/* Top Navbar */}
         <nav className="navbar navbar-light bg-white shadow-sm px-4">
-          <span className="navbar-brand mb-0 h5">Admin Dashboard</span>
+          <span className="navbar-brand mb-0 h5">Admin Panel</span>
           <span className="text-muted">Welcome, Admin</span>
         </nav>
 
-        {/* Page Content */}
         <div className="p-4">
           <Outlet />
         </div>
-
       </div>
     </div>
   );
