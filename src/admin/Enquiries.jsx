@@ -3,104 +3,184 @@ import axios from "axios";
 
 const AdminEnquiries = () => {
   const [enquiries, setEnquiries] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [statusFilter, setStatusFilter] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const API_BASE_URL = "https://collegemilan-backend-2.onrender.com";
+  const token = localStorage.getItem("adminToken");
 
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  // 🔥 Fetch Enquiries
   const fetchEnquiries = async () => {
     try {
-      const token = localStorage.getItem("adminToken");
+      setLoading(true);
 
-      const res = await axios.get(
-        `${API_BASE_URL}/api/admin/enquiries`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      let url = `${API_BASE_URL}/api/admin/enquiries`;
+      if (statusFilter) {
+        url += `?status=${statusFilter}`;
+      }
 
-      setEnquiries(res.data);
-    } catch (err) {
-      console.error("Error fetching enquiries:", err);
+      const res = await axios.get(url, { headers });
+      setEnquiries(res.data.data);
+
+    } catch (error) {
+      console.error("Fetch Error:", error);
     } finally {
       setLoading(false);
     }
   };
 
+  useEffect(() => {
+    fetchEnquiries();
+  }, [statusFilter]);
+
+  // 🔥 Update Status
+  const handleStatusChange = async (id, newStatus) => {
+    try {
+      await axios.put(
+        `${API_BASE_URL}/api/admin/enquiries/${id}/status`,
+        { status: newStatus },
+        { headers }
+      );
+
+      fetchEnquiries();
+    } catch (error) {
+      console.error("Status Update Error:", error);
+    }
+  };
+
+  // 🔥 Update Remarks
+  const handleRemarksChange = async (id, remarks) => {
+    try {
+      await axios.put(
+        `${API_BASE_URL}/api/admin/enquiries/${id}/remarks`,
+        { remarks },
+        { headers }
+      );
+
+    } catch (error) {
+      console.error("Remarks Update Error:", error);
+    }
+  };
+
+  // 🔥 Delete
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this enquiry?")) return;
 
     try {
-      const token = localStorage.getItem("adminToken");
-
       await axios.delete(
         `${API_BASE_URL}/api/admin/enquiries/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { headers }
       );
 
       fetchEnquiries();
-    } catch (err) {
-      console.error("Delete error:", err);
+    } catch (error) {
+      console.error("Delete Error:", error);
     }
   };
 
-  useEffect(() => {
-    fetchEnquiries();
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
-
   return (
     <div>
-      <h3 className="mb-4">All Enquiries</h3>
+      <h3 className="mb-4">Enquiry Management</h3>
 
-      <div className="table-responsive">
+      {/* 🔎 Status Filter */}
+      <div className="mb-3">
+        <select
+          className="form-select w-25"
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+        >
+          <option value="">All Status</option>
+          <option value="New">New</option>
+          <option value="Contacted">Contacted</option>
+          <option value="Follow-up">Follow-up</option>
+          <option value="Converted">Converted</option>
+          <option value="Rejected">Rejected</option>
+        </select>
+      </div>
+
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
         <table className="table table-bordered table-hover">
           <thead className="table-light">
             <tr>
               <th>Name</th>
-              <th>Email</th>
+              <th>Mobile</th>
               <th>Course</th>
+              <th>University</th>
+              <th>Status</th>
+              <th>Remarks</th>
               <th>Date</th>
               <th>Action</th>
             </tr>
           </thead>
-
           <tbody>
-            {enquiries.length > 0 ? (
-              enquiries.map((enquiry) => (
-                <tr key={enquiry._id}>
-                  <td>{enquiry.name}</td>
-                  <td>{enquiry.email}</td>
-                  <td>{enquiry.course}</td>
-                  <td>
-                    {new Date(enquiry.createdAt).toLocaleDateString()}
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-sm btn-danger"
-                      onClick={() => handleDelete(enquiry._id)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))
-            ) : (
+            {enquiries.map((enq) => (
+              <tr key={enq._id}>
+                <td>{enq.fullName}</td>
+                <td>{enq.mobile}</td>
+                <td>{enq.course?.name}</td>
+                <td>{enq.university?.name}</td>
+
+                {/* Status Dropdown */}
+                <td>
+                  <select
+                    className="form-select form-select-sm"
+                    value={enq.status}
+                    onChange={(e) =>
+                      handleStatusChange(enq._id, e.target.value)
+                    }
+                  >
+                    <option value="New">New</option>
+                    <option value="Contacted">Contacted</option>
+                    <option value="Follow-up">Follow-up</option>
+                    <option value="Converted">Converted</option>
+                    <option value="Rejected">Rejected</option>
+                  </select>
+                </td>
+
+                {/* Remarks */}
+                <td>
+                  <input
+                    type="text"
+                    className="form-control form-control-sm"
+                    defaultValue={enq.remarks || ""}
+                    onBlur={(e) =>
+                      handleRemarksChange(enq._id, e.target.value)
+                    }
+                    placeholder="Add note..."
+                  />
+                </td>
+
+                <td>
+                  {new Date(enq.createdAt).toLocaleDateString()}
+                </td>
+
+                <td>
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => handleDelete(enq._id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+
+            {enquiries.length === 0 && (
               <tr>
-                <td colSpan="5" className="text-center">
+                <td colSpan="8" className="text-center">
                   No enquiries found
                 </td>
               </tr>
             )}
           </tbody>
         </table>
-      </div>
+      )}
     </div>
   );
 };

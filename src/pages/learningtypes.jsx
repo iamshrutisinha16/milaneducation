@@ -3,6 +3,7 @@ import axios from "axios";
 import Select from "react-select";
 import { motion, AnimatePresence } from "framer-motion";
 import { Phone, GraduationCap, MapPin, User, Mail, Home } from "lucide-react";
+import { useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const orange = "#f47920";
@@ -10,14 +11,18 @@ const orange = "#f47920";
 const SRM_UNIVERSITY = {
   id: "srm-direct",
   name: "SRM University",
-  url: "https://www.srmist.edu.in/"
+  url: "https://www.srmist.edu.in/",
 };
 
+const validModes = ["online", "offline", "distance"];
+
 const LearningTypes = () => {
+  const { mode } = useParams();   // 👈 route se mode aayega
+
   const [formData, setFormData] = useState({
     course: "",
     university: "",
-    learningMode: "",
+    learningMode: mode,  // 👈 auto set
     fullName: "",
     gender: "",
     email: "",
@@ -30,28 +35,32 @@ const LearningTypes = () => {
   const [courses, setCourses] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  // ❌ invalid mode protection
+  if (!validModes.includes(mode)) {
+    return <h2 className="text-center mt-5">Invalid Learning Mode</h2>;
+  }
+
+  // Universities fetch
   useEffect(() => {
     axios
       .get("https://collegemilan-backend-2.onrender.com/api/universities")
-      .then((res) => {
-        setUniversities(res.data); 
-      })
+      .then((res) => setUniversities(res.data))
       .catch((err) => console.error(err));
   }, []);
 
+  // Courses fetch
   useEffect(() => {
-    if (
-      formData.university &&
-      formData.university !== SRM_UNIVERSITY.id
-    ) {
+    if (formData.university && formData.university !== SRM_UNIVERSITY.id) {
       axios
-        .get(`https://collegemilan-backend-2.onrender.com/api/courses/${formData.university}`)
+        .get(
+          `https://collegemilan-backend-2.onrender.com/api/courses/${formData.university}?mode=${mode}`
+        )
         .then((res) => setCourses(res.data))
         .catch((err) => console.error(err));
     } else {
       setCourses([]);
     }
-  }, [formData.university]);
+  }, [formData.university, mode]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -66,23 +75,25 @@ const LearningTypes = () => {
     }
 
     axios
-    .post("https://collegemilan-backend-2.onrender.com/api/enquiries", formData)
-    .then(() => {
-      setIsSubmitted(true); 
-    })
-    .catch((err) => console.error(err));
-   };
+      .post(
+        "https://collegemilan-backend-2.onrender.com/api/enquiries",
+        formData
+      )
+      .then(() => {
+        setIsSubmitted(true);
+      })
+      .catch((err) => console.error(err));
+  };
 
   return (
     <div className="cm-wrapper">
-
+      
       {/* HERO */}
       <section className="cm-hero text-center text-white">
-        <motion.div
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <h1 className="fw-bold mt-5">Find Your Dream Course</h1>
+        <motion.div initial={{ opacity: 0, y: -30 }} animate={{ opacity: 1, y: 0 }}>
+          <h1 className="fw-bold mt-5">
+            {mode.toUpperCase()} Programs Admission
+          </h1>
           <p>Partnering with 500+ Top Universities across India</p>
         </motion.div>
       </section>
@@ -98,7 +109,7 @@ const LearningTypes = () => {
             className="card-header text-white text-center fw-bold py-3"
             style={{ background: orange }}
           >
-            LEARNING & ADMISSION FORM
+            {mode.toUpperCase()} ADMISSION FORM
           </div>
 
           <form className="p-4" onSubmit={handleSubmit}>
@@ -149,28 +160,9 @@ const LearningTypes = () => {
                     })
                   }
                   placeholder="Search course..."
-                  isDisabled={
-                    formData.university === SRM_UNIVERSITY.id
-                  }
-                   menuPlacement="top"
+                  isDisabled={formData.university === SRM_UNIVERSITY.id}
+                  menuPlacement="top"
                 />
-              </div>
-
-              {/* Mode */}
-              <div className="col-md-6">
-                <label className="form-label">Learning Mode*</label>
-                <select
-                  name="learningMode"
-                  className="form-select"
-                  required
-                  onChange={handleChange}
-                >
-                  <option value="">Select Mode</option>
-                  <option>Regular</option>
-                  <option>Distance</option>
-                  <option>Online</option>
-                  <option>Hybrid</option>
-                </select>
               </div>
             </div>
 
@@ -265,7 +257,7 @@ const LearningTypes = () => {
                 whileHover={{ scale: 1.07 }}
                 whileTap={{ scale: 0.95 }}
                 type="submit"
-                className="btn submit-btn px-5 py-2 fw-bold"
+                className="btn px-5 py-2 fw-bold"
                 style={{ background: orange, color: "#fff" }}
               >
                 {formData.university === SRM_UNIVERSITY.id
@@ -305,4 +297,3 @@ const LearningTypes = () => {
 };
 
 export default LearningTypes;
-
