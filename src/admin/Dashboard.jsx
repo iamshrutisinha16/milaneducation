@@ -93,10 +93,12 @@ const AdminDashboard = () => {
           { title: "Universities", value: stats.totalUniversities },
         ].map((item, index) => (
           <div className="col-md-4" key={index}>
-            <div className="card shadow-sm border-0 p-3 rounded-4">
-              <h6 className="text-muted">{item.title}</h6>
-              <h2 className="fw-bold">{item.value}</h2>
-            </div>
+           <div className="card shadow-sm border-0 p-3 rounded-4 text-white"
+           style={{ backgroundColor: ["#FF6B6B", "#6BCB77", "#4D96FF", "#FFD93D", "#845EC2"]
+           [index % 5] }}>
+        <h6>{item.title}</h6>
+         <h2 className="fw-bold">{item.value}</h2>
+         </div>
           </div>
         ))}
       </div>
