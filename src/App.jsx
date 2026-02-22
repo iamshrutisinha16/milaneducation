@@ -26,6 +26,7 @@ import ProtectAdmin from "./admin/ProtectAdmin";
 import Courses from './admin/Courses';
 import AdminQualifications from './admin/AdminQualifications';
 import AdminUniversities from './admin/AdminUniversities';
+import Settings from './admin/Settings';
 
 function LayoutWrapper() {
   const location = useLocation();
@@ -80,6 +81,7 @@ function LayoutWrapper() {
              <Route path="universities" element={< AdminUniversities />} />
               <Route path="qualifications" element={<AdminQualifications/>} />
               <Route path="courses" element={<Courses />} />
+              <Route path="settings" element={<Settings />} />
           </Route>
 
         </Routes>
