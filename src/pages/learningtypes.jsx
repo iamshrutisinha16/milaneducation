@@ -35,7 +35,6 @@ const LearningTypes = () => {
   const [courses, setCourses] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // ❌ invalid mode protection
   if (!validModes.includes(mode)) {
     return <h2 className="text-center mt-5">Invalid Learning Mode</h2>;
   }
