@@ -22,7 +22,7 @@ const LearningTypes = () => {
   const [formData, setFormData] = useState({
     course: "",
     university: "",
-    learningMode: mode,  // 👈 auto set
+    learningMode: mode,  
     fullName: "",
     gender: "",
     email: "",
