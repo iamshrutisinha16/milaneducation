@@ -17,10 +17,9 @@ const AdminCourses = () => {
 
   const API_BASE_URL = "https://collegemilan-backend-2.onrender.com";
   const token = localStorage.getItem("adminToken");
-
   const headers = { Authorization: `Bearer ${token}` };
 
-  // Fetch data
+  // Fetch courses
   const fetchCourses = async () => {
     try {
       const res = await axios.get(`${API_BASE_URL}/api/admin/courses`, { headers });
@@ -30,6 +29,7 @@ const AdminCourses = () => {
     }
   };
 
+  // Fetch qualifications
   const fetchQualifications = async () => {
     try {
       const res = await axios.get(`${API_BASE_URL}/api/admin/qualifications`, { headers });
@@ -39,6 +39,7 @@ const AdminCourses = () => {
     }
   };
 
+  // Fetch universities
   const fetchUniversities = async () => {
     try {
       const res = await axios.get(`${API_BASE_URL}/api/admin/universities`, { headers });
@@ -54,25 +55,29 @@ const AdminCourses = () => {
     fetchUniversities();
   }, []);
 
+  // Handle input change
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
+  // Add / Update Course
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // ✅ Frontend validation for required fields
-    if (!formData.course_name || !formData.university || !formData.qualification) {
-      alert("Course Name, University, and Qualification are required!");
+    if (!formData.course_name || !formData.university) {
+      alert("Course Name and University are required!");
       return;
     }
 
     try {
+      const payload = { ...formData, qualification: formData.qualification || null };
+
       if (editingId) {
-        await axios.put(`${API_BASE_URL}/api/admin/courses/${editingId}`, formData, { headers });
+        await axios.put(`${API_BASE_URL}/api/admin/courses/${editingId}`, payload, { headers });
         alert("Course updated successfully!");
       } else {
-        await axios.post(`${API_BASE_URL}/api/admin/courses`, formData, { headers });
+        await axios.post(`${API_BASE_URL}/api/admin/courses`, payload, { headers });
         alert("Course added successfully!");
       }
 
@@ -81,10 +86,22 @@ const AdminCourses = () => {
       fetchCourses();
     } catch (err) {
       console.error("Save error:", err.response?.data || err.message);
-      alert(err.response?.data?.message || "Error: Check validation and try again.");
+      alert(err.response?.data?.message || "Error saving course.");
     }
   };
 
+  // Edit
+  const handleEdit = (course) => {
+    setFormData({
+      course_name: course.course_name || "",
+      university: course.university?._id || "",
+      qualification: course.qualification?._id || "",
+      duration: course.duration || "",
+    });
+    setEditingId(course._id);
+  };
+
+  // Delete
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this course?")) return;
     try {
@@ -94,16 +111,6 @@ const AdminCourses = () => {
       console.error("Delete error:", err);
       alert("Error deleting course");
     }
-  };
-
-  const handleEdit = (course) => {
-    setFormData({
-      course_name: course.course_name || "",
-      university: course.university?._id || "",
-      qualification: course.qualification?._id || "",
-      duration: course.duration || "",
-    });
-    setEditingId(course._id);
   };
 
   return (
@@ -134,10 +141,8 @@ const AdminCourses = () => {
               required
             >
               <option value="">Select University</option>
-              {universities.map((u) => (
-                <option key={u._id} value={u._id}>
-                  {u.name}
-                </option>
+              {universities.map(u => (
+                <option key={u._id} value={u._id}>{u.name}</option>
               ))}
             </select>
           </div>
@@ -148,13 +153,10 @@ const AdminCourses = () => {
               className="form-control"
               value={formData.qualification}
               onChange={handleChange}
-              required
             >
               <option value="">Select Qualification</option>
-              {qualifications.map((q) => (
-                <option key={q._id} value={q._id}>
-                  {q.name}
-                </option>
+              {qualifications.map(q => (
+                <option key={q._id} value={q._id}>{q.name}</option>
               ))}
             </select>
           </div>
@@ -171,14 +173,12 @@ const AdminCourses = () => {
           </div>
 
           <div className="col-md-2">
-            <button className="btn btn-primary w-100">
-              {editingId ? "Update" : "Add Course"}
-            </button>
+            <button className="btn btn-primary w-100">{editingId ? "Update" : "Add Course"}</button>
           </div>
         </div>
       </form>
 
-      {/* Table */}
+      {/* Courses Table */}
       <table className="table table-bordered table-hover mt-4">
         <thead className="table-light">
           <tr>
@@ -190,19 +190,15 @@ const AdminCourses = () => {
           </tr>
         </thead>
         <tbody>
-          {courses.map((course) => (
+          {courses.map(course => (
             <tr key={course._id}>
               <td>{course.course_name}</td>
               <td>{course.university?.name || "N/A"}</td>
               <td>{course.qualification?.name || "N/A"}</td>
               <td>{course.duration || "N/A"}</td>
               <td>
-                <button className="btn btn-sm btn-warning me-2" onClick={() => handleEdit(course)}>
-                  Edit
-                </button>
-                <button className="btn btn-sm btn-danger" onClick={() => handleDelete(course._id)}>
-                  Delete
-                </button>
+                <button className="btn btn-sm btn-warning me-2" onClick={() => handleEdit(course)}>Edit</button>
+                <button className="btn btn-sm btn-danger" onClick={() => handleDelete(course._id)}>Delete</button>
               </td>
             </tr>
           ))}
