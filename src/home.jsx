@@ -168,14 +168,13 @@ const HomePage = () => {
                         <p className="text-muted small mb-4" style={{ lineHeight: '1.6', minHeight: '50px' }}>
                           {item.desc}
                         </p>
-                        
-                        <Button 
-                          variant="link" 
-                          className="p-0 fw-bold text-decoration-none d-flex align-items-center justify-content-center mx-auto"
-                          style={{ color: item.color, gap: '8px' }}
-                        >
-                          EXPLORE <FaChevronRight size={12} />
-                        </Button>
+                        <Link to="/careermap" style={{ textDecoration: "none" }}>
+                        <Button variant="link" 
+                         className="p-0 fw-bold text-decoration-none d-flex align-items-center justify-content-center mx-auto"
+                         style={{ color: item.color, gap: '8px' }}>
+                         EXPLORE <FaChevronRight size={12} />
+                       </Button>
+                       </Link>
                       </div>
                     </div>
                   </Link>
@@ -246,7 +245,9 @@ const HomePage = () => {
                    Our mission is to guide students at every stage of their journey,
                    from choosing the right college to building a successful career.
                 </p>
-                <Button className="hero-btn-main mt-3">Discover More</Button>
+              <Button as={Link} to="/aboutus" className="hero-btn-main mt-3">
+                Discover More
+              </Button>
               </motion.div>
             </Col>
           </Row>
@@ -385,54 +386,87 @@ const HomePage = () => {
             </h2>
           </div>
 
-          <Carousel indicators={true} controls={true} interval={4000} pause="hover" className="education-slider">
-            <Carousel.Item>
-              <Row className="px-md-5 g-4">
-                {[
-                  { title: "Impact of Digital Learning", img: "https://i.pinimg.com/1200x/fe/90/d1/fe90d16be8cadcbe894be1bd8090b682.jpg", tag: "Learning" },
-                  { title: "Top 10 Career Opportunities", img: "https://i.pinimg.com/736x/cc/a4/ed/cca4eddf6eb5ddadb356322404e056f7.jpg", tag: "Career" },
-                  { title: "Choose the Right Stream", img: "https://i.pinimg.com/736x/8c/66/91/8c669117c73330f55ca438b3e34be459.jpg", tag: "Guidance" }
-                ].map((blog, idx) => (
-                  <Col md={4} key={idx}>
-                    <div className="blog-card">
-                      <div className="blog-img-wrapper">
-                        <img src={blog.img} alt="Blog" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                        <span className="blog-tag">{blog.tag}</span>
-                      </div>
-                      <div className="p-4 bg-white text-center">
-                        <h5 className="fw-bold mb-3" style={{ fontSize: '1.1rem' }}>{blog.title}</h5>
-                        <Button variant="link" className="p-0 fw-bold text-decoration-none" style={{ color: "#f47920" }}>Read More →</Button>
-                      </div>
-                    </div>
-                  </Col>
-                ))}
-              </Row>
-            </Carousel.Item>
-            
-            {/* Second Slide */}
-            <Carousel.Item>
-              <Row className="px-md-5 g-4">
-                {[
-                  { title: "Preparation Tips for Exams", img: "https://i.pinimg.com/736x/1b/90/0e/1b900ec45828a5bd98d0ae9b26f5bfa3.jpg", tag: "Study" },
-                  { title: "Developing Soft Skills", img: "https://i.pinimg.com/1200x/54/23/b6/5423b6c25552ca95b35f0c2bf7f5a8e7.jpg", tag: "Skills" },
-                  { title: "Mental Well-being", img: "https://i.pinimg.com/736x/2e/a4/6e/2ea46e02db4c04639487aac0337e5de4.jpg", tag: "Health" }
-                ].map((blog, idx) => (
-                  <Col md={4} key={idx}>
-                    <div className="blog-card">
-                      <div className="blog-img-wrapper">
-                        <img src={blog.img} alt="Blog" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                        <span className="blog-tag">{blog.tag}</span>
-                      </div>
-                      <div className="p-4 bg-white text-center">
-                        <h5 className="fw-bold mb-3" style={{ fontSize: '1.1rem' }}>{blog.title}</h5>
-                        <Button variant="link" className="p-0 fw-bold text-decoration-none" style={{ color: "#f47920" }}>Read More →</Button>
-                      </div>
-                    </div>
-                  </Col>
-                ))}
-              </Row>
-            </Carousel.Item>
-          </Carousel>
+          <Carousel indicators controls interval={4000} pause="hover" className="education-slider">
+  
+  {/* Slide 1 */}
+  <Carousel.Item>
+    <Row className="px-md-5 g-4">
+      {[
+        { title: "Impact of Digital Learning", link: "/learningtypes", img: "https://i.pinimg.com/1200x/fe/90/d1/fe90d16be8cadcbe894be1bd8090b682.jpg", tag: "Learning" },
+        { title: "Top 10 Career Opportunities", link: "/careermap", img: "https://i.pinimg.com/736x/cc/a4/ed/cca4eddf6eb5ddadb356322404e056f7.jpg", tag: "Career" },
+        { title: "Choose the Right Stream", link: "/careermap", img: "https://i.pinimg.com/736x/8c/66/91/8c669117c73330f55ca438b3e34be459.jpg", tag: "Guidance" }
+      ].map((blog, idx) => (
+        <Col md={4} key={idx}>
+          <div className="blog-card">
+            <div className="blog-img-wrapper">
+              <img src={blog.img} alt="Blog" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <span className="blog-tag">{blog.tag}</span>
+            </div>
+
+            <div className="p-4 bg-white text-center">
+              <h5
+                className="fw-bold mb-3"
+                style={{ fontSize: '1.1rem', cursor: "pointer" }}
+                onClick={() => navigate(blog.link)}
+              >
+                {blog.title}
+              </h5>
+
+              <Button
+                variant="link"
+                onClick={() => navigate(blog.link)}
+                className="p-0 fw-bold text-decoration-none"
+                style={{ color: "#f47920" }}
+              >
+                Read More →
+              </Button>
+            </div>
+          </div>
+        </Col>
+      ))}
+    </Row>
+  </Carousel.Item>
+
+  {/* Slide 2 */}
+  <Carousel.Item>
+    <Row className="px-md-5 g-4">
+      {[
+        { title: "Preparation Tips for Exams", link: "/learningtypes", img: "https://i.pinimg.com/736x/1b/90/0e/1b900ec45828a5bd98d0ae9b26f5bfa3.jpg", tag: "Study" },
+        { title: "Developing Soft Skills", link: "/test", img: "https://i.pinimg.com/1200x/54/23/b6/5423b6c25552ca95b35f0c2bf7f5a8e7.jpg", tag: "Skills" },
+        { title: "Mental Well-being", link: "/personalitytest", img: "https://i.pinimg.com/736x/2e/a4/6e/2ea46e02db4c04639487aac0337e5de4.jpg", tag: "Health" }
+      ].map((blog, idx) => (
+        <Col md={4} key={idx}>
+          <div className="blog-card">
+            <div className="blog-img-wrapper">
+              <img src={blog.img} alt="Blog" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <span className="blog-tag">{blog.tag}</span>
+            </div>
+
+            <div className="p-4 bg-white text-center">
+              <h5
+                className="fw-bold mb-3"
+                style={{ fontSize: '1.1rem', cursor: "pointer" }}
+                onClick={() => navigate(blog.link)}
+              >
+                {blog.title}
+              </h5>
+
+              <Button
+                variant="link"
+                onClick={() => navigate(blog.link)}
+                className="p-0 fw-bold text-decoration-none"
+                style={{ color: "#f47920" }}
+              >
+                Read More →
+              </Button>
+            </div>
+          </div>
+        </Col>
+      ))}
+    </Row>
+  </Carousel.Item>
+
+</Carousel>
         </Container>
       </section>
 

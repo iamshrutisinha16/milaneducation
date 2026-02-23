@@ -71,7 +71,7 @@ const PersonalityTest = () => {
     if (isLoggedIn) {
       setShowModal(true);
     } else {
-      navigate("/login");
+      navigate("/contactus");
     }
   };
 
@@ -132,7 +132,12 @@ const PersonalityTest = () => {
          alt="Personality Wheel" 
           className="img-fluid" style={{ width: "850px", maxWidth: "95%" }} />
         </div>
-          <button className="btn-main mt-5" onClick={handleApplyNow}>Apply Now</button>
+          <button 
+  className="btn-main mt-5" 
+  onClick={() => navigate("/contactus")}
+>
+  Apply Now
+</button>
         </div>
       </section>
 

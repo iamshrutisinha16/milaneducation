@@ -69,8 +69,6 @@ const ContactPage = () => {
                     whileInView="visible" 
                     variants={fadeInUp}
                     className="banner-content">
-                <h1>Get In Touch</h1>
-                 <p>College Milan se judne ke liye humein kabhi bhi contact karein.</p>
                 </motion.div>
             </section>
               {/* 2. Form and Details Section */}

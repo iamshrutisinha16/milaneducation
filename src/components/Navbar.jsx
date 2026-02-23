@@ -61,6 +61,7 @@ const CustomNavbar = () => {
                   <li><Link className="dropdown-item" to="/online" onClick={closeAll}>Online Mode</Link></li>
                   <li><Link className="dropdown-item" to="/offline" onClick={closeAll}>Offline Mode</Link></li>
                   <li><Link className="dropdown-item" to="/distance" onClick={closeAll}>Distance Learning</Link></li>
+                   <li><Link className="dropdown-item" to="/distance" onClick={closeAll}>Study Abroad</Link></li>
                 </ul>
               </li>
 

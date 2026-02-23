@@ -22,7 +22,7 @@ html, body {
 }
 
 .navbar-logo {
-  height: 85px;   
+  height: 150px;   
   width: auto;
   object-fit: contain;
 }
@@ -137,7 +137,7 @@ html, body {
   }
 
   .navbar-logo {
-    height: 50px;
+    height: 70px;
   }
 
   .navbar-toggler {
@@ -657,35 +657,40 @@ html, body {
 /*conatctus*/
 .info-item a {
   text-decoration: none;
-  color: inherit;   
 }
-
 .contact-wrapper {
-    background-color: #f8f9fa;
-    overflow-x: hidden;
+    width: 100%;
+    overflow: hidden;
 }
 
 .contact-banner {
-    background: linear-gradient(rgba(0, 51, 102, 0.7), rgba(0, 51, 102, 0.7)), 
-                url('https://i.pinimg.com/736x/62/95/79/62957905868ca297b3f3ad5ea591fac4.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed; 
-    height: 550px;
+    width: 100%;
+    min-height: 620px;   /* 650px zyada tha */
+    
+    background: url('../assets/contactus.png') no-repeat center center;
+    background-size: cover;   /* fill karega */
+    
     display: flex;
     align-items: center;
     justify-content: center;
+    
+    position: relative;
     color: white;
     text-align: center;
 }
 
-.banner-content h1 {
-    font-size: 3.5rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #FF8C00; 
+/* Overlay for better visibility (optional but recommended) */
+.contact-banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
 }
 
+.banner-content {
+    position: relative;
+    z-index: 2;
+}
 .details-card {
     background: #003366; 
     color: white;

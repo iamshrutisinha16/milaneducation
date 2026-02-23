@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import React from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { motion } from 'framer-motion';
@@ -25,8 +26,8 @@ const AboutUs = () => {
       {/* 1. HERO BANNER SECTION */}
       <section style={{
         position: 'relative',
-        height: '65vh',
-        background: `linear-gradient(rgba(0, 51, 102, 0.8), rgba(0, 51, 102, 0.8)), url('https://images.unsplash.com/photo-1523050335392-93851179ae22?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')`,
+        height: '93vh',
+        background: `url('/assets/aboutusbanner.png')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         display: 'flex',
@@ -36,14 +37,19 @@ const AboutUs = () => {
         textAlign: 'center',
         paddingTop: '80px'
       }}>
+
+        <div
+    style={{
+      position: "absolute",
+      inset: 0,
+      background: "rgba(0,0,0,0.4)",
+    }}
+  ></div>
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }} 
           animate={{ opacity: 1, scale: 1 }} 
           transition={{ duration: 0.8 }}
         >
-          <h1 className="display-3 fw-bold">About <span style={{ color: orange }}>College Milan</span></h1>
-          <p className="lead fs-4 px-3">Sahi Gyaan, Sahi Disha - Aapke Sapno Ka Milan!</p>
-          <div style={{ height: '5px', width: '80px', backgroundColor: orange, margin: '20px auto' }}></div>
         </motion.div>
       </section>
 
@@ -183,19 +189,12 @@ const AboutUs = () => {
             <h2 className="display-5 fw-bold mb-5">Do You Want to Become a Part of Milan Education?</h2>
             <p className="lead mb-5 mx-auto" style={{ maxWidth: '800px' }}>
              Speak to our counseling team today and give your career a new direction. Your future is just one click away.</p>
-            <Button 
-              size="lg" 
-              style={{ 
-                backgroundColor: orange, 
-                border: 'none', 
-                padding: '15px 40px', 
-                fontWeight: 'bold', 
-                borderRadius: '50px',
-                boxShadow: '0 10px 20px rgba(0,0,0,0.3)'
-              }}
-            >
-              Contact Us Now 📞
-            </Button>
+           <Link to="/contactus" style={{ textDecoration: "none" }}>
+           <Button size="lg" style={{ backgroundColor: orange,border: 'none',padding: '15px 40px',fontWeight: 'bold', 
+             borderRadius: '50px', boxShadow: '0 10px 20px rgba(0,0,0,0.3)' }} >
+             Contact Us Now 📞
+         </Button>
+          </Link>
           </motion.div>
         </Container>
       </section>
