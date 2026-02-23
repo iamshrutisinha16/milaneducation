@@ -4,7 +4,7 @@ import axios from "axios";
 const Settings = () => {
   const [settings, setSettings] = useState(null);
   const [loading, setLoading] = useState(true);
-  const backendURL = "https://college-milan-backend.onrender.com/api/admin/settings";
+  const backendURL = "https://collegemilan-backend-2.onrender.com/api/admin/settings";
 
   useEffect(() => {
     axios.get(backendURL)
