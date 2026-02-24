@@ -91,8 +91,7 @@ const ContactPage = () => {
       {/* Banner Section */}
       <section className="contact-banner py-5 text-center bg-light">
         <motion.div initial="hidden" whileInView="visible" variants={fadeInUp}>
-          <h2>Contact Us</h2>
-          <p>We would love to hear from you</p>
+
         </motion.div>
       </section>
 
@@ -100,53 +99,74 @@ const ContactPage = () => {
       <Container className="py-5">
         <Row className="gy-4">
 
-          {/* LEFT SIDE DETAILS */}
-          <Col lg={5}>
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              variants={fadeInUp}
-              className="shadow-lg p-4 h-100"
-            >
-              <h3 className="mb-4">Contact Information</h3>
+        {/* LEFT SIDE DETAILS */}
+<Col lg={5}>
+  <motion.div
+    initial="hidden"
+    whileInView="visible"
+    variants={fadeInUp}
+    className="shadow-lg p-4 h-100"
+    style={{
+      backgroundColor: '#0a2a5b', // Dark blue background
+    }}
+  >
+    <h3 className="mb-4" style={{ color: '#f47920' }}>Contact Information</h3>
 
-              <div className="mb-4 d-flex">
-                <FaMapMarkerAlt className="me-3 mt-1" />
-                <div>
-                  <h6>Address</h6>
-                  <p>
-                    C917, Sector 7, Dwarka, New Delhi - 110075
-                  </p>
-                </div>
-              </div>
+    {/* Address */}
+    <div className="mb-4 d-flex">
+      <FaMapMarkerAlt className="me-3 mt-1" style={{ color: '#f47920' }} />
+      <div>
+        <h6 style={{ color: 'white' }}>Address</h6>
+        <p style={{ color: 'white', margin: 0 }}>
+          <a 
+            href="https://www.google.com/maps/search/?api=1&query=C917,+Sector+7,+Dwarka,+New+Delhi+110075" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            style={{ color: 'white', textDecoration: 'none' }}
+          >
+            C917, Sector 7, Dwarka, New Delhi - 110075
+          </a>
+        </p>
+      </div>
+    </div>
 
-              <div className="mb-4 d-flex">
-                <FaPhoneAlt className="me-3 mt-1" />
-                <div>
-                  <h6>Call Us</h6>
-                  <p>+91 9773784854</p>
-                </div>
-              </div>
+    {/* Call */}
+    <div className="mb-4 d-flex">
+      <FaPhoneAlt className="me-3 mt-1" style={{ color: '#f47920' }} />
+      <div>
+        <h6 style={{ color: 'white' }}>Call Us</h6>
+        <p style={{ margin: 0 }}>
+          <a href="tel:+919773784854" style={{ color: 'white', textDecoration: 'none' }}>
+            +91 9773784854
+          </a>
+        </p>
+      </div>
+    </div>
 
-              <div className="mb-4 d-flex">
-                <FaEnvelope className="me-3 mt-1" />
-                <div>
-                  <h6>Email</h6>
-                  <p>enquiry@collagemilan.com</p>
-                </div>
-              </div>
+    {/* Email */}
+    <div className="mb-4 d-flex">
+      <FaEnvelope className="me-3 mt-1" style={{ color: '#f47920' }} />
+      <div>
+        <h6 style={{ color: 'white' }}>Email</h6>
+        <p style={{ margin: 0 }}>
+          <a href="mailto:enquiry@collagemilan.com" style={{ color: 'white', textDecoration: 'none' }}>
+            enquiry@collagemilan.com
+          </a>
+        </p>
+      </div>
+    </div>
 
-              <hr />
+    <hr style={{ borderColor: '#f47920' }} />
 
-              <div className="mt-3">
-                <a href="#" className="me-3"><FaFacebookF /></a>
-                <a href="#" className="me-3"><FaTwitter /></a>
-                <a href="#" className="me-3"><FaInstagram /></a>
-                <a href="#"><FaLinkedinIn /></a>
-              </div>
-            </motion.div>
-          </Col>
-
+    {/* Social Icons */}
+    <div className="mt-3">
+      <a href="#" className="me-3" style={{ color: '#f47920' }}><FaFacebookF /></a>
+      <a href="#" className="me-3" style={{ color: '#f47920' }}><FaTwitter /></a>
+      <a href="#" className="me-3" style={{ color: '#f47920' }}><FaInstagram /></a>
+      <a href="#" style={{ color: '#f47920' }}><FaLinkedinIn /></a>
+    </div>
+  </motion.div>
+</Col>
           {/* RIGHT SIDE FORM */}
           <Col lg={7}>
             <motion.div

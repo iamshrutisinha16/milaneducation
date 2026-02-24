@@ -691,104 +691,143 @@ html, body {
     position: relative;
     z-index: 2;
 }
-.details-card {
-    background: #003366; 
-    color: white;
-    border-radius: 15px;
-    border-left: 8px solid #FF8C00;
+
+/* Contact Info Card */
+.shadow-lg {
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.form-card {
-    background: white;
-    border-radius: 15px;
+.shadow-lg:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
 }
 
-.form-card h3 {
-    color: #003366;
-    font-weight: 600;
+.contact-wrapper h3 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #f26724;
 }
 
-.info-item {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+.contact-wrapper h6 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #555;
 }
 
-.icon-box {
-    background: #FF8C00;
-    width: 45px;
-    height: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    font-size: 1.2rem;
-    color: white;
+.contact-wrapper p {
+  font-size: 0.9rem;
+  color: #666;
 }
 
-.info-item h5 {
-    margin-bottom: 2px;
-    color: #FF8C00;
+.contact-wrapper a {
+  color: #f26724;
+  font-size: 1.2rem;
+  transition: color 0.3s;
 }
 
-.custom-input {
-    border: 1px solid #ced4da;
-    padding: 12px;
-    border-radius: 8px;
+.contact-wrapper a:hover {
+  color: #ff8c42;
 }
 
-.custom-input:focus {
-    border-color: #FF8C00;
-    box-shadow: 0 0 0 0.2rem rgba(255, 140, 0, 0.25);
+/* Form Styling */
+.form-control {
+  border-radius: 8px;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  transition: border 0.3s;
 }
 
-.btn-send {
-    background-color: #FF8C00 !important;
-    border: none !important;
-    font-weight: 600;
-    font-size: 1.1rem;
-    transition: all 0.3s ease;
+.form-control:focus {
+  border-color: #f26724;
+  box-shadow: 0 0 5px rgba(242, 103, 36, 0.4);
 }
 
-.btn-send:hover {
-    background-color: #e67e00 !important;
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+button {
+  background: #f26724;
+  border: none;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
-.social-links {
-    display: flex;
-    gap: 15px;
+button:hover {
+  background: #ff8c42;
+  transform: translateY(-2px);
 }
 
-.social-icon {
-    width: 40px;
-    height: 40px;
-    border: 1px solid #FF8C00;
-    color: #FF8C00;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    text-decoration: none;
-    transition: 0.3s;
+/* Alerts */
+.alert {
+  border-radius: 8px;
+  font-size: 0.95rem;
 }
 
-.social-icon:hover {
-    background: #FF8C00;
-    color: white;
-}
-
+/* Map Section */
 .map-section iframe {
-    filter: grayscale(10%) contrast(1.1);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* Responsive Banner */
+@media (max-width: 1200px) {
+    .contact-banner {
+        min-height: 500px; /* slightly smaller on large tablets */
+        background-position: center top;
+    }
+}
+
+@media (max-width: 992px) {
+    .contact-banner {
+        min-height: 420px;
+        padding: 20px;
+    }
+
+    .banner-content h1, 
+    .banner-content h2, 
+    .banner-content h3 {
+        font-size: 1.8rem; /* scale down headings */
+    }
+
+    .banner-content p {
+        font-size: 0.9rem;
+    }
 }
 
 @media (max-width: 768px) {
-    .banner-content h1 {
-        font-size: 2.5rem;
-    }
     .contact-banner {
-        height: 250px;
+        min-height: 350px;
+        background-size: cover;
+        padding: 15px;
+    }
+
+    .banner-content {
+        text-align: center;
+        padding: 10px;
+    }
+
+    .banner-content h3 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-banner {
+        min-height: 300px;
+        background-size: cover;
+        padding: 10px;
+    }
+
+    .banner-content h3 {
+        font-size: 1.2rem;
+    }
+
+    .banner-content p {
+        font-size: 0.85rem;
     }
 }
 
