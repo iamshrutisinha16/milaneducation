@@ -1,224 +1,261 @@
-import React, { useState, useRef } from 'react';
-import ReCAPTCHA from 'react-google-recaptcha';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import { motion } from 'framer-motion';
-import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
+import React, { useState, useRef } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
+import { Container, Row, Col, Form, Button, Alert, Spinner } from "react-bootstrap";
+import { motion } from "framer-motion";
+import axios from "axios";
+import {
+  FaPhoneAlt,
+  FaEnvelope,
+  FaMapMarkerAlt,
+  FaFacebookF,
+  FaTwitter,
+  FaInstagram,
+  FaLinkedinIn,
+} from "react-icons/fa";
 
 const ContactPage = () => {
-    const recaptchaRef = useRef();
-    const fadeInUp = {
-        hidden: {opacity: 0, y: 30},
-        visible:  { opacity: 1, y: 0, transition: { duration: 0.6 } }
-    };
+  const recaptchaRef = useRef();
 
-    //form data
-    const[formData, setFormData] = useState({
-        firstName:'',
-        lastName:'',
-        email:'',
-        subject:'',
-        message:'',
-        captchaToken:''
-    });
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  };
 
-    //captcha
-    const[captchaToken, setCaptchaToken] = useState(null);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
 
-    //form data handler
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    }
+  const [captchaToken, setCaptchaToken] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
-    //captcha handler
-    const handleCaptchaChange = (token) => {
-      setCaptchaToken(token);
-    } 
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-    const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleCaptchaChange = (token) => {
+    setCaptchaToken(token);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSuccessMsg("");
+    setErrorMsg("");
 
     if (!captchaToken) {
-        alert("Please verify that you are not a robot.");
-        return;
+      setErrorMsg("Please verify that you are not a robot.");
+      return;
     }
+
+    setLoading(true);
 
     try {
-        const response = await axios.post('https://collegemilan-backend-2.onrender.com/api/contact', {
-            ...formData,
-            captchaToken
-        });
-
-        if (response.data.success) {
-            alert("Form submitted successfully!");
-            setFormData({ firstName: '', lastName: '', email: '', subject: '', message: '' });
-            setCaptchaToken(null);
-            recaptchaRef.current.reset(); 
-        } else {
-            alert("Captcha verification failed. Try again.");
+      const response = await axios.post(
+        "https://collegemilan-backend-2.onrender.com/api/contact",
+        {
+          ...formData,
+          captchaToken,
         }
+      );
+
+      if (response.data.success) {
+        setSuccessMsg("Message sent successfully! We will contact you soon.");
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+        setCaptchaToken(null);
+        recaptchaRef.current.reset();
+      } else {
+        setErrorMsg("Captcha verification failed. Try again.");
+      }
     } catch (error) {
-        console.error(error);
-        alert("Something went wrong. Please try again later.");
+      console.error(error);
+      setErrorMsg("Something went wrong. Please try again later.");
     }
-}
 
-    return(
-        <div className='contact-wrapper'>
-            <section className='contact-banner'>
-                <motion.div initial="hidden" 
-                    whileInView="visible" 
-                    variants={fadeInUp}
-                    className="banner-content">
-                </motion.div>
-            </section>
-              {/* 2. Form and Details Section */}
-            <Container className="py-5">
-                <Row className="gy-4">
-                    <Col lg={5}>
-                        <motion.div 
-                            initial="hidden" 
-                            whileInView="visible" 
-                            variants={fadeInUp}
-                            className="details-card shadow-lg p-4 h-100"
-                        >
-                            <h3 className="mb-4">Contact Information</h3>
-                            
-                            <div className="info-item mb-4">
-                                <div className="icon-box"><FaMapMarkerAlt /></div>
-                                <div>
-                                    <h5>Address</h5>
-                                    <p>
-                                        <a href="https://www.google.com/maps?q=C917,Sector7,Dwarka,New+Delhi-110075"
-                                         target="_blank"
-                                         rel="noopener noreferrer"
-                                      >  C917,Sector7,Dwarka,New Delhi-110075</a>
-                                      </p>
-                                </div>
-                            </div>
+    setLoading(false);
+  };
 
-                            <div className="info-item mb-4">
-                                <div className="icon-box"><FaPhoneAlt /></div>
-                                <div>
-                                    <h5>Call Us</h5>
-                                    <p>
-                                        <a href="tel:+919773784854">
-                                       +91 9773784854</a>
-                                    </p>
-                                </div>
-                            </div>
+  return (
+    <div className="contact-wrapper">
+      
+      {/* Banner Section */}
+      <section className="contact-banner py-5 text-center bg-light">
+        <motion.div initial="hidden" whileInView="visible" variants={fadeInUp}>
+          <h2>Contact Us</h2>
+          <p>We would love to hear from you</p>
+        </motion.div>
+      </section>
 
-                            <div className="info-item mb-4">
-                                <div className="icon-box"><FaEnvelope /></div>
-                                <div>
-                                    <h5>Email Us</h5>
-                                    <p>
-                                         <a href="mailto:enquiry@collagemilan.com">
-                                         enquiry@collagemilan.com
-                                         </a>
-                                       </p>
-                                </div>
-                            </div>
+      {/* Contact Info + Form */}
+      <Container className="py-5">
+        <Row className="gy-4">
 
-                            <hr className="my-4" />
-                            
-                            <h5>Follow Us</h5>
-                            <div className="social-links mt-3">
-                                <a href="#" className="social-icon"><FaFacebookF /></a>
-                                <a href="#" className="social-icon"><FaTwitter /></a>
-                                <a href="#" className="social-icon"><FaInstagram /></a>
-                                <a href="#" className="social-icon"><FaLinkedinIn /></a>
-                            </div>
-                        </motion.div>
-                    </Col>
+          {/* LEFT SIDE DETAILS */}
+          <Col lg={5}>
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              variants={fadeInUp}
+              className="shadow-lg p-4 h-100"
+            >
+              <h3 className="mb-4">Contact Information</h3>
 
-                    {/* Contact Form */}
-                    <Col lg={7}>
-                        <motion.div 
-                            initial="hidden" 
-                            whileInView="visible" 
-                            variants={fadeInUp}
-                            className="form-card shadow-lg p-4 h-100"
-                        >
-                            <h3 className="mb-4">Send Us a Message</h3>
-                            <Form onSubmit={handleSubmit}>
-                                <Row>
-                                    <Col md={6} className="mb-3">
-                                        <Form.Group>
-                                            <Form.Label>First Name</Form.Label>
-                                            <Form.Control type="text" placeholder="John" className="custom-input"
-                                             name='firstname'
-                                             value={formData.firstName} 
-                                             onChange={handleChange}/>
-                                        </Form.Group>
-                                    </Col>
-                                    <Col md={6} className="mb-3">
-                                        <Form.Group>
-                                            <Form.Label>Last Name</Form.Label>
-                                            <Form.Control type="text" placeholder="Doe" className="custom-input"
-                                            name='lastname'
-                                            value={formData.lastName}
-                                            onChange={handleChange} />
-                                        </Form.Group>
-                                    </Col>
-                                </Row>
-                                <Form.Group className="mb-3">
-                                    <Form.Label>Email Address</Form.Label>
-                                    <Form.Control type="email" placeholder="name@example.com" className="custom-input"
-                                    name='email'
-                                    value={formData.email}
-                                    onChange={handleChange} />
-                                </Form.Group>
-                                <Form.Group className="mb-3">
-                                    <Form.Label>Subject</Form.Label>
-                                    <Form.Control type="text" placeholder="How can we help?" className="custom-input"
-                                     name='subject'
-                                    value={formData.subject}
-                                    onChange={handleChange} />
-                                </Form.Group>
-                                <Form.Group className="mb-4">
-                                    <Form.Label>Message</Form.Label>
-                                    <Form.Control as="textarea" rows={4} placeholder="Type your message here..." className="custom-input"
-                                     name='message'
-                                    value={formData.message}
-                                    onChange={handleChange} />
-                                </Form.Group>
-                                 <Form.Group className="mb-4 d-flex justify-content-center">
-                                    <ReCAPTCHA
-                                        sitekey="YOUR_GOOGLE_RECAPTCHA_SITE_KEY" 
-                                        onChange={handleCaptchaChange}
-                                        ref={recaptchaRef}
-                                        
-                                    />
-                                </Form.Group>
-                                <Button className="btn-send w-100 py-2">Submit Message</Button>
-                                
-                            </Form>
-                        </motion.div>
-                    </Col>
+              <div className="mb-4 d-flex">
+                <FaMapMarkerAlt className="me-3 mt-1" />
+                <div>
+                  <h6>Address</h6>
+                  <p>
+                    C917, Sector 7, Dwarka, New Delhi - 110075
+                  </p>
+                </div>
+              </div>
+
+              <div className="mb-4 d-flex">
+                <FaPhoneAlt className="me-3 mt-1" />
+                <div>
+                  <h6>Call Us</h6>
+                  <p>+91 9773784854</p>
+                </div>
+              </div>
+
+              <div className="mb-4 d-flex">
+                <FaEnvelope className="me-3 mt-1" />
+                <div>
+                  <h6>Email</h6>
+                  <p>enquiry@collagemilan.com</p>
+                </div>
+              </div>
+
+              <hr />
+
+              <div className="mt-3">
+                <a href="#" className="me-3"><FaFacebookF /></a>
+                <a href="#" className="me-3"><FaTwitter /></a>
+                <a href="#" className="me-3"><FaInstagram /></a>
+                <a href="#"><FaLinkedinIn /></a>
+              </div>
+            </motion.div>
+          </Col>
+
+          {/* RIGHT SIDE FORM */}
+          <Col lg={7}>
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              variants={fadeInUp}
+              className="shadow-lg p-4 h-100"
+            >
+              <h3 className="mb-4">Send Us a Message</h3>
+
+              {successMsg && <Alert variant="success">{successMsg}</Alert>}
+              {errorMsg && <Alert variant="danger">{errorMsg}</Alert>}
+
+              <Form onSubmit={handleSubmit}>
+                <Row>
+                  <Col md={6} className="mb-3">
+                    <Form.Control
+                      type="text"
+                      placeholder="First Name"
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleChange}
+                      required
+                    />
+                  </Col>
+
+                  <Col md={6} className="mb-3">
+                    <Form.Control
+                      type="text"
+                      placeholder="Last Name"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleChange}
+                      required
+                    />
+                  </Col>
                 </Row>
-            </Container>
 
-            {/* 3. Map Section */}
-            <section className="map-section mt-5">
-                <motion.div 
-                    initial={{ opacity: 0 }} 
-                    whileInView={{ opacity: 1 }} 
-                    transition={{ duration: 1 }}
-                >
-                    <iframe 
-                        title="College Milan Map"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3501.956897148858!2d77.37130091508264!3d28.631024582415956!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd26c8b9d7e3%3A0x6b4904a08a28731!2sSector%2062%2C%20Noida%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1676900000000!5m2!1sen!2sin" 
-                        width="100%" 
-                        height="450" 
-                        style={{ border: 0 }} 
-                        allowFullScreen="" 
-                        loading="lazy"
-                    ></iframe>
-                </motion.div>
-            </section>
-        </div>
-    );
-    
+                <Form.Group className="mb-3">
+                  <Form.Control
+                    type="email"
+                    placeholder="Email Address"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Control
+                    type="text"
+                    placeholder="Subject"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-4">
+                  <Form.Control
+                    as="textarea"
+                    rows={4}
+                    placeholder="Your Message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-4 text-center">
+                  <ReCAPTCHA
+                    sitekey="YOUR_REAL_RECAPTCHA_SITE_KEY"
+                    onChange={handleCaptchaChange}
+                    ref={recaptchaRef}
+                  />
+                </Form.Group>
+
+                <Button type="submit" className="w-100" disabled={loading}>
+                  {loading ? (
+                    <>
+                      <Spinner size="sm" animation="border" /> Sending...
+                    </>
+                  ) : (
+                    "Submit Message"
+                  )}
+                </Button>
+              </Form>
+            </motion.div>
+          </Col>
+        </Row>
+      </Container>
+
+      {/* MAP SECTION */}
+      <section className="map-section mt-5">
+        <iframe
+          title="College Milan Map"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3501.956897148858!2d77.37130091508264!3d28.631024582415956!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd26c8b9d7e3%3A0x6b4904a08a28731!2sSector%2062%2C%20Noida%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1676900000000!5m2!1sen!2sin"
+          width="100%"
+          height="450"
+          style={{ border: 0 }}
+          allowFullScreen
+          loading="lazy"
+        ></iframe>
+      </section>
+    </div>
+  );
 };
 
 export default ContactPage;
