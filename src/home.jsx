@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion } from 'framer-motion'; 
 import { 
   FaMapMarkedAlt, FaBrain, FaUserTie, FaVideo, FaArrowRight, 
-  FaChevronRight, FaUserGraduate, FaChalkboardTeacher, FaAward, FaGlobe 
+  FaChevronRight, FaUserGraduate, FaChalkboardTeacher,FaCheckCircle, FaAward, FaGlobe 
 } from 'react-icons/fa';
 
 const HomePage = () => {
@@ -15,6 +15,8 @@ const HomePage = () => {
     email: "",
     mobile: "",
   });
+
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -470,114 +472,144 @@ const HomePage = () => {
         </Container>
       </section>
 
-      {/* ================= TESTIMONIALS & FORM ================= */}
-      <section className="dark-mesh-section">
-        <div className="dark-mesh-dots"></div>
-        <div className="dark-blob-anim"></div>
+    {/* ================= TESTIMONIALS & FORM ================= */}
+<section className="dark-mesh-section">
+  <div className="dark-mesh-dots"></div>
+  <div className="dark-blob-anim"></div>
 
-        <Container className="position-relative" style={{ zIndex: 10 }}>
-          <Row className="gy-5 align-items-center">
-            
-            {/* TESTIMONIALS */}
-            <Col lg={6}>
-              <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-                <span className="fw-bold px-3 py-1 text-uppercase text-white" style={{ border: `1px solid #f47920`, borderRadius: '5px', fontSize: '12px' }}>
-                  Wall of Fame
-                </span>
-                <h2 className="display-4 fw-bold mb-4 text-white mt-3">
-                  Success Stories at <br/> <span style={{ color: "#f47920" }}>Milan Education</span>
-                </h2>
-                <Carousel indicators={true} controls={false} interval={3000} fade>
-                  {[
-                    { name: "Monika Garg", role: "Student", text: "Milan Education didn't just teach me, they showed me a path I never thought was possible." },
-                    { name: "Rahul Sharma", role: "Aspirant", text: "The psychometric tests helped me find my true passion. I am now pursuing my dream career." },
-                    { name: "Ananya Iyer", role: "MBA Student", text: "Next-level support! The mentors are always there to clear doubts. Highly recommend." }
-                  ].map((t, idx) => (
-                    <Carousel.Item key={idx}>
-                      <div className="testimonial-card">
-                        <p className="fs-5 text-white mb-4 fst-italic">"{t.text}"</p>
-                        <div className="d-flex align-items-center gap-3">
-                          <div style={{ width: '55px', height: '55px', background: "#f47920", borderRadius: '50%' }}></div>
-                          <div>
-                            <h6 className="fw-bold text-white mb-0">{t.name}</h6>
-                            <small style={{ color: "#f47920" }}>{t.role}</small>
-                          </div>
-                        </div>
-                      </div>
-                    </Carousel.Item>
-                  ))}
-                </Carousel>
+  <Container className="position-relative" style={{ zIndex: 10 }}>
+    <Row className="gy-5 align-items-center">
+      
+      {/* TESTIMONIALS (Left Side) - Ye Same rahega */}
+      <Col lg={6}>
+        <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+          <span className="fw-bold px-3 py-1 text-uppercase text-white" style={{ border: `1px solid #f47920`, borderRadius: '5px', fontSize: '12px' }}>
+            Wall of Fame
+          </span>
+          <h2 className="display-4 fw-bold mb-4 text-white mt-3">
+            Success Stories at <br/> <span style={{ color: "#f47920" }}>Milan Education</span>
+          </h2>
+          <Carousel indicators={true} controls={false} interval={3000} fade>
+            {[
+              { name: "Monika Garg", role: "Student", text: "Milan Education didn't just teach me, they showed me a path I never thought was possible." },
+              { name: "Rahul Sharma", role: "Aspirant", text: "The psychometric tests helped me find my true passion. I am now pursuing my dream career." },
+              { name: "Ananya Iyer", role: "MBA Student", text: "Next-level support! The mentors are always there to clear doubts. Highly recommend." }
+            ].map((t, idx) => (
+              <Carousel.Item key={idx}>
+                <div className="testimonial-card">
+                  <p className="fs-5 text-white mb-4 fst-italic">"{t.text}"</p>
+                  <div className="d-flex align-items-center gap-3">
+                    <div style={{ width: '55px', height: '55px', background: "#f47920", borderRadius: '50%' }}></div>
+                    <div>
+                      <h6 className="fw-bold text-white mb-0">{t.name}</h6>
+                      <small style={{ color: "#f47920" }}>{t.role}</small>
+                    </div>
+                  </div>
+                </div>
+              </Carousel.Item>
+            ))}
+          </Carousel>
+        </motion.div>
+      </Col>
+
+      {/* FORM SECTION (Right Side) - Updated Logic Here */}
+      <Col lg={{ span: 5, offset: 1 }}>
+        <motion.div 
+          initial={{ opacity: 0, y: 50 }} 
+          whileInView={{ opacity: 1, y: 0 }} 
+          viewport={{ once: true }}
+          className="premium-inquiry-box"
+          style={{ minHeight: '450px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }} // Layout stable rakhne ke liye
+        >
+          {isSubmitted ? (
+            // === SUCCESS MESSAGE VIEW ===
+            <div className="text-center py-5">
+              <motion.div 
+                initial={{ scale: 0 }} 
+                animate={{ scale: 1 }} 
+                transition={{ type: "spring", stiffness: 200, damping: 20 }}
+              >
+                <FaCheckCircle size={80} color="#2ecc71" className="mb-4" />
               </motion.div>
-            </Col>
-          <Col lg={{ span: 5, offset: 1 }}>
-     <motion.div 
-    initial={{ opacity: 0, y: 50 }} 
-    whileInView={{ opacity: 1, y: 0 }} 
-    viewport={{ once: true }}
-    className="premium-inquiry-box"
-  >
-    <div className="text-center mb-4">
-      <h3 className="fw-bold text-white mb-2">Book a Session</h3>
-      <p style={{ color: '#94a3b8' }}>Fill the form, we will call you back!</p>
-    </div>
-    
-    {/* Form tag mein onSubmit joda gaya hai */}
-    <form onSubmit={handleSubmit}>
-      <input 
-        type="text" 
-        name="fullName"
-        value={formData.fullName}
-        onChange={handleChange}
-        className="form-control premium-input mb-3" 
-        placeholder="Full Name" 
-        required 
-      />
-      
-      <input 
-        type="text" 
-        name="city"
-        value={formData.city}
-        onChange={handleChange}
-        className="form-control premium-input mb-3" 
-        placeholder="City" 
-        required 
-      />
-      
-      <input 
-        type="email" 
-        name="email"
-        value={formData.email}
-        onChange={handleChange}
-        className="form-control premium-input mb-3" 
-        placeholder="Email Address" 
-        required 
-      />
-      
-      <input 
-        type="tel" 
-        name="mobile"
-        value={formData.mobile}
-        onChange={handleChange}
-        className="form-control premium-input mb-4" 
-        placeholder="Phone Number" 
-        required 
-      />
-      
-      <motion.button 
-        type="submit" 
-        whileHover={{ scale: 1.02 }}
-        className="btn w-100 py-3 fw-bold text-white shadow-lg" 
-        style={{ background: "#f47920", borderRadius: '15px', border: 'none' }}
-      >
-        Get Expert Advice <FaArrowRight className="ms-2" />
-      </motion.button>
-    </form>
-  </motion.div>
-   </Col>
+              <h3 className="fw-bold text-white mb-3">Request Received!</h3>
+              <p className="text-white-50 px-3">
+                Thank you, <span className="text-white fw-bold">{formData.fullName}</span>. 
+                Humari expert team aapko jaldi hi call karegi.
+              </p>
+              <button 
+                onClick={() => { setIsSubmitted(false); setFormData({ fullName: '', city: '', email: '', mobile: '' }); }} 
+                className="btn btn-outline-light mt-3 btn-sm"
+              >
+                Send Another Request
+              </button>
+            </div>
+          ) : (
+            // === NORMAL FORM VIEW ===
+            <>
+              <div className="text-center mb-4">
+                <h3 className="fw-bold text-white mb-2">Book a Session</h3>
+                <p style={{ color: '#94a3b8' }}>Fill the form, we will call you back!</p>
+              </div>
+              
+              <form onSubmit={handleSubmit}>
+                <input 
+                  type="text" 
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                  className="form-control premium-input mb-3" 
+                  placeholder="Full Name" 
+                  required 
+                />
+                
+                <input 
+                  type="text" 
+                  name="city"
+                  value={formData.city}
+                  onChange={handleChange}
+                  className="form-control premium-input mb-3" 
+                  placeholder="City" 
+                  required 
+                />
+                
+                <input 
+                  type="email" 
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="form-control premium-input mb-3" 
+                  placeholder="Email Address" 
+                  required 
+                />
+                
+                <input 
+                  type="tel" 
+                  name="mobile"
+                  value={formData.mobile}
+                  onChange={handleChange}
+                  className="form-control premium-input mb-4" 
+                  placeholder="Phone Number" 
+                  required 
+                />
+                
+                <motion.button 
+                  type="submit" 
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="btn w-100 py-3 fw-bold text-white shadow-lg" 
+                  style={{ background: "#f47920", borderRadius: '15px', border: 'none' }}
+                >
+                  Get Expert Advice <FaArrowRight className="ms-2" />
+                </motion.button>
+              </form>
+            </>
+          )}
+        </motion.div>
+      </Col>
 
-          </Row>
-        </Container>
-      </section>
+    </Row>
+  </Container>
+</section>
     </>
   );
 }

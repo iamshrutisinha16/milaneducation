@@ -5,6 +5,8 @@ const AdminCourses = () => {
   const [courses, setCourses] = useState([]);
   const [qualifications, setQualifications] = useState([]);
   const [universities, setUniversities] = useState([]);
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("");
 
   const [formData, setFormData] = useState({
     course_name: "",
@@ -18,6 +20,16 @@ const AdminCourses = () => {
   const API_BASE_URL = "https://collegemilan-backend-2.onrender.com";
   const token = localStorage.getItem("adminToken");
   const headers = { Authorization: `Bearer ${token}` };
+
+  // ✅ Auto hide message after 3 seconds
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage("");
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
   // Fetch courses
   const fetchCourses = async () => {
@@ -55,7 +67,6 @@ const AdminCourses = () => {
     fetchUniversities();
   }, []);
 
-  // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -66,7 +77,8 @@ const AdminCourses = () => {
     e.preventDefault();
 
     if (!formData.course_name || !formData.university) {
-      alert("Course Name and University are required!");
+      setMessage("Course Name and University are required!");
+      setMessageType("danger");
       return;
     }
 
@@ -75,18 +87,22 @@ const AdminCourses = () => {
 
       if (editingId) {
         await axios.put(`${API_BASE_URL}/api/admin/courses/${editingId}`, payload, { headers });
-        alert("Course updated successfully!");
+        setMessage("Course updated successfully!");
+        setMessageType("success");
       } else {
         await axios.post(`${API_BASE_URL}/api/admin/courses`, payload, { headers });
-        alert("Course added successfully!");
+        setMessage("Course added successfully!");
+        setMessageType("success");
       }
 
       setFormData({ course_name: "", university: "", qualification: "", duration: "" });
       setEditingId(null);
       fetchCourses();
+
     } catch (err) {
       console.error("Save error:", err.response?.data || err.message);
-      alert(err.response?.data?.message || "Error saving course.");
+      setMessage(err.response?.data?.message || "Error saving course.");
+      setMessageType("danger");
     }
   };
 
@@ -104,18 +120,34 @@ const AdminCourses = () => {
   // Delete
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this course?")) return;
+
     try {
       await axios.delete(`${API_BASE_URL}/api/admin/courses/${id}`, { headers });
+      setMessage("Course deleted successfully!");
+      setMessageType("danger");
       fetchCourses();
     } catch (err) {
       console.error("Delete error:", err);
-      alert("Error deleting course");
+      setMessage("Error deleting course.");
+      setMessageType("danger");
     }
   };
 
   return (
     <div>
       <h3 className="mb-4">Manage Courses</h3>
+
+      {/* ✅ Success / Error Alert */}
+      {message && (
+        <div className={`alert alert-${messageType} alert-dismissible fade show`} role="alert">
+          {message}
+          <button
+            type="button"
+            className="btn-close"
+            onClick={() => setMessage("")}
+          ></button>
+        </div>
+      )}
 
       {/* Form */}
       <form onSubmit={handleSubmit} className="mb-4">
@@ -173,7 +205,9 @@ const AdminCourses = () => {
           </div>
 
           <div className="col-md-2">
-            <button className="btn btn-primary w-100">{editingId ? "Update" : "Add Course"}</button>
+            <button className="btn btn-primary w-100">
+              {editingId ? "Update" : "Add Course"}
+            </button>
           </div>
         </div>
       </form>
