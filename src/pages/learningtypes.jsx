@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Select from "react-select";
 import { motion, AnimatePresence } from "framer-motion";
-import { Phone, GraduationCap, MapPin, User, Mail, Home } from "lucide-react";
+import { Phone, GraduationCap, MapPin, User, Mail, Flag, Home } from "lucide-react";
 import { useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -14,10 +14,10 @@ const SRM_UNIVERSITY = {
   url: "https://www.srmist.edu.in/",
 };
 
-const validModes = ["online", "offline", "distance"];
+const validModes = ["online", "regular", "distance", "studyabroad"];
 
 const LearningTypes = () => {
-  const { mode } = useParams();   // 👈 route se mode aayega
+  const { mode } = useParams(); 
 
   const [formData, setFormData] = useState({
     course: "",
@@ -178,6 +178,7 @@ const LearningTypes = () => {
                   type="text"
                   name="fullName"
                   className="form-control"
+                  placeholder="Enter name as per 10th class"
                   required
                   onChange={handleChange}
                 />
@@ -231,6 +232,19 @@ const LearningTypes = () => {
                 <input
                   type="text"
                   name="city"
+                  className="form-control"
+                  required
+                  onChange={handleChange}
+                />
+              </div>
+
+                <div className="col-md-6">
+                <label className="form-label">
+                  <Flag size={16}/> State*
+                </label>
+                <input
+                  type="text"
+                  name="state"
                   className="form-control"
                   required
                   onChange={handleChange}

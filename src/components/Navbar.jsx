@@ -52,26 +52,26 @@ const CustomNavbar = () => {
                 <Link to="/careermap" className="nav-link nav-link-custom" onClick={closeAll}>Career Map</Link>
               </li>
 
-              {/* Learning Dropdown */}
+              {/* Study Dropdown */}
               <li className={`nav-item dropdown ${learningOpen ? "show" : ""}`}>
                 <span className="nav-link nav-link-custom dropdown-toggle" onClick={() => setLearningOpen(!learningOpen)}>
-                  Learning Types
+                  Study Types
                 </span>
                 <ul className={`dropdown-menu ${learningOpen ? "show" : ""}`}>
-                  <li><Link className="dropdown-item" to="/online" onClick={closeAll}>Online Mode</Link></li>
-                  <li><Link className="dropdown-item" to="/offline" onClick={closeAll}>Offline Mode</Link></li>
+                  <li><Link className="dropdown-item" to="/online" onClick={closeAll}>Online </Link></li>
+                  <li><Link className="dropdown-item" to="/regular" onClick={closeAll}>Regular</Link></li>
                   <li><Link className="dropdown-item" to="/distance" onClick={closeAll}>Distance Learning</Link></li>
-                   <li><Link className="dropdown-item" to="/distance" onClick={closeAll}>Study Abroad</Link></li>
+                   <li><Link className="dropdown-item" to="/studyabroad" onClick={closeAll}>Study Abroad</Link></li>
                 </ul>
               </li>
 
               {/* Psychometric Dropdown */}
               <li className={`nav-item dropdown ${psychoOpen ? "show" : ""}`}>
                 <span className="nav-link nav-link-custom dropdown-toggle" onClick={() => setPsychoOpen(!psychoOpen)}>
-                  Psychometric Test
+                  Career Test
                 </span>
                 <ul className={`dropdown-menu ${psychoOpen ? "show" : ""}`}>
-                  <li><Link className="dropdown-item" to="/psychometrictest" onClick={closeAll}>Psychometric Test</Link></li>
+                  <li><Link className="dropdown-item" to="/assessmenttest" onClick={closeAll}>Assessment Test</Link></li>
                   <li><Link className="dropdown-item" to="/personalitytest" onClick={closeAll}>Personality Test</Link></li>
                 </ul>
               </li>
@@ -82,16 +82,20 @@ const CustomNavbar = () => {
               <li className="nav-item">
                 <Link to="/contactus" className="nav-link nav-link-custom" onClick={closeAll}>Contact</Link>
               </li>
+               <li className="nav-item">
+                <Link to="/placements" className="nav-link nav-link-custom" onClick={closeAll}>Placement</Link>
+              </li>
             </ul>
 
-            <Link to="/login" className="login-btn" onClick={closeAll}>
+           <Link to="/test" className="login-btn" onClick={closeAll}>
+            Book Now
+           </Link>
+           {/*  <Link to="/login" className="login-btn" onClick={closeAll}>
               <FaSignInAlt /> Login
-            </Link>
+            </Link>*/}
           </div>
         </div>
       </nav>
-
-      {/* Ye spacer div content ko fixed navbar se niche rakhega */}
       <div className="nav-spacer"></div>
     </>
   );

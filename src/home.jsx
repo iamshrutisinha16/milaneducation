@@ -57,9 +57,9 @@ const HomePage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.9 }}
               >
-                <h1 className="hero-title">
+                <h1 className="hero-titles">
                   Shape Your <br />
-                  <span className="hero-subtitle">Career With Confidence</span>
+                  <span className="hero-subtitles">Career With Confidence</span>
                 </h1>
 
                 <p className="hero-desc mt-4">

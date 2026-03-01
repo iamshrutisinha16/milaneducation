@@ -46,7 +46,7 @@ useEffect(() => {
     <div className="psychometric-test-page">
       {/* Banner Section */}
       <div className="test-banner">
-        <h1>Let us test you through our Psychometric Test</h1>
+        <h1>Let us test you through our Assessment Test</h1>
       </div>
 
       <div className="test-content-wrapper">
