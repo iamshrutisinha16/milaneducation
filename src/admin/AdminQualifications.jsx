@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const AdminQualifications = () => {
   const [qualifications, setQualifications] = useState([]);
   const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [oldPrice, setOldPrice] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const API_BASE_URL = "https://collegemilan-backend-2.onrender.com";
-
   const token = localStorage.getItem("adminToken");
 
   const headers = {
     Authorization: `Bearer ${token}`,
   };
 
-  // ✅ Fetch All
+  // Fetch All
   const fetchQualifications = async () => {
     try {
       const res = await axios.get(
@@ -30,53 +32,78 @@ const AdminQualifications = () => {
     }
   };
 
-  // ✅ Add or Update
+  // Add / Update
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!name.trim()) return;
+    if (!name.trim() || !price) {
+      Swal.fire("Error", "Name and Price are required", "error");
+      return;
+    }
 
     try {
       if (editingId) {
         await axios.put(
           `${API_BASE_URL}/api/admin/qualifications/${editingId}`,
-          { name },
+          { name, price, oldPrice },
           { headers }
         );
+
+        Swal.fire("Updated!", "Qualification updated successfully", "success");
       } else {
         await axios.post(
           `${API_BASE_URL}/api/admin/qualifications`,
-          { name },
+          { name, price, oldPrice },
           { headers }
         );
+
+        Swal.fire("Added!", "Qualification added successfully", "success");
       }
 
       setName("");
+      setPrice("");
+      setOldPrice("");
       setEditingId(null);
       fetchQualifications();
     } catch (error) {
       console.error("Submit Error:", error);
+      Swal.fire("Error", "Something went wrong", "error");
     }
   };
 
-  // ✅ Delete
+  // Delete
   const handleDelete = async (id) => {
-    if (!window.confirm("Delete this qualification?")) return;
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "This qualification will be deleted permanently!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    if (!result.isConfirmed) return;
 
     try {
       await axios.delete(
         `${API_BASE_URL}/api/admin/qualifications/${id}`,
         { headers }
       );
+
+      Swal.fire("Deleted!", "Qualification deleted successfully", "success");
       fetchQualifications();
     } catch (error) {
       console.error("Delete Error:", error);
+      Swal.fire("Error", "Delete failed", "error");
     }
   };
 
-  // ✅ Edit
+  // Edit
   const handleEdit = (qualification) => {
     setName(qualification.name);
+    setPrice(qualification.price || "");
+    setOldPrice(qualification.oldPrice || "");
     setEditingId(qualification._id);
   };
 
@@ -87,19 +114,39 @@ const AdminQualifications = () => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div>
+    <div className="container mt-4">
       <h3 className="mb-4">Manage Qualifications</h3>
 
-      {/* Add / Edit Form */}
+      {/* Form */}
       <form onSubmit={handleSubmit} className="mb-4">
         <div className="row g-2">
-          <div className="col-md-6">
+          <div className="col-md-4">
             <input
               type="text"
               className="form-control"
-              placeholder="Enter qualification name"
+              placeholder="Qualification Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+
+          <div className="col-md-2">
+            <input
+              type="number"
+              className="form-control"
+              placeholder="Price"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+            />
+          </div>
+
+          <div className="col-md-2">
+            <input
+              type="number"
+              className="form-control"
+              placeholder="Old Price"
+              value={oldPrice}
+              onChange={(e) => setOldPrice(e.target.value)}
             />
           </div>
 
@@ -117,6 +164,8 @@ const AdminQualifications = () => {
                 onClick={() => {
                   setEditingId(null);
                   setName("");
+                  setPrice("");
+                  setOldPrice("");
                 }}
               >
                 Cancel
@@ -132,6 +181,8 @@ const AdminQualifications = () => {
           <thead className="table-light">
             <tr>
               <th>Name</th>
+              <th>Price</th>
+              <th>Old Price</th>
               <th>Created On</th>
               <th>Action</th>
             </tr>
@@ -142,6 +193,8 @@ const AdminQualifications = () => {
               qualifications.map((q) => (
                 <tr key={q._id}>
                   <td>{q.name}</td>
+                  <td>₹ {q.price}</td>
+                  <td>₹ {q.oldPrice || "-"}</td>
                   <td>
                     {new Date(q.createdAt).toLocaleDateString()}
                   </td>
@@ -164,7 +217,7 @@ const AdminQualifications = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="3" className="text-center">
+                <td colSpan="5" className="text-center">
                   No qualifications found
                 </td>
               </tr>

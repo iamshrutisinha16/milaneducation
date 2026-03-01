@@ -62,7 +62,6 @@ function LayoutWrapper() {
           <Route path="/personalitytest" element={<Personallytest />} />
           <Route path="/test" element={<Testpage />} />
           <Route path="/:mode" element={<LearningTypes />} />
-           <Route path="/online" element={<LearningTypes />} />
           <Route path="/dashboard" element={<Dashboard />} />
 
           {/* ===== ADMIN LOGIN ===== */}

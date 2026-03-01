@@ -1,50 +1,46 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 function Testpage() {
   const navigate = useNavigate();
   const [qualificationList, setQualificationList] = useState([]);
   const [qualification, setQualification] = useState("");
   const [testDetails, setTestDetails] = useState(null);
 
- const API_BASE_URL = "https://collegemilan-backend-2.onrender.com";
+  const API_BASE_URL = "https://collegemilan-backend-2.onrender.com";
 
-useEffect(() => {
-  fetch(`${API_BASE_URL}/api/qualifications`)
-    .then((res) => res.json())
-    .then((data) => setQualificationList(data))
-    .catch((err) => console.error("Error fetching list:", err));
-}, []);
+  // Fetch all qualifications with price & details
+  useEffect(() => {
+    fetch(`${API_BASE_URL}/api/qualifications`)
+      .then((res) => res.json())
+      .then((data) => setQualificationList(data))
+      .catch((err) => console.error("Error fetching list:", err));
+  }, []);
 
-  // Fetch test details based on qualification
+  // Set selected qualification details (NO extra API call)
   useEffect(() => {
     if (qualification) {
-      fetch(
-        `${API_BASE_URL}/api/tests/${encodeURIComponent(qualification)}`
-      )
-        .then((res) => res.json())
-        .then((data) => setTestDetails(data))
-        .catch((err) => {
-          console.error("Error fetching details:", err);
-          setTestDetails(null);
-        });
+      const selected = qualificationList.find(
+        (q) => q.name === qualification
+      );
+      setTestDetails(selected || null);
     } else {
       setTestDetails(null);
     }
-  }, [qualification]);
+  }, [qualification, qualificationList]);
 
   const handleBuyNow = () => {
-  const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
-  if (!token) {
-    navigate("/login"); 
-  } else {
-    navigate("/checkout");
-  }
-};
+    if (!token) {
+      navigate("/login");
+    } else {
+      navigate("/checkout");
+    }
+  };
 
   return (
     <div className="psychometric-test-page">
-      {/* Banner Section */}
       <div className="test-banner">
         <h1>Let us test you through our Assessment Test</h1>
       </div>
@@ -52,9 +48,8 @@ useEffect(() => {
       <div className="test-content-wrapper">
         <h2>Tap on the dropdown menu to choose your qualification</h2>
 
-        {/* Dropdown */}
-        <select style={{ width: "200px" }}
-
+        <select
+          style={{ width: "200px" }}
           className="test-dropdown"
           value={qualification}
           onChange={(e) => setQualification(e.target.value)}
@@ -67,8 +62,7 @@ useEffect(() => {
           ))}
         </select>
 
-        {/* Card or Video */}
-        {testDetails && testDetails.title ? (
+        {testDetails ? (
           <div className="test-card-container">
             <div className="card-main">
               <div className="regular-tag">REGULAR</div>
@@ -81,9 +75,11 @@ useEffect(() => {
                 <span className="current-price">
                   ₹ {testDetails.price}
                 </span>
-                <span className="old-price">
-                  ₹ {testDetails.oldPrice}
-                </span>
+                {testDetails.oldPrice && (
+                  <span className="old-price">
+                    ₹ {testDetails.oldPrice}
+                  </span>
+                )}
               </div>
 
               <div className="deliverables-box">
@@ -96,11 +92,10 @@ useEffect(() => {
                       </li>
                     ))}
                 </ul>
-                
-              <button className="buy-now-btn" onClick={handleBuyNow}>
-             Buy Now
-           </button>
 
+                <button className="buy-now-btn" onClick={handleBuyNow}>
+                  Buy Now
+                </button>
               </div>
             </div>
           </div>
@@ -112,7 +107,6 @@ useEffect(() => {
               src="https://www.youtube.com/embed/dQw4w9WgXcQ"
               title="Introduction Video"
               frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             ></iframe>
           </div>
