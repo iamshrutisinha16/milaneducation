@@ -71,7 +71,7 @@ const CustomNavbar = () => {
                   Career Test
                 </span>
                 <ul className={`dropdown-menu ${psychoOpen ? "show" : ""}`}>
-                  <li><Link className="dropdown-item" to="/assessmenttest" onClick={closeAll}>Assessment Test</Link></li>
+                  <li><Link className="dropdown-item" to="/assessmenttest" onClick={closeAll}> Career Assessment Test</Link></li>
                   <li><Link className="dropdown-item" to="/personalitytest" onClick={closeAll}>Personality Test</Link></li>
                 </ul>
               </li>
@@ -87,9 +87,8 @@ const CustomNavbar = () => {
               </li>
             </ul>
 
-           <Link to="/test" className="login-btn" onClick={closeAll}>
-            Book Now
-           </Link>
+          <a href="tel:+91 9773784854" className="login-btn" onClick={closeAll}>
+         Call Now</a>
            {/*  <Link to="/login" className="login-btn" onClick={closeAll}>
               <FaSignInAlt /> Login
             </Link>*/}

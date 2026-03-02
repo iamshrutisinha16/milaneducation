@@ -34,6 +34,7 @@ const LearningTypes = () => {
   const [universities, setUniversities] = useState([]);
   const [courses, setCourses] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [agreed, setAgreed] = useState(false);
 
   if (!validModes.includes(mode)) {
     return <h2 className="text-center mt-5">Invalid Learning Mode</h2>;
@@ -67,6 +68,11 @@ const LearningTypes = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+     if (!agreed) {
+    alert("Please agree to receive information before submitting the form.");
+    return;
+  }
 
     if (formData.university === SRM_UNIVERSITY.id) {
       window.open(SRM_UNIVERSITY.url, "_blank");
@@ -265,6 +271,18 @@ const LearningTypes = () => {
               </div>
             </div>
 
+           <div className="form-check my-3">
+  <input
+    className="form-check-input"
+    type="checkbox"
+    id="agreeCheckbox"
+    checked={agreed}
+    onChange={(e) => setAgreed(e.target.checked)}
+  />
+  <label className="form-check-label" htmlFor="agreeCheckbox">
+    I am agree to share Information with College Milan
+  </label>
+</div>
             <div className="text-center mt-4">
               <motion.button
                 whileHover={{ scale: 1.07 }}
