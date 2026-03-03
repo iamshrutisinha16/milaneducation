@@ -19,29 +19,37 @@ const HomePage = () => {
 
   const [showSuccess, setShowSuccess] = useState(false);
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const submissionData = { 
-      ...formData, 
-      source: "Book a Session Form" 
-    };
+  
+  // ✅ THIS MUST BE HERE
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
 
-    const res = await axios.post(
-      "https://collegemilan-backend-2.onrender.com/api/enquiries",
-      submissionData
-    );
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const submissionData = { 
+        ...formData, 
+        source: "Book a Session Form" 
+      };
 
-    if (res.status === 200 || res.status === 201) {
-      setShowSuccess(true);
-      setFormData({ fullName: "", city: "", email: "", mobile: "" });
+      const res = await axios.post(
+        "https://collegemilan-backend-2.onrender.com/api/enquiries",
+        submissionData
+      );
+
+      if (res.status === 200 || res.status === 201) {
+        setShowSuccess(true);
+        setFormData({ fullName: "", city: "", email: "", mobile: "" });
+      }
+    } catch (err) {
+      console.error("Submission Error:", err);
+      alert("Something went wrong. Please try again.");
     }
-  } catch (err) {
-    console.error("Submission Error:", err);
-    alert("Something went wrong. Please try again.");
-  }
-};
-
+  };
   return (
     <>
       <section className="hero-section">
