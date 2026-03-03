@@ -5,6 +5,7 @@ const AdminEnquiries = () => {
   const [enquiries, setEnquiries] = useState([]);
   const [statusFilter, setStatusFilter] = useState("");
   const [loading, setLoading] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
 
   const API_BASE_URL = "https://collegemilan-backend-2.onrender.com";
   const token = localStorage.getItem("adminToken");
@@ -13,7 +14,6 @@ const AdminEnquiries = () => {
     Authorization: `Bearer ${token}`,
   };
 
-  // 🔥 Fetch Enquiries
   const fetchEnquiries = async () => {
     try {
       setLoading(true);
@@ -24,8 +24,7 @@ const AdminEnquiries = () => {
       }
 
       const res = await axios.get(url, { headers });
-      setEnquiries(res.data.data);
-
+      setEnquiries(res.data.data || []);
     } catch (error) {
       console.error("Fetch Error:", error);
     } finally {
@@ -37,7 +36,7 @@ const AdminEnquiries = () => {
     fetchEnquiries();
   }, [statusFilter]);
 
-  // 🔥 Update Status
+  // ✅ Update Status
   const handleStatusChange = async (id, newStatus) => {
     try {
       await axios.put(
@@ -45,14 +44,12 @@ const AdminEnquiries = () => {
         { status: newStatus },
         { headers }
       );
-
       fetchEnquiries();
     } catch (error) {
       console.error("Status Update Error:", error);
     }
   };
 
-  // 🔥 Update Remarks
   const handleRemarksChange = async (id, remarks) => {
     try {
       await axios.put(
@@ -60,22 +57,19 @@ const AdminEnquiries = () => {
         { remarks },
         { headers }
       );
-
     } catch (error) {
       console.error("Remarks Update Error:", error);
     }
   };
 
-  // 🔥 Delete
-  const handleDelete = async (id) => {
-    if (!window.confirm("Delete this enquiry?")) return;
-
+  // ✅ Confirm Delete
+  const confirmDelete = async () => {
     try {
       await axios.delete(
-        `${API_BASE_URL}/api/admin/enquiries/${id}`,
+        `${API_BASE_URL}/api/admin/enquiries/${deleteId}`,
         { headers }
       );
-
+      setDeleteId(null);
       fetchEnquiries();
     } catch (error) {
       console.error("Delete Error:", error);
@@ -96,7 +90,7 @@ const AdminEnquiries = () => {
           <option value="">All Status</option>
           <option value="New">New</option>
           <option value="Contacted">Contacted</option>
-          <option value="Follow-up">Follow-up</option>
+          <option value="Follow-Up">Follow-Up</option>
           <option value="Converted">Converted</option>
           <option value="Rejected">Rejected</option>
         </select>
@@ -123,10 +117,10 @@ const AdminEnquiries = () => {
               <tr key={enq._id}>
                 <td>{enq.fullName}</td>
                 <td>{enq.mobile}</td>
-                <td>{enq.course?.name}</td>
-                <td>{enq.university?.name}</td>
+                <td>{enq.course?.name || "-"}</td>
+                <td>{enq.university?.name || "-"}</td>
 
-                {/* Status Dropdown */}
+                {/* Status */}
                 <td>
                   <select
                     className="form-select form-select-sm"
@@ -137,7 +131,7 @@ const AdminEnquiries = () => {
                   >
                     <option value="New">New</option>
                     <option value="Contacted">Contacted</option>
-                    <option value="Follow-up">Follow-up</option>
+                    <option value="Follow-Up">Follow-Up</option>
                     <option value="Converted">Converted</option>
                     <option value="Rejected">Rejected</option>
                   </select>
@@ -163,7 +157,7 @@ const AdminEnquiries = () => {
                 <td>
                   <button
                     className="btn btn-danger btn-sm"
-                    onClick={() => handleDelete(enq._id)}
+                    onClick={() => setDeleteId(enq._id)}
                   >
                     Delete
                   </button>
@@ -180,6 +174,39 @@ const AdminEnquiries = () => {
             )}
           </tbody>
         </table>
+      )}
+      {deleteId && (
+        <div className="modal d-block" tabIndex="-1">
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Confirm Delete</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setDeleteId(null)}
+                ></button>
+              </div>
+              <div className="modal-body">
+                <p>Are you sure you want to delete this enquiry?</p>
+              </div>
+              <div className="modal-footer">
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => setDeleteId(null)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="btn btn-danger"
+                  onClick={confirmDelete}
+                >
+                  Yes, Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

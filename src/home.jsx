@@ -17,31 +17,30 @@ const HomePage = () => {
     mobile: "",
   });
 
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const submissionData = { 
+      ...formData, 
+      source: "Book a Session Form" 
+    };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const submissionData = { 
-        ...formData, 
-        source: "Book a Session Form" 
-      };
+    const res = await axios.post(
+      "https://collegemilan-backend-2.onrender.com/api/enquiries",
+      submissionData
+    );
 
-      const res = await axios.post("https://collegemilan-backend-2.onrender.com/api/enquiries", submissionData);
-      
-      if (res.status === 200 || res.status === 201) {
-        alert("Success! We will call you back soon.");
-        setFormData({ fullName: "", city: "", email: "", mobile: "" });
-      }
-    } catch (err) {
-      console.error("Submission Error:", err);
-      alert("Something went wrong. Please try again.");
+    if (res.status === 200 || res.status === 201) {
+      setShowSuccess(true);
+      setFormData({ fullName: "", city: "", email: "", mobile: "" });
     }
-  };
+  } catch (err) {
+    console.error("Submission Error:", err);
+    alert("Something went wrong. Please try again.");
+  }
+};
 
   return (
     <>
@@ -512,105 +511,130 @@ const HomePage = () => {
           </Carousel>
         </motion.div>
       </Col>
-
-      {/* FORM SECTION (Right Side) - Updated Logic Here */}
-      <Col lg={{ span: 5, offset: 1 }}>
-        <motion.div 
-          initial={{ opacity: 0, y: 50 }} 
-          whileInView={{ opacity: 1, y: 0 }} 
-          viewport={{ once: true }}
-          className="premium-inquiry-box"
-          style={{ minHeight: '450px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }} // Layout stable rakhne ke liye
-        >
-          {isSubmitted ? (
-            // === SUCCESS MESSAGE VIEW ===
-            <div className="text-center py-5">
-              <motion.div 
-                initial={{ scale: 0 }} 
-                animate={{ scale: 1 }} 
-                transition={{ type: "spring", stiffness: 200, damping: 20 }}
-              >
-                <FaCheckCircle size={80} color="#2ecc71" className="mb-4" />
-              </motion.div>
-              <h3 className="fw-bold text-white mb-3">Request Received!</h3>
-              <p className="text-white-50 px-3">
-                Thank you, <span className="text-white fw-bold">{formData.fullName}</span>. 
-                Humari expert team aapko jaldi hi call karegi.
-              </p>
-              <button 
-                onClick={() => { setIsSubmitted(false); setFormData({ fullName: '', city: '', email: '', mobile: '' }); }} 
-                className="btn btn-outline-light mt-3 btn-sm"
-              >
-                Send Another Request
-              </button>
-            </div>
-          ) : (
-            // === NORMAL FORM VIEW ===
-            <>
-              <div className="text-center mb-4">
-                <h3 className="fw-bold text-white mb-2">Book a Session</h3>
-                <p style={{ color: '#94a3b8' }}>Fill the form, we will call you back!</p>
-              </div>
-              
-              <form onSubmit={handleSubmit}>
-                <input 
-                  type="text" 
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={handleChange}
-                  className="form-control premium-input mb-3" 
-                  placeholder="Full Name" 
-                  required 
-                />
-                
-                <input 
-                  type="text" 
-                  name="city"
-                  value={formData.city}
-                  onChange={handleChange}
-                  className="form-control premium-input mb-3" 
-                  placeholder="City" 
-                  required 
-                />
-                
-                <input 
-                  type="email" 
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="form-control premium-input mb-3" 
-                  placeholder="Email Address" 
-                  required 
-                />
-                
-                <input 
-                  type="tel" 
-                  name="mobile"
-                  value={formData.mobile}
-                  onChange={handleChange}
-                  className="form-control premium-input mb-4" 
-                  placeholder="Phone Number" 
-                  required 
-                />
-                
-                <motion.button 
-                  type="submit" 
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="btn w-100 py-3 fw-bold text-white shadow-lg" 
-                  style={{ background: "#f47920", borderRadius: '15px', border: 'none' }}
-                >
-                  Get Expert Advice <FaArrowRight className="ms-2" />
-                </motion.button>
-              </form>
-            </>
-          )}
-        </motion.div>
-      </Col>
-
+    {/* FORM SECTION (Right Side) */}
+<Col lg={{ span: 5, offset: 1 }}>
+  <motion.div 
+    initial={{ opacity: 0, y: 50 }} 
+    whileInView={{ opacity: 1, y: 0 }} 
+    viewport={{ once: true }}
+    className="premium-inquiry-box"
+    style={{ minHeight: '450px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+  >
+    <div className="text-center mb-4">
+      <h3 className="fw-bold text-white mb-2">Book a Session</h3>
+      <p style={{ color: '#94a3b8' }}>
+        Fill the form, we will call you back!
+      </p>
+    </div>
+    
+    <form onSubmit={handleSubmit}>
+      <input 
+        type="text" 
+        name="fullName"
+        value={formData.fullName}
+        onChange={handleChange}
+        className="form-control premium-input mb-3" 
+        placeholder="Full Name" 
+        required 
+      />
+      
+      <input 
+        type="text" 
+        name="city"
+        value={formData.city}
+        onChange={handleChange}
+        className="form-control premium-input mb-3" 
+        placeholder="City" 
+        required 
+      />
+      
+      <input 
+        type="email" 
+        name="email"
+        value={formData.email}
+        onChange={handleChange}
+        className="form-control premium-input mb-3" 
+        placeholder="Email Address" 
+        required 
+      />
+      
+      <input 
+        type="tel" 
+        name="mobile"
+        value={formData.mobile}
+        onChange={handleChange}
+        className="form-control premium-input mb-4" 
+        placeholder="Phone Number" 
+        required 
+      />
+      
+      <motion.button 
+        type="submit" 
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        className="btn w-100 py-3 fw-bold text-white shadow-lg" 
+        style={{ background: "#f47920", borderRadius: '15px', border: 'none' }}
+      >
+        Get Expert Advice <FaArrowRight className="ms-2" />
+      </motion.button>
+    </form>
+  </motion.div>
+</Col>
     </Row>
   </Container>
 </section>
+{/* SUCCESS POPUP */}
+{showSuccess && (
+  <div 
+    style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      backgroundColor: "rgba(0,0,0,0.6)",
+      backdropFilter: "blur(6px)",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      zIndex: 9999
+    }}
+  >
+    <motion.div
+      initial={{ scale: 0.5, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ type: "spring", stiffness: 200, damping: 15 }}
+      style={{
+        background: "#fff",
+        padding: "40px",
+        borderRadius: "20px",
+        textAlign: "center",
+        width: "90%",
+        maxWidth: "400px",
+        boxShadow: "0 20px 60px rgba(0,0,0,0.2)"
+      }}
+    >
+      <FaCheckCircle size={70} color="#2ecc71" className="mb-3" />
+      <h4 className="fw-bold mb-3">Request Received!</h4>
+      <p className="text-muted">
+        Our expert team will contact you shortly.
+      </p>
+
+      <button
+        onClick={() => setShowSuccess(false)}
+        className="btn mt-3 px-4"
+        style={{
+          background: "#f47920",
+          color: "#fff",
+          borderRadius: "10px",
+          border: "none"
+        }}
+      >
+        Close
+      </button>
+    </motion.div>
+  </div>
+)}
     </>
   );
 }
