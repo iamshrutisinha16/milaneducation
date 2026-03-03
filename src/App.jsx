@@ -29,7 +29,6 @@ import AdminQualifications from './admin/AdminQualifications';
 import AdminUniversities from './admin/AdminUniversities';
 import Settings from './admin/Settings';
 import AdminEvent from './admin/AdminEvent';
-import GoogleTranslate from "./components/GoogleTranslate";
 
 function LayoutWrapper() {
   const location = useLocation();
@@ -41,7 +40,6 @@ function LayoutWrapper() {
 
   return (
     <div className="App">
-       <GoogleTranslate />
       {/* Hide popup/navbar/footer for admin + user dashboard */}
       {!isUserDashboard && !isAdminRoute && <Homepopup />}
       {!isUserDashboard && !isAdminRoute && <Navbar />}
