@@ -162,19 +162,35 @@ function Testpage() {
           </div>
         )}
       </div>
-         {/* YouTube Video Section */}
-      <section className="video-section">
-        <h2>Watch Our Test Demo</h2>
-        <div className="video-wrapper">
-          <iframe
+        {/* --- 4. YOUTUBE VIDEO SECTION --- */}
+<section id="video" className="video-section py-5 bg-light">
+  <div className="container text-center">
+    
+    {/* Heading */}
+    <h2 
+      className="mb-4 fw-bold"
+      style={{ color: "#ff6600" }}
+    >
+      Watch Our Demo Video
+    </h2>
+
+    <div className="row justify-content-center">
+      <div className="col-lg-8 col-md-10">
+        <div className="video-card shadow-lg rounded">
+          <iframe 
+            width="100%"
+            height="400"
             src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-            title="Test Demo"
+            title="Guide Video"
             frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           ></iframe>
         </div>
-      </section>
+      </div>
+    </div>
+
+  </div>
+</section>
     </div>
   );
 }

@@ -166,32 +166,23 @@ const PersonalityTest = () => {
 
       {/* --- 4. YOUTUBE VIDEO SECTION --- */}
       <section id="video" className="video-section py-5 bg-light">
-        <div className="container">
-          <div className="row align-items-center">
-            <div className="col-lg-7">
-              <div className="video-card shadow-lg">
-                <iframe 
-                  width="100%" 
-                  height="400" 
-                  src="https://www.youtube.com/embed/dQw4w9WgXcQ" // Example URL
-                  title="Guide Video" 
-                  frameBorder="0" 
-                  allowFullScreen
-                ></iframe>
-              </div>
-            </div>
-            <div className="col-lg-5 ps-lg-5 mt-4 mt-lg-0">
-               <h3 className="fw-bold mb-3">Watch How It Works</h3>
-               <p className="text-muted">In this video, we explain how our scientific test analyzes your behavior and provides accurate career guidance.</p>
-               <div className="booking-box mt-4 p-4 text-white shadow">
-                  <h5>Book Your Analysis Slot</h5>
-                  <h2 className="fw-bold">₹99 <span className="fs-6 fw-normal">Only</span></h2>
-                  <button className="btn-white mt-2 w-100 shadow-sm"><CreditCard size={18} className="me-2" /> Pay & Book Now</button>
-               </div>
-            </div>
-          </div>
+  <div className="container text-center">
+    <div className="row justify-content-center">
+      <div className="col-lg-8 col-md-10">
+        <div className="video-card shadow-lg">
+          <iframe 
+            width="100%" 
+            height="400"
+            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            title="Guide Video"
+            frameBorder="0"
+            allowFullScreen
+          ></iframe>
         </div>
-      </section>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* --- 5. ENQUIRY FORM SECTION --- */}
       <section className="enquiry-section py-5">

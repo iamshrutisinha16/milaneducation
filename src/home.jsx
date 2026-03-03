@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Container, Button, Row, Col, Carousel } from 'react-bootstrap';
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from 'framer-motion'; 
+import axios from "axios";
 import { 
   FaMapMarkedAlt, FaBrain, FaUserTie, FaVideo, FaArrowRight, 
   FaChevronRight, FaUserGraduate, FaChalkboardTeacher,FaCheckCircle, FaAward, FaGlobe 
