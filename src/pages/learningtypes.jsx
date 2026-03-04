@@ -205,6 +205,15 @@ const LearningTypes = () => {
                 />
               </div>
 
+            <div className="col-md-6">
+               <label className="form-label">Gender*</label> 
+               <select name="gender" className="form-select" required onChange={handleChange} > 
+                <option value="">Select</option>
+                 <option>Male</option> 
+                 <option>Female</option>
+                  <option>Other</option>
+                   </select> 
+                   </div>
               <div className="col-md-6">
                 <label className="form-label">
                   <Phone size={16}/> Mobile*
