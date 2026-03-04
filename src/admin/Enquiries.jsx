@@ -36,7 +36,7 @@ const AdminEnquiries = () => {
     fetchEnquiries();
   }, [statusFilter]);
 
-  // ✅ Update Status
+  //Update Status
   const handleStatusChange = async (id, newStatus) => {
     try {
       await axios.put(
@@ -119,7 +119,7 @@ const AdminEnquiries = () => {
               <tr key={enq._id}>
                 <td>{enq.fullName}</td>
                 <td>{enq.mobile}</td>
-                <td>{enq.course?.name || "-"}</td>
+                <td>{enq.course?.course_name || "-"}</td>
                 <td>{enq.university?.name || "-"}</td>
                 <td>{enq.city || "-"}</td>
                 <td>{enq.state || "-"}</td>
