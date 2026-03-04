@@ -4,11 +4,10 @@ import { Container, Table, Button, Modal, Form, Row, Col } from "react-bootstrap
 const AdminCareer = () => {
   const [careers, setCareers] = useState([]);
   const [qualifications, setQualifications] = useState([]);
-
   const [showModal, setShowModal] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
-
   const [editId, setEditId] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
 
   const [formData, setFormData] = useState({
     qualification: "",
@@ -16,24 +15,22 @@ const AdminCareer = () => {
     steps: [""],
   });
 
-  const [deleteId, setDeleteId] = useState(null);
-
-  const baseURL = "https://collegemilan-backend-2.onrender.com/api";
+  // ✅ Admin base URL
+  const baseURL = "https://collegemilan-backend-2.onrender.com/api/admin";
 
   // Fetch careers
   const fetchCareers = () => {
     fetch(`${baseURL}/careers`)
-      .then(res => res.json())
-      .then(data => setCareers(data));
+      .then((res) => res.json())
+      .then((data) => setCareers(data));
   };
 
   // Fetch qualifications
   useEffect(() => {
     fetchCareers();
-
-    fetch(`${baseURL}/qualifications`)
-      .then(res => res.json())
-      .then(data => setQualifications(data));
+    fetch(`${baseURL.replace("/admin","")}/qualifications`) // qualifications still normal route
+      .then((res) => res.json())
+      .then((data) => setQualifications(data));
   }, []);
 
   // Open Add Modal
@@ -56,6 +53,11 @@ const AdminCareer = () => {
 
   // Save (Add / Update)
   const handleSave = async () => {
+    if (!formData.qualification || !formData.career) {
+      alert("Qualification and Career are required");
+      return;
+    }
+
     const method = editId ? "PUT" : "POST";
     const url = editId
       ? `${baseURL}/careers/${editId}`
@@ -73,29 +75,19 @@ const AdminCareer = () => {
 
   // Delete
   const handleDelete = async () => {
-    await fetch(`${baseURL}/careers/${deleteId}`, {
-      method: "DELETE",
-    });
-
+    await fetch(`${baseURL}/careers/${deleteId}`, { method: "DELETE" });
     setShowDelete(false);
     fetchCareers();
   };
 
-  // Handle Step Change
+  // Step handlers
   const handleStepChange = (index, value) => {
     const updatedSteps = [...formData.steps];
     updatedSteps[index] = value;
     setFormData({ ...formData, steps: updatedSteps });
   };
-
-  const addStepField = () => {
-    setFormData({ ...formData, steps: [...formData.steps, ""] });
-  };
-
-  const removeStepField = (index) => {
-    const updatedSteps = formData.steps.filter((_, i) => i !== index);
-    setFormData({ ...formData, steps: updatedSteps });
-  };
+  const addStepField = () => setFormData({ ...formData, steps: [...formData.steps, ""] });
+  const removeStepField = (index) => setFormData({ ...formData, steps: formData.steps.filter((_, i) => i !== index) });
 
   return (
     <Container className="mt-4">
@@ -121,24 +113,8 @@ const AdminCareer = () => {
               <td>{item.career}</td>
               <td>{item.steps?.length || 0} Steps</td>
               <td>
-                <Button
-                  size="sm"
-                  variant="warning"
-                  className="me-2"
-                  onClick={() => handleEdit(item)}
-                >
-                  Edit
-                </Button>
-                <Button
-                  size="sm"
-                  variant="danger"
-                  onClick={() => {
-                    setDeleteId(item._id);
-                    setShowDelete(true);
-                  }}
-                >
-                  Delete
-                </Button>
+                <Button size="sm" variant="warning" className="me-2" onClick={() => handleEdit(item)}>Edit</Button>
+                <Button size="sm" variant="danger" onClick={() => { setDeleteId(item._id); setShowDelete(true); }}>Delete</Button>
               </td>
             </tr>
           ))}
@@ -150,22 +126,17 @@ const AdminCareer = () => {
         <Modal.Header closeButton>
           <Modal.Title>{editId ? "Edit Career" : "Add Career"}</Modal.Title>
         </Modal.Header>
-
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3">
               <Form.Label>Qualification</Form.Label>
               <Form.Select
                 value={formData.qualification}
-                onChange={(e) =>
-                  setFormData({ ...formData, qualification: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, qualification: e.target.value })}
               >
                 <option value="">Select Qualification</option>
                 {qualifications.map((q) => (
-                  <option key={q._id} value={q.name}>
-                    {q.name}
-                  </option>
+                  <option key={q._id} value={q.name}>{q.name}</option>
                 ))}
               </Form.Select>
             </Form.Group>
@@ -175,9 +146,7 @@ const AdminCareer = () => {
               <Form.Control
                 type="text"
                 value={formData.career}
-                onChange={(e) =>
-                  setFormData({ ...formData, career: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, career: e.target.value })}
               />
             </Form.Group>
 
@@ -185,39 +154,20 @@ const AdminCareer = () => {
             {formData.steps.map((step, index) => (
               <Row key={index} className="mb-2">
                 <Col md={10}>
-                  <Form.Control
-                    type="text"
-                    value={step}
-                    onChange={(e) =>
-                      handleStepChange(index, e.target.value)
-                    }
-                  />
+                  <Form.Control type="text" value={step} onChange={(e) => handleStepChange(index, e.target.value)} />
                 </Col>
                 <Col md={2}>
-                  <Button
-                    variant="danger"
-                    size="sm"
-                    onClick={() => removeStepField(index)}
-                  >
-                    Remove
-                  </Button>
+                  <Button variant="danger" size="sm" onClick={() => removeStepField(index)}>Remove</Button>
                 </Col>
               </Row>
             ))}
-
-            <Button variant="secondary" size="sm" onClick={addStepField}>
-              + Add Step
-            </Button>
+            <Button variant="secondary" size="sm" onClick={addStepField}>+ Add Step</Button>
           </Form>
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={handleSave}>
-            {editId ? "Update" : "Save"}
-          </Button>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>Cancel</Button>
+          <Button variant="primary" onClick={handleSave}>{editId ? "Update" : "Save"}</Button>
         </Modal.Footer>
       </Modal>
 
@@ -228,12 +178,8 @@ const AdminCareer = () => {
         </Modal.Header>
         <Modal.Body>Are you sure you want to delete this career?</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowDelete(false)}>
-            Cancel
-          </Button>
-          <Button variant="danger" onClick={handleDelete}>
-            Delete
-          </Button>
+          <Button variant="secondary" onClick={() => setShowDelete(false)}>Cancel</Button>
+          <Button variant="danger" onClick={handleDelete}>Delete</Button>
         </Modal.Footer>
       </Modal>
     </Container>
