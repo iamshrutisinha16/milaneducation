@@ -106,6 +106,8 @@ const AdminEnquiries = () => {
               <th>Mobile</th>
               <th>Course</th>
               <th>University</th>
+              <th>City</th>
+              <th>State</th>
               <th>Status</th>
               <th>Remarks</th>
               <th>Date</th>
@@ -119,6 +121,8 @@ const AdminEnquiries = () => {
                 <td>{enq.mobile}</td>
                 <td>{enq.course?.name || "-"}</td>
                 <td>{enq.university?.name || "-"}</td>
+                <td>{enq.city || "-"}</td>
+                <td>{enq.state || "-"}</td>
 
                 {/* Status */}
                 <td>

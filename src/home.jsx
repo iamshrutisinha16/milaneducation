@@ -143,14 +143,14 @@ const HomePage = () => {
                 title: "Counseling Session", 
                 desc: "Personalized 1-on-1 expert career guidance.",
                 icon: <FaUserTie />, 
-                link: "/counselling",
+                link: "/test",
                 color: "#866248" 
               },
               { 
-                title: "Watch Videos", 
-                desc: "Premium video content for career insights.",
+                title: "Watch Photos & Videos", 
+                desc: "Premium Photo and Video content for career insights.",
                 icon: <FaVideo />, 
-                link: "/videos",
+                link: "/event&updates",
                 color: "#2b2d42" 
               }
             ].map((item, index) => (
