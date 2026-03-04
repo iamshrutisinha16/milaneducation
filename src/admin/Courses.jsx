@@ -21,7 +21,7 @@ const AdminCourses = () => {
   const token = localStorage.getItem("adminToken");
   const headers = { Authorization: `Bearer ${token}` };
 
-  // ✅ Auto hide message after 3 seconds
+  // ✅ Auto hide message
   useEffect(() => {
     if (message) {
       const timer = setTimeout(() => {
@@ -31,31 +31,40 @@ const AdminCourses = () => {
     }
   }, [message]);
 
-  // Fetch courses
+  // ================= FETCH COURSES =================
   const fetchCourses = async () => {
     try {
       const res = await axios.get(`${API_BASE_URL}/api/admin/courses`, { headers });
-      setCourses(res.data);
+
+      // ✅ FIXED
+      setCourses(res.data.data || []);
+
     } catch (err) {
       console.error("Courses fetch error:", err);
     }
   };
 
-  // Fetch qualifications
+  // ================= FETCH QUALIFICATIONS =================
   const fetchQualifications = async () => {
     try {
       const res = await axios.get(`${API_BASE_URL}/api/admin/qualifications`, { headers });
-      setQualifications(res.data);
+
+      // ✅ FIXED
+      setQualifications(res.data.data || []);
+
     } catch (err) {
       console.error("Qualifications fetch error:", err);
     }
   };
 
-  // Fetch universities
+  // ================= FETCH UNIVERSITIES =================
   const fetchUniversities = async () => {
     try {
       const res = await axios.get(`${API_BASE_URL}/api/admin/universities`, { headers });
-      setUniversities(res.data);
+
+      // ✅ FIXED
+      setUniversities(res.data.data || []);
+
     } catch (err) {
       console.error("Universities fetch error:", err);
     }
@@ -72,7 +81,7 @@ const AdminCourses = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  // Add / Update Course
+  // ================= ADD / UPDATE =================
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -83,19 +92,36 @@ const AdminCourses = () => {
     }
 
     try {
-      const payload = { ...formData, qualification: formData.qualification || null };
+      const payload = {
+        ...formData,
+        qualification: formData.qualification || null,
+      };
 
       if (editingId) {
-        await axios.put(`${API_BASE_URL}/api/admin/courses/${editingId}`, payload, { headers });
+        await axios.put(
+          `${API_BASE_URL}/api/admin/courses/${editingId}`,
+          payload,
+          { headers }
+        );
         setMessage("Course updated successfully!");
-        setMessageType("success");
       } else {
-        await axios.post(`${API_BASE_URL}/api/admin/courses`, payload, { headers });
+        await axios.post(
+          `${API_BASE_URL}/api/admin/courses`,
+          payload,
+          { headers }
+        );
         setMessage("Course added successfully!");
-        setMessageType("success");
       }
 
-      setFormData({ course_name: "", university: "", qualification: "", duration: "" });
+      setMessageType("success");
+
+      setFormData({
+        course_name: "",
+        university: "",
+        qualification: "",
+        duration: "",
+      });
+
       setEditingId(null);
       fetchCourses();
 
@@ -106,7 +132,7 @@ const AdminCourses = () => {
     }
   };
 
-  // Edit
+  // ================= EDIT =================
   const handleEdit = (course) => {
     setFormData({
       course_name: course.course_name || "",
@@ -117,12 +143,15 @@ const AdminCourses = () => {
     setEditingId(course._id);
   };
 
-  // Delete
+  // ================= DELETE =================
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this course?")) return;
 
     try {
-      await axios.delete(`${API_BASE_URL}/api/admin/courses/${id}`, { headers });
+      await axios.delete(
+        `${API_BASE_URL}/api/admin/courses/${id}`,
+        { headers }
+      );
       setMessage("Course deleted successfully!");
       setMessageType("danger");
       fetchCourses();
@@ -137,9 +166,8 @@ const AdminCourses = () => {
     <div>
       <h3 className="mb-4">Manage Courses</h3>
 
-      {/* ✅ Success / Error Alert */}
       {message && (
-        <div className={`alert alert-${messageType} alert-dismissible fade show`} role="alert">
+        <div className={`alert alert-${messageType} alert-dismissible fade show`}>
           {message}
           <button
             type="button"
@@ -149,9 +177,10 @@ const AdminCourses = () => {
         </div>
       )}
 
-      {/* Form */}
+      {/* FORM */}
       <form onSubmit={handleSubmit} className="mb-4">
         <div className="row g-2">
+
           <div className="col-md-3">
             <input
               type="text"
@@ -209,10 +238,11 @@ const AdminCourses = () => {
               {editingId ? "Update" : "Add Course"}
             </button>
           </div>
+
         </div>
       </form>
 
-      {/* Courses Table */}
+      {/* TABLE */}
       <table className="table table-bordered table-hover mt-4">
         <thead className="table-light">
           <tr>
@@ -223,19 +253,38 @@ const AdminCourses = () => {
             <th>Action</th>
           </tr>
         </thead>
+
         <tbody>
-          {courses.map(course => (
-            <tr key={course._id}>
-              <td>{course.course_name}</td>
-              <td>{course.university?.name || "N/A"}</td>
-              <td>{course.qualification?.name || "N/A"}</td>
-              <td>{course.duration || "N/A"}</td>
-              <td>
-                <button className="btn btn-sm btn-warning me-2" onClick={() => handleEdit(course)}>Edit</button>
-                <button className="btn btn-sm btn-danger" onClick={() => handleDelete(course._id)}>Delete</button>
+          {courses.length > 0 ? (
+            courses.map(course => (
+              <tr key={course._id}>
+                <td>{course.course_name}</td>
+                <td>{course.university?.name || "N/A"}</td>
+                <td>{course.qualification?.name || "N/A"}</td>
+                <td>{course.duration || "N/A"}</td>
+                <td>
+                  <button
+                    className="btn btn-sm btn-warning me-2"
+                    onClick={() => handleEdit(course)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-sm btn-danger"
+                    onClick={() => handleDelete(course._id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5" className="text-center text-muted">
+                No courses found
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>
