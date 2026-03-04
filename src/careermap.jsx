@@ -1,30 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import React, { useEffect, useState } from "react";
+import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
 
 const CareerMap = () => {
   const [careers, setCareers] = useState([]);
-  const [qualification, setQualification] = useState('');
-  const [dreamCareer, setDreamCareer] = useState('');
+  const [qualification, setQualification] = useState("");
+  const [dreamCareer, setDreamCareer] = useState("");
   const [careerPath, setCareerPath] = useState([]);
 
-  // Fetch careers from backend
+  // Modal state
+  const [show, setShow] = useState(false);
+  const [message, setMessage] = useState("");
+
+  // Fetch careers
   useEffect(() => {
-    fetch('https://collegemilan-backend-2.onrender.com/api/careers')
-      .then(res => res.json())
-      .then(data => {
-        setCareers(data);
-      })
-      .catch(err => console.error(err));
+    fetch("https://collegemilan-backend-2.onrender.com/api/careers")
+      .then((res) => res.json())
+      .then((data) => setCareers(data))
+      .catch((err) => console.error(err));
   }, []);
 
   // Unique qualifications
   const qualifications = [
-    ...new Set(careers.map(item => item.qualification))
+    ...new Set(careers.map((item) => item.qualification)),
   ];
 
-  // Filter careers based on selected qualification
+  // Filter careers
   const filteredCareers = careers.filter(
-    item => item.qualification === qualification
+    (item) => item.qualification === qualification
   );
 
   // Submit form
@@ -32,32 +34,33 @@ const CareerMap = () => {
     e.preventDefault();
 
     if (!qualification || !dreamCareer) {
-      alert("Please select qualification and career");
+      setMessage("Please select qualification and career");
+      setShow(true);
       return;
     }
 
     try {
       const response = await fetch(
-        'https://collegemilan-backend-2.onrender.com/api/careers/submit',
+        "https://collegemilan-backend-2.onrender.com/api/careers/submit",
         {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ qualification, dreamCareer })
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ qualification, dreamCareer }),
         }
       );
 
       const data = await response.json();
 
-      if (data.steps) {
+      if (data.steps && data.steps.length > 0) {
         setCareerPath(data.steps);
       } else {
-        alert(data.message || "No career path found");
+        setMessage(data.message || "No career path found");
+        setShow(true);
         setCareerPath([]);
       }
-
     } catch (err) {
-      console.error(err);
-      alert("Server error");
+      setMessage("Server error");
+      setShow(true);
     }
   };
 
@@ -74,7 +77,7 @@ const CareerMap = () => {
               </p>
 
               <Form onSubmit={handleSubmit} className="career-form">
-                
+
                 {/* Qualification Dropdown */}
                 <Form.Group className="mb-3">
                   <Form.Label>
@@ -84,7 +87,7 @@ const CareerMap = () => {
                     value={qualification}
                     onChange={(e) => {
                       setQualification(e.target.value);
-                      setDreamCareer('');
+                      setDreamCareer("");
                     }}
                   >
                     <option value="">Select Qualification</option>
@@ -129,22 +132,22 @@ const CareerMap = () => {
 
               {/* Career Path Result */}
               {careerPath.length > 0 && (
-                <div className="career-path">
-                  <h4 className='mb-4'>Your Career Roadmap</h4>
-               <div className="timeline">
-               {careerPath.map((step, index) => (
-                 <div className="timeline-step" key={index}>
-                <div className="timeline-number">
-                {index + 1}
-              </div>
-               <div className="timeline-content">
-                {step}
-               </div>
-              </div>
-                ))}
-               </div>
-             </div>
-               )}
+                <div className="career-path mt-4">
+                  <h4 className="mb-4">Your Career Roadmap</h4>
+                  <div className="timeline">
+                    {careerPath.map((step, index) => (
+                      <div className="timeline-step" key={index}>
+                        <div className="timeline-number">
+                          {index + 1}
+                        </div>
+                        <div className="timeline-content">
+                          {step}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </Col>
           </Row>
         </Container>
@@ -156,7 +159,6 @@ const CareerMap = () => {
           <Row className="justify-content-center text-center">
             <Col lg={8}>
               <h2 className="mb-4">Watch Career Guidance Video</h2>
-
               <div className="video-wrapper">
                 <iframe
                   src="https://www.youtube.com/embed/ysz5S6PUM-U"
@@ -169,6 +171,19 @@ const CareerMap = () => {
           </Row>
         </Container>
       </section>
+
+      {/* Simple Bootstrap Modal */}
+      <Modal show={show} onHide={() => setShow(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Message</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{message}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={() => setShow(false)}>
+            OK
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

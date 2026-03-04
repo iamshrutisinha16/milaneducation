@@ -77,6 +77,11 @@ const AdminLayout = () => {
                     Universities
                   </Link>
                 </li>
+                <li className="nav-item">
+                  <Link className="nav-link text-white" to="/admin/careers">
+                    Career
+                  </Link>
+                </li>
               </ul>
             )}
           </li>
@@ -114,13 +119,6 @@ const AdminLayout = () => {
                 </li>
               </ul>
             )}
-          </li>
-
-          {/* Settings */}
-          <li className="nav-item mb-2">
-            <Link className="nav-link text-white" to="/admin/settings">
-              ⚙ {!collapsed && "Settings"}
-            </Link>
           </li>
 
           {/* Logout */}
