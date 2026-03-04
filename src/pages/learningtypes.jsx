@@ -7,27 +7,21 @@ import { useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const orange = "#f47920";
-
-const SRM_UNIVERSITY = {
-  id: "srm-direct",
-  name: "SRM University",
-  url: "https://www.srmist.edu.in/",
-};
-
 const validModes = ["online", "regular", "distance", "studyabroad"];
 
 const LearningTypes = () => {
-  const { mode } = useParams(); 
+  const { mode } = useParams();
 
   const [formData, setFormData] = useState({
     course: "",
     university: "",
-    learningMode: mode,  
-    fullName: "",
+    learningMode: mode,
+    name: "",
     gender: "",
     email: "",
-    mobile: "",
+    phone: "",
     city: "",
+    state: "",
     address: "",
   });
 
@@ -40,22 +34,26 @@ const LearningTypes = () => {
     return <h2 className="text-center mt-5">Invalid Learning Mode</h2>;
   }
 
-  // Universities fetch
+  // ================= FETCH UNIVERSITIES =================
   useEffect(() => {
     axios
       .get("https://collegemilan-backend-2.onrender.com/api/universities")
-      .then((res) => setUniversities(res.data))
+      .then((res) => {
+        setUniversities(res.data.data || []);
+      })
       .catch((err) => console.error(err));
   }, []);
 
-  // Courses fetch
+  // ================= FETCH COURSES =================
   useEffect(() => {
-    if (formData.university && formData.university !== SRM_UNIVERSITY.id) {
+    if (formData.university) {
       axios
         .get(
           `https://collegemilan-backend-2.onrender.com/api/courses/${formData.university}?mode=${mode}`
         )
-        .then((res) => setCourses(res.data))
+        .then((res) => {
+          setCourses(res.data.data || []);
+        })
         .catch((err) => console.error(err));
     } else {
       setCourses([]);
@@ -66,33 +64,43 @@ const LearningTypes = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  // ================= SUBMIT =================
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-     if (!agreed) {
-    alert("Please agree to receive information before submitting the form.");
-    return;
-  }
-
-    if (formData.university === SRM_UNIVERSITY.id) {
-      window.open(SRM_UNIVERSITY.url, "_blank");
+    if (!agreed) {
+      alert("Please agree before submitting.");
       return;
     }
 
-    axios
-      .post(
+    if (!formData.university || !formData.course) {
+      alert("Please select University and Course.");
+      return;
+    }
+
+    try {
+      const res = await axios.post(
         "https://collegemilan-backend-2.onrender.com/api/enquiries",
         formData
-      )
-      .then(() => {
-        setIsSubmitted(true);
-      })
-      .catch((err) => console.error(err));
+      );
+
+      // ✅ Redirect if bitlink exists
+      if (res.data.redirectLink) {
+        window.location.href = res.data.redirectLink;
+        return;
+      }
+
+      setIsSubmitted(true);
+
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong.");
+    }
   };
 
   return (
     <div className="cm-wrapper">
-      
+
       {/* HERO */}
       <section className="cm-hero text-center text-white">
         <motion.div initial={{ opacity: 0, y: -30 }} animate={{ opacity: 1, y: 0 }}>
@@ -129,16 +137,10 @@ const LearningTypes = () => {
                 </label>
 
                 <Select
-                  options={[
-                    {
-                      value: SRM_UNIVERSITY.id,
-                      label: SRM_UNIVERSITY.name,
-                    },
-                    ...universities.map((u) => ({
-                      value: u._id,
-                      label: u.name,
-                    })),
-                  ]}
+                  options={universities.map((u) => ({
+                    value: u._id,
+                    label: u.name,
+                  }))}
                   onChange={(selected) =>
                     setFormData({
                       ...formData,
@@ -165,8 +167,8 @@ const LearningTypes = () => {
                     })
                   }
                   placeholder="Search course..."
-                  isDisabled={formData.university === SRM_UNIVERSITY.id}
                   menuPlacement="top"
+                  isDisabled={!formData.university}
                 />
               </div>
             </div>
@@ -176,33 +178,18 @@ const LearningTypes = () => {
             </h5>
 
             <div className="row g-3">
+
               <div className="col-md-6">
                 <label className="form-label">
                   <User size={16}/> Full Name*
                 </label>
                 <input
                   type="text"
-                  name="fullName"
+                  name="name"
                   className="form-control"
-                  placeholder="Enter name as per 10th class"
                   required
                   onChange={handleChange}
                 />
-              </div>
-
-              <div className="col-md-6">
-                <label className="form-label">Gender*</label>
-                <select
-                  name="gender"
-                  className="form-select"
-                  required
-                  onChange={handleChange}
-                >
-                  <option value="">Select</option>
-                  <option>Male</option>
-                  <option>Female</option>
-                  <option>Other</option>
-                </select>
               </div>
 
               <div className="col-md-6">
@@ -224,7 +211,7 @@ const LearningTypes = () => {
                 </label>
                 <input
                   type="tel"
-                  name="mobile"
+                  name="phone"
                   className="form-control"
                   required
                   onChange={handleChange}
@@ -244,7 +231,7 @@ const LearningTypes = () => {
                 />
               </div>
 
-                <div className="col-md-6">
+              <div className="col-md-6">
                 <label className="form-label">
                   <Flag size={16}/> State*
                 </label>
@@ -271,18 +258,18 @@ const LearningTypes = () => {
               </div>
             </div>
 
-           <div className="form-check my-3">
-  <input
-    className="form-check-input"
-    type="checkbox"
-    id="agreeCheckbox"
-    checked={agreed}
-    onChange={(e) => setAgreed(e.target.checked)}
-  />
-  <label className="form-check-label" htmlFor="agreeCheckbox">
-    I am agree to share Information with College Milan
-  </label>
-</div>
+            <div className="form-check my-3">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                checked={agreed}
+                onChange={(e) => setAgreed(e.target.checked)}
+              />
+              <label className="form-check-label">
+                I agree to share information with College Milan
+              </label>
+            </div>
+
             <div className="text-center mt-4">
               <motion.button
                 whileHover={{ scale: 1.07 }}
@@ -291,9 +278,7 @@ const LearningTypes = () => {
                 className="btn px-5 py-2 fw-bold"
                 style={{ background: orange, color: "#fff" }}
               >
-                {formData.university === SRM_UNIVERSITY.id
-                  ? "Visit"
-                  : "Submit Enquiry"}
+                Submit Enquiry
               </motion.button>
             </div>
           </form>

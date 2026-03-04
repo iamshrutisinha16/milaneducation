@@ -4,7 +4,9 @@ import axios from "axios";
 const AdminUniversities = () => {
   const [universities, setUniversities] = useState([]);
   const [formData, setFormData] = useState({
-    name: "",  
+    name: "",
+    state: "",
+    bitlink: "",
   });
   const [editingId, setEditingId] = useState(null);
 
@@ -15,13 +17,17 @@ const AdminUniversities = () => {
     Authorization: `Bearer ${token}`,
   };
 
-  // Fetch all Universities
+  // ================= FETCH UNIVERSITIES =================
   const fetchUniversities = async () => {
     try {
-      const res = await axios.get(`${API_BASE_URL}/api/admin/universities`, {
-        headers,
-      });
-      setUniversities(res.data);
+      const res = await axios.get(
+        `${API_BASE_URL}/api/admin/universities`,
+        { headers }
+      );
+
+      // ✅ Important fix (backend structured response)
+      setUniversities(res.data.data || []);
+
     } catch (error) {
       console.error("Error fetching universities:", error);
     }
@@ -31,17 +37,17 @@ const AdminUniversities = () => {
     fetchUniversities();
   }, []);
 
-  // Handle Input Change
+  // ================= HANDLE INPUT CHANGE =================
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Add / Update University
+  // ================= ADD / UPDATE UNIVERSITY =================
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       if (editingId) {
-        // Update
         await axios.put(
           `${API_BASE_URL}/api/admin/universities/${editingId}`,
           formData,
@@ -49,7 +55,6 @@ const AdminUniversities = () => {
         );
         alert("University updated successfully!");
       } else {
-        // Create
         await axios.post(
           `${API_BASE_URL}/api/admin/universities`,
           formData,
@@ -58,36 +63,50 @@ const AdminUniversities = () => {
         alert("University added successfully!");
       }
 
-      setFormData({ name: "" }); // Form clear karo
+      // Reset form
+      setFormData({
+        name: "",
+        state: "",
+        bitlink: "",
+      });
+
       setEditingId(null);
-      fetchUniversities(); // Table refresh karo
+      fetchUniversities();
+
     } catch (error) {
-      console.error("Error saving university:", error.response?.data || error.message);
-      alert("Failed to save University. Check console for details.");
+      console.error(
+        "Error saving university:",
+        error.response?.data || error.message
+      );
+      alert("Failed to save University. Check console.");
     }
   };
 
-  // Edit Button Click
+  // ================= EDIT =================
   const handleEdit = (uni) => {
     setFormData({
-      name: uni.name,
+      name: uni.name || "",
+      state: uni.state || "",
+      bitlink: uni.bitlink || "",
     });
     setEditingId(uni._id);
   };
 
-  // Delete University
+  // ================= DELETE =================
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this University?")) return;
+    if (!window.confirm("Are you sure you want to delete this University?"))
+      return;
 
     try {
-      await axios.delete(`${API_BASE_URL}/api/admin/universities/${id}`, {
-        headers,
-      });
+      await axios.delete(
+        `${API_BASE_URL}/api/admin/universities/${id}`,
+        { headers }
+      );
       alert("University deleted!");
       fetchUniversities();
     } catch (error) {
       console.error("Error deleting university:", error);
-      alert("Cannot delete university. Note: Agar isme courses add hain, toh pehle courses delete karne pad sakte hain.");
+      alert("Cannot delete university.");
     }
   };
 
@@ -95,41 +114,83 @@ const AdminUniversities = () => {
     <div>
       <h3 className="mb-4">Manage Universities</h3>
 
-      {/* Add/Edit Form */}
+      {/* ================= FORM ================= */}
       <form onSubmit={handleSubmit} className="mb-4">
-        <div className="row g-2 align-items-center">
-          <div className="col-md-8">
+        <div className="row g-2">
+
+          <div className="col-md-4">
             <input
               type="text"
               name="name"
-              placeholder="Enter University Name"
+              placeholder="University Name"
               className="form-control"
               value={formData.name}
               onChange={handleChange}
               required
             />
           </div>
-          <div className="col-md-4">
+
+          <div className="col-md-3">
+            <input
+              type="text"
+              name="state"
+              placeholder="State (optional)"
+              className="form-control"
+              value={formData.state}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="col-md-3">
+            <input
+              type="text"
+              name="bitlink"
+              placeholder="Admission Bitlink (optional)"
+              className="form-control"
+              value={formData.bitlink}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="col-md-2">
             <button className="btn btn-primary w-100" type="submit">
-              {editingId ? "Update University" : "+ Add University"}
+              {editingId ? "Update" : "+ Add"}
             </button>
           </div>
+
         </div>
       </form>
 
-      {/* Universities Table */}
+      {/* ================= TABLE ================= */}
       <table className="table table-bordered table-hover mt-4">
         <thead className="table-light">
           <tr>
-            <th>University Name</th>
+            <th>Name</th>
+            <th>State</th>
+            <th>Bitlink</th>
             <th style={{ width: "200px" }}>Actions</th>
           </tr>
         </thead>
+
         <tbody>
           {universities.length > 0 ? (
             universities.map((uni) => (
               <tr key={uni._id}>
                 <td>{uni.name}</td>
+                <td>{uni.state || "-"}</td>
+                <td>
+                  {uni.bitlink ? (
+                    <a
+                      href={uni.bitlink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Open Link
+                    </a>
+                  ) : (
+                    "-"
+                  )}
+                </td>
                 <td>
                   <button
                     className="btn btn-sm btn-warning me-2"
@@ -148,8 +209,8 @@ const AdminUniversities = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="2" className="text-center text-muted">
-                No universities found. Please add one.
+              <td colSpan="4" className="text-center text-muted">
+                No universities found.
               </td>
             </tr>
           )}
