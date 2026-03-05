@@ -11,6 +11,9 @@ const validModes = ["online", "regular", "distance", "studyabroad"];
 
 const LearningTypes = () => {
   const { mode } = useParams();
+  const token = localStorage.getItem("adminToken"); // Admin token if needed
+
+  const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
   const [formData, setFormData] = useState({
     course: "",
@@ -39,37 +42,39 @@ const LearningTypes = () => {
   // ================= FETCH UNIVERSITIES =================
   useEffect(() => {
     axios
-      .get("https://collegemilan-backend-2.onrender.com/api/universities")
-      .then((res) => setUniversities(res.data.data || []))
+      .get("https://collegemilan-backend-2.onrender.com/api/universities", { headers })
+      .then((res) => {
+        setUniversities(res.data.data || res.data || []);
+      })
       .catch((err) => console.error("Universities fetch error:", err));
-  }, []);
-
-  // ================= FETCH QUALIFICATIONS =================
-  useEffect(() => {
-    axios
-      .get("https://collegemilan-backend-2.onrender.com/api/qualifications")
-      .then((res) => setQualifications(res.data.data || []))
-      .catch((err) => console.error("Qualifications fetch error:", err));
   }, []);
 
   // ================= FETCH COURSES =================
   useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        if (!formData.university) {
-          setCourses([]);
-          return;
-        }
-        const url = `https://collegemilan-backend-2.onrender.com/api/courses/${formData.university}?mode=${mode}`;
-        const res = await axios.get(url);
-        setCourses(res.data.data || []);
-      } catch (err) {
-        console.error("Courses fetch error:", err);
-        setCourses([]);
-      }
-    };
-    fetchCourses();
+    if (formData.university) {
+      axios
+        .get(
+          `https://collegemilan-backend-2.onrender.com/api/courses/${formData.university}?mode=${mode}`,
+          { headers }
+        )
+        .then((res) => {
+          setCourses(res.data.data || res.data || []);
+        })
+        .catch((err) => console.error("Courses fetch error:", err));
+    } else {
+      setCourses([]);
+    }
   }, [formData.university, mode]);
+
+  // ================= FETCH QUALIFICATIONS =================
+  useEffect(() => {
+    axios
+      .get("https://collegemilan-backend-2.onrender.com/api/qualifications", { headers })
+      .then((res) => {
+        setQualifications(res.data.data || res.data || []);
+      })
+      .catch((err) => console.error("Qualifications fetch error:", err));
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -101,16 +106,14 @@ const LearningTypes = () => {
       }
 
       setIsSubmitted(true);
-
     } catch (err) {
-      console.error(err);
+      console.error("Submit Enquiry Error:", err);
       alert("Something went wrong.");
     }
   };
 
   return (
     <div className="cm-wrapper">
-
       {/* HERO */}
       <section className="cm-hero text-center text-white">
         <motion.div initial={{ opacity: 0, y: -30 }} animate={{ opacity: 1, y: 0 }}>
@@ -128,15 +131,13 @@ const LearningTypes = () => {
 
           <form className="p-4" onSubmit={handleSubmit}>
             <h5 className="section-title">Course & University Details</h5>
-
             <div className="row g-3">
-
               {/* University */}
               <div className="col-md-4">
-                <label className="form-label"><GraduationCap size={16}/> Select University*</label>
+                <label className="form-label"><GraduationCap size={16} /> Select University*</label>
                 <Select
                   options={universities.map((u) => ({ value: u._id, label: u.name }))}
-                  onChange={(selected) => setFormData({ ...formData, university: selected.value })}
+                  onChange={(selected) => setFormData({ ...formData, university: selected.value, course: "" })}
                   placeholder="Search university..."
                   menuPlacement="top"
                 />
@@ -148,7 +149,7 @@ const LearningTypes = () => {
                 <Select
                   options={courses.map((c) => ({ value: c._id, label: c.course_name }))}
                   onChange={(selected) => setFormData({ ...formData, course: selected.value })}
-                  placeholder={formData.university ? "Search course..." : "Select university first"}
+                  placeholder="Search course..."
                   menuPlacement="top"
                   isDisabled={!formData.university}
                 />
@@ -164,20 +165,19 @@ const LearningTypes = () => {
                   menuPlacement="top"
                 />
               </div>
-
             </div>
 
+            {/* Student Personal Info */}
             <h5 className="section-title mt-4">Student Personal Information</h5>
             <div className="row g-3">
-
               <div className="col-md-6">
-                <label className="form-label"><User size={16}/> Full Name*</label>
-                <input type="text" name="name" className="form-control" required onChange={handleChange}/>
+                <label className="form-label"><User size={16} /> Full Name*</label>
+                <input type="text" name="name" className="form-control" required onChange={handleChange} />
               </div>
 
               <div className="col-md-6">
-                <label className="form-label"><Mail size={16}/> Email*</label>
-                <input type="email" name="email" className="form-control" required onChange={handleChange}/>
+                <label className="form-label"><Mail size={16} /> Email*</label>
+                <input type="email" name="email" className="form-control" required onChange={handleChange} />
               </div>
 
               <div className="col-md-6">
@@ -191,23 +191,23 @@ const LearningTypes = () => {
               </div>
 
               <div className="col-md-6">
-                <label className="form-label"><Phone size={16}/> Mobile*</label>
-                <input type="tel" name="phone" className="form-control" required onChange={handleChange}/>
+                <label className="form-label"><Phone size={16} /> Mobile*</label>
+                <input type="tel" name="phone" className="form-control" required onChange={handleChange} />
               </div>
 
               <div className="col-md-6">
-                <label className="form-label"><MapPin size={16}/> City*</label>
-                <input type="text" name="city" className="form-control" required onChange={handleChange}/>
+                <label className="form-label"><MapPin size={16} /> City*</label>
+                <input type="text" name="city" className="form-control" required onChange={handleChange} />
               </div>
 
               <div className="col-md-6">
-                <label className="form-label"><Flag size={16}/> State*</label>
-                <input type="text" name="state" className="form-control" required onChange={handleChange}/>
+                <label className="form-label"><Flag size={16} /> State*</label>
+                <input type="text" name="state" className="form-control" required onChange={handleChange} />
               </div>
 
               <div className="col-12">
-                <label className="form-label"><Home size={16}/> Address*</label>
-                <textarea name="address" rows="3" className="form-control" required onChange={handleChange}/>
+                <label className="form-label"><Home size={16} /> Address*</label>
+                <textarea name="address" rows="3" className="form-control" required onChange={handleChange} />
               </div>
             </div>
 
@@ -232,7 +232,9 @@ const LearningTypes = () => {
             <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.8, opacity: 0 }} className="modal-box text-center">
               <h4 style={{ color: orange }}>Enquiry Submitted!</h4>
               <p>Our counselor will contact you soon.</p>
-              <button className="btn w-100" style={{ background: orange, color: "#fff" }} onClick={() => setIsSubmitted(false)}>Done</button>
+              <button className="btn w-100" style={{ background: orange, color: "#fff" }} onClick={() => setIsSubmitted(false)}>
+                Done
+              </button>
             </motion.div>
           </div>
         )}
