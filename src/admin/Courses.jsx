@@ -31,38 +31,29 @@ const AdminCourses = () => {
     }
   }, [message]);
 
-  // ================= FETCH COURSES =================
-  const fetchCourses = async () => {
-    try {
-      const res = await axios.get(`${API_BASE_URL}/api/admin/courses`, { headers });
 
-      // ✅ FIXED
-      setCourses(res.data.data || []);
+ const fetchCourses = async () => {
+  try {
+    const res = await axios.get(`${API_BASE_URL}/api/admin/courses`, { headers });
+    setCourses(res.data || []);
+  } catch (err) {
+    console.error("Courses fetch error:", err);
+  }
+};
 
-    } catch (err) {
-      console.error("Courses fetch error:", err);
-    }
-  };
+const fetchQualifications = async () => {
+  try {
+    const res = await axios.get(`${API_BASE_URL}/api/admin/qualifications`, { headers });
+    setQualifications(res.data || []);
+  } catch (err) {
+    console.error("Qualifications fetch error:", err);
+  }
+};
 
-  // ================= FETCH QUALIFICATIONS =================
-  const fetchQualifications = async () => {
-    try {
-      const res = await axios.get(`${API_BASE_URL}/api/admin/qualifications`, { headers });
-
-      // ✅ FIXED
-      setQualifications(res.data.data || []);
-
-    } catch (err) {
-      console.error("Qualifications fetch error:", err);
-    }
-  };
-
-  // ================= FETCH UNIVERSITIES =================
   const fetchUniversities = async () => {
     try {
       const res = await axios.get(`${API_BASE_URL}/api/admin/universities`, { headers });
-
-      // ✅ FIXED
+ 
       setUniversities(res.data.data || []);
 
     } catch (err) {
