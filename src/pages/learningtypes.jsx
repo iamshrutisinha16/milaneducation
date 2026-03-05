@@ -12,7 +12,6 @@ const validModes = ["online", "regular", "distance", "studyabroad"];
 const LearningTypes = () => {
   const { mode } = useParams();
   const token = localStorage.getItem("adminToken"); // Admin token if needed
-
   const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
   const [formData, setFormData] = useState({
@@ -27,6 +26,7 @@ const LearningTypes = () => {
     city: "",
     state: "",
     address: "",
+    message: "",
   });
 
   const [universities, setUniversities] = useState([]);
@@ -43,9 +43,7 @@ const LearningTypes = () => {
   useEffect(() => {
     axios
       .get("https://collegemilan-backend-2.onrender.com/api/universities", { headers })
-      .then((res) => {
-        setUniversities(res.data.data || res.data || []);
-      })
+      .then((res) => setUniversities(res.data.data || res.data || []))
       .catch((err) => console.error("Universities fetch error:", err));
   }, []);
 
@@ -57,9 +55,7 @@ const LearningTypes = () => {
           `https://collegemilan-backend-2.onrender.com/api/courses/${formData.university}?mode=${mode}`,
           { headers }
         )
-        .then((res) => {
-          setCourses(res.data.data || res.data || []);
-        })
+        .then((res) => setCourses(res.data.data || res.data || []))
         .catch((err) => console.error("Courses fetch error:", err));
     } else {
       setCourses([]);
@@ -70,9 +66,7 @@ const LearningTypes = () => {
   useEffect(() => {
     axios
       .get("https://collegemilan-backend-2.onrender.com/api/qualifications", { headers })
-      .then((res) => {
-        setQualifications(res.data.data || res.data || []);
-      })
+      .then((res) => setQualifications(res.data.data || res.data || []))
       .catch((err) => console.error("Qualifications fetch error:", err));
   }, []);
 
@@ -95,9 +89,25 @@ const LearningTypes = () => {
     }
 
     try {
+      const payload = {
+        fullName: formData.name,
+        mobile: formData.phone,
+        email: formData.email,
+        course: formData.course || null,
+        university: formData.university || null,
+        qualification: formData.qualification || null,
+        gender: formData.gender || null,
+        city: formData.city,
+        state: formData.state || null,
+        address: formData.address || null,
+        learningMode: formData.learningMode || null,
+        message: formData.message || null,
+      };
+
       const res = await axios.post(
         "https://collegemilan-backend-2.onrender.com/api/enquiries",
-        formData
+        payload,
+        { headers }
       );
 
       if (res.data.redirectLink) {
@@ -137,7 +147,7 @@ const LearningTypes = () => {
                 <label className="form-label"><GraduationCap size={16} /> Select University*</label>
                 <Select
                   options={universities.map((u) => ({ value: u._id, label: u.name }))}
-                  onChange={(selected) => setFormData({ ...formData, university: selected.value, course: "" })}
+                  onChange={(selected) => setFormData({ ...formData, university: selected ? selected.value : "", course: "" })}
                   placeholder="Search university..."
                   menuPlacement="top"
                 />
@@ -148,7 +158,7 @@ const LearningTypes = () => {
                 <label className="form-label">Select Course*</label>
                 <Select
                   options={courses.map((c) => ({ value: c._id, label: c.course_name }))}
-                  onChange={(selected) => setFormData({ ...formData, course: selected.value })}
+                  onChange={(selected) => setFormData({ ...formData, course: selected ? selected.value : "" })}
                   placeholder="Search course..."
                   menuPlacement="top"
                   isDisabled={!formData.university}
@@ -160,7 +170,7 @@ const LearningTypes = () => {
                 <label className="form-label">Select Qualification</label>
                 <Select
                   options={qualifications.map((q) => ({ value: q._id, label: q.name }))}
-                  onChange={(selected) => setFormData({ ...formData, qualification: selected.value })}
+                  onChange={(selected) => setFormData({ ...formData, qualification: selected ? selected.value : "" })}
                   placeholder="Search qualification..."
                   menuPlacement="top"
                 />
