@@ -8,7 +8,7 @@ const [data,setData] = useState(null)
 
 useEffect(()=>{
 
- axios.get("https://collegemilan-backend-2.onrender.com/api/admin/home")
+ axios.get("https://collegemilan-backend-2.onrender.com/api/admin/home/home-page")
  .then(res=>setData(res.data))
 
 },[])
@@ -27,7 +27,7 @@ const handleHeroChange = (e)=>{
 
 const updatePage = ()=>{
 
- axios.put("https://collegemilan-backend-2.onrender.com/api/admin/home",data)
+ axios.put("https://collegemilan-backend-2.onrender.com/api/admin/home/home-page",data)
  .then(()=>alert("Home Page Updated"))
 
 }

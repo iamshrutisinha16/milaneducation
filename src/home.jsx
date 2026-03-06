@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Button, Row, Col, Carousel } from 'react-bootstrap';
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from 'framer-motion'; 
@@ -10,6 +10,7 @@ import {
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const [homeData, setHomeData] = useState(null);
   const [formData, setFormData] = useState({
     fullName: "",
     city: "",
@@ -18,7 +19,16 @@ const HomePage = () => {
   });
 
   const [showSuccess, setShowSuccess] = useState(false);
-
+useEffect(() => {
+  axios
+    .get("https://collegemilan-backend-2.onrender.com/api/admin/home/home-page")
+    .then((res) => {
+      setHomeData(res.data);
+    })
+    .catch((err) => {
+      console.log("Home fetch error", err);
+    });
+}, []);
   
   // ✅ THIS MUST BE HERE
   const handleChange = (e) => {
@@ -50,6 +60,7 @@ const HomePage = () => {
       alert("Something went wrong. Please try again.");
     }
   };
+  if (!homeData) return null;
   return (
     <>
       <section className="hero-section">
@@ -65,24 +76,19 @@ const HomePage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.9 }}
               >
+                
                 <h1 className="hero-titles">
-                  Shape Your <br />
-                  <span className="hero-subtitles">Career With Confidence</span>
-                </h1>
+                {homeData.heroSection.title}
+ n             </h1>
 
-                <p className="hero-desc mt-4">
-                  College Education helps students choose the right career path
-                  through expert counseling, psychometric analysis and
-                  result-oriented mentorship.
-                </p>
+                <h1 className="hero-titles">
+                {homeData.heroSection.title}
+               </h1>
 
                 <div className="mt-5 d-flex gap-3 flex-wrap">
-                  <Button
-                    className="hero-btn-main"
-                    onClick={() => navigate("/careermap")}
-                  >
-                    Explore Programs
-                  </Button>
+                 <Button className="hero-btn-main"onClick={() => navigate("/careermap")}>
+                {homeData.heroSection.buttonText}
+               </Button>
                 </div>
               </motion.div>
             </Col>
