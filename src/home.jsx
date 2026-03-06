@@ -81,6 +81,9 @@ useEffect(() => {
                 {homeData.heroSection.title}
  n             </h1>
 
+                 <p className="hero-desc mt-4">
+                {homeData.heroSection.description}
+                </p>
                 <div className="mt-5 d-flex gap-3 flex-wrap">
                  <Button className="hero-btn-main"onClick={() => navigate("/careermap")}>
                 {homeData.heroSection.buttonText}
