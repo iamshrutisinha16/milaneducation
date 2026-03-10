@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container, Button, Row, Col, Carousel } from 'react-bootstrap';
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from 'framer-motion'; 
-import axios from "axios";
+import axios from "axios"
 import { 
   FaMapMarkedAlt, FaBrain, FaUserTie, FaVideo, FaArrowRight, 
   FaChevronRight, FaUserGraduate, FaChalkboardTeacher,FaCheckCircle, FaAward, FaGlobe 
@@ -21,7 +21,7 @@ const HomePage = () => {
   const [showSuccess, setShowSuccess] = useState(false);
 useEffect(() => {
   axios
-    .get("https://collegemilan-backend-2.onrender.com/api/admin/home")
+    .get("https://collegemilan-backend-2.onrender.com/api/admin/home/home-page")
     .then((res) => {
       setHomeData(res.data);
     })
@@ -30,7 +30,6 @@ useEffect(() => {
     });
 }, []);
   
-  // ✅ THIS MUST BE HERE
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -79,7 +78,7 @@ useEffect(() => {
                 
                 <h1 className="hero-titles">
                 {homeData.heroSection.title}
- n             </h1>
+              </h1>
 
                  <p className="hero-desc mt-4">
                 {homeData.heroSection.description}
@@ -122,180 +121,212 @@ useEffect(() => {
           </Row>
         </Container>
       </section>
+  
+  <section className="services-section">
+  <div className="bg-dots-pattern"></div>
+  <Container>
+    <Row className="g-4 justify-content-center">
+      {homeData?.servicesSection?.map((item, index) => {
+        const iconMap = {
+          "Career Map": <FaMapMarkedAlt />,
+          "Psychometric Test": <FaBrain />,
+          "Counseling Session": <FaUserTie />,
+          "Watch Photos & Videos": <FaVideo />
+        };
 
-      {/* ================= PREMIUM SERVICES ================= */}
-      <section className="services-section">
-        <div className="bg-dots-pattern"></div>
+        return (
+          <Col lg={3} md={6} key={index}>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1, duration: 0.6 }}
+              className="h-100"
+            >
+              <Link to={item.link} style={{ textDecoration: "none" }}>
+                <div className="premium-service-card shadow-lg">
+                  
+                  <div
+                    className="card-top-accent"
+                    style={{ backgroundColor: item.color }}
+                  ></div>
 
-        <Container>
-          <Row className="g-4 justify-content-center">
-            {[
-              { 
-                title: "Career Map", 
-                desc: "Strategic roadmaps for your academic journey.",
-                icon: <FaMapMarkedAlt />, 
-                link: "/careermap",
-                color: "#f47920" 
-              },
-              { 
-                title: "Psychometric Test", 
-                desc: "Scientific analysis of your skills and personality.",
-                icon: <FaBrain />, 
-                link: "/test",
-                color: "#2b2d42" 
-              },
-              { 
-                title: "Counseling Session", 
-                desc: "Personalized 1-on-1 expert career guidance.",
-                icon: <FaUserTie />, 
-                link: "/test",
-                color: "#866248" 
-              },
-              { 
-                title: "Watch Photos & Videos", 
-                desc: "Premium Photo and Video content for career insights.",
-                icon: <FaVideo />, 
-                link: "/event&updates",
-                color: "#2b2d42" 
-              }
-            ].map((item, index) => (
-              <Col lg={3} md={6} key={index}>
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1, duration: 0.6 }}
-                  className="h-100"
-                >
-                  <Link to={item.link} style={{ textDecoration: "none" }}>
-                    <div className="premium-service-card shadow-lg">
-                      <div className="card-top-accent" style={{ backgroundColor: item.color }}></div>
-                      <span className="card-step-number">0{index + 1}</span>
+                  <span className="card-step-number">
+                    0{index + 1}
+                  </span>
 
-                      <div className="icon-wrapper mb-4" style={{ backgroundColor: `${item.color}15`, color: item.color }}>
-                        {item.icon}
-                      </div>
+                  <div
+                    className="icon-wrapper mb-4"
+                    style={{
+                      backgroundColor: `${item.color}15`,
+                      color: item.color
+                    }}
+                  >
+                    {iconMap[item.title]}
+                  </div>
 
-                      <div style={{ position: 'relative', zIndex: 1 }}>
-                        <h4 className="fw-bold mb-3" style={{ color: '#1a1a1a', fontSize: '1.35rem' }}>
-                          {item.title}
-                        </h4>
-                        <p className="text-muted small mb-4" style={{ lineHeight: '1.6', minHeight: '50px' }}>
-                          {item.desc}
-                        </p>
-                        <Link to="/careermap" style={{ textDecoration: "none" }}>
-                        <Button variant="link" 
-                         className="p-0 fw-bold text-decoration-none d-flex align-items-center justify-content-center mx-auto"
-                         style={{ color: item.color, gap: '8px' }}>
-                         EXPLORE <FaChevronRight size={12} />
-                       </Button>
-                       </Link>
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              </Col>
-            ))}
-          </Row>
-        </Container>
-      </section>
+                  <div style={{ position: "relative", zIndex: 1 }}>
+                    <h4
+                      className="fw-bold mb-3"
+                      style={{ color: "#1a1a1a", fontSize: "1.35rem" }}
+                    >
+                      {item.title}
+                    </h4>
 
-      {/* ================= ABOUT SECTION ================= */}
-      <section id="about" className="about-section">
-        <div className="about-mesh-gradient"></div>
+                    <p
+                      className="text-muted small mb-4"
+                      style={{ lineHeight: "1.6", minHeight: "50px" }}
+                    >
+                      {item.description}
+                    </p>
 
-        <Container className="position-relative" style={{ zIndex: 10 }}>
-          <Row className="align-items-center gy-5">
-            {/* LEFT IMAGES */}
-            <Col lg={6}>
-              <div className="collage-container">
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8 }}
-                  className="collage-img-1"
-                >
-                  <img src="https://i.pinimg.com/736x/63/20/ed/6320ed9a61834db5beb4a6df8788f40d.jpg" alt="Founder" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                </motion.div>
+                    <Link to={item.link} style={{ textDecoration: "none" }}>
+                      <Button
+                        variant="link"
+                        className="p-0 fw-bold text-decoration-none d-flex align-items-center justify-content-center mx-auto"
+                        style={{ color: item.color, gap: "8px" }}
+                      >
+                        EXPLORE <FaChevronRight size={12} />
+                      </Button>
+                    </Link>
+                  </div>
 
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                  className="collage-img-2"
-                >
-                  <img src="/assets/event10.jpeg" alt="Session" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, x: -30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8, delay: 0.4 }}
-                  className="collage-img-3"
-                >
-                  <img src="https://i.pinimg.com/1200x/7a/83/7c/7a837c860b767d640b16c66da66b512b.jpg" alt="Detail" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                </motion.div>
-              </div>
-            </Col>
-
-            {/* RIGHT CONTENT */}
-            <Col lg={6} className="ps-lg-5">
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-              >
-                <span className="since-badge px-2 py-1">SINCE 2008</span>
-
-                <h2 className="fw-bold my-4" style={{ fontSize: "2.3rem", color: "#1a1a2e", lineHeight: "1.2" }}>
-                  Transforming Aspirations into <span style={{ color: "#f47920" }}>real Success Stories</span>
-                </h2>
-
-                <p className="text-muted">
-                   <strong>College Milan</strong> is more than just a career platform.
-                   It’s a dedicated ecosystem led by Mr. <strong>Mohit Bansal</strong>, designed to bridge the gap
-                   between student potential and career excellence.
-                   <br /><br />
-                   Our mission is to guide students at every stage of their journey,
-                   from choosing the right college to building a successful career.
-                </p>
-              <Button as={Link} to="/aboutus" className="hero-btn-main mt-3">
-                Discover More
-              </Button>
-              </motion.div>
-            </Col>
-          </Row>
-        </Container>
-      </section>
-
-      <section className="video-section">
-      <Container>
-        <Row className="justify-content-center">
-          <Col lg={10}>
-            <div className="text-center">
-              <h2>Discover How We Shape Careers</h2>
-              <p>Watch how College Milan is transforming student futures.</p>
-            </div>
-            <div className="video-container">
-              <iframe
-                width="100%"  
-                height="500"
-                src="https://www.youtube.com/embed/3n-DOKBffuU"
-                title="Education Video"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-            </div>
+                </div>
+              </Link>
+            </motion.div>
           </Col>
-        </Row>
-      </Container>
-    </section>
+        );
+      })}
+    </Row>
+  </Container>
+</section>
+{/* ================= ABOUT SECTION ================= */}
+<section id="about" className="about-section">
+  <div className="about-mesh-gradient"></div>
 
-      {/* ================= PARALLAX SECTIONS ================= */}
+  <Container className="position-relative" style={{ zIndex: 10 }}>
+    <Row className="align-items-center gy-5">
+      
+      {/* LEFT IMAGES */}
+      <Col lg={6}>
+        <div className="collage-container">
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="collage-img-1"
+          >
+            <img
+              src={`https://collegemilan-backend-2.onrender.com${homeData.founderSection?.image1}`}
+              alt="Founder"
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="collage-img-2"
+          >
+            <img
+              src={`https://collegemilan-backend-2.onrender.com${homeData.founderSection?.image2}`}
+              alt="Session"
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="collage-img-3"
+          >
+            <img
+              src={`https://collegemilan-backend-2.onrender.com${homeData.founderSection?.image3}`}
+              alt="Detail"
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          </motion.div>
+
+        </div>
+      </Col>
+
+      {/* RIGHT CONTENT */}
+      <Col lg={6} className="ps-lg-5">
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+
+          <span className="since-badge px-2 py-1">
+            SINCE {homeData.founderSection?.since}
+          </span>
+
+          <h2
+            className="fw-bold my-4"
+            style={{
+              fontSize: "2.3rem",
+              color: "#1a1a2e",
+              lineHeight: "1.2"
+            }}
+          >
+            {homeData.founderSection?.title}
+          </h2>
+
+          <p className="text-muted">
+            {homeData.founderSection?.description}
+          </p>
+
+          <Button
+            as={Link}
+            to="/aboutus"
+            className="hero-btn-main mt-3"
+          >
+            Discover More
+          </Button>
+
+        </motion.div>
+      </Col>
+    </Row>
+  </Container>
+</section>
+     <section className="video-section">
+  <Container>
+    <Row className="justify-content-center">
+      <Col lg={10}>
+        <div className="text-center">
+
+          <h2>
+            {homeData.videoSection?.title}
+          </h2>
+
+          <p>
+            {homeData.videoSection?.description}
+          </p>
+
+        </div>
+
+        <div className="video-container">
+          <video width="100%" height="500" controls>
+            <source
+              src={`https://collegemilan-backend-2.onrender.com${homeData.videoSection?.videoUrl}`}
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+      </Col>
+    </Row>
+  </Container>
+</section>
+
       {/* 1. CAREER MAP */}
-      <section className="parallax-pro-section" style={{ backgroundImage: `url('https://i.pinimg.com/1200x/ea/4a/df/ea4adf16e1e40f3570cedaff3a8bc7c3.jpg')` }}>
+      <section className="parallax-pro-section" style={{ backgroundImage: `url('https://collegemilan-backend-2.onrender.com/uploads/careerjourney.jpg')` }}>
         <Container>
           <motion.div 
             initial={{ opacity: 0, x: -50 }} 
@@ -318,7 +349,7 @@ useEffect(() => {
       </section>
 
       {/* 2. PSYCHOMETRIC TEST */}
-      <section className="parallax-pro-section" style={{ backgroundImage: `url('https://i.pinimg.com/736x/a3/b3/36/a3b3368bc38214bdca4acd00d3804575.jpg')` }}>
+      <section className="parallax-pro-section" style={{ backgroundImage: `url('https://collegemilan-backend-2.onrender.com/uploads/PsychometricEvaluation.jpg')` }}>
         <Container className="d-flex justify-content-end">
           <motion.div 
             initial={{ opacity: 0, x: 50 }} 
@@ -343,7 +374,7 @@ useEffect(() => {
       </section>
 
       {/* 3. EXPERT COUNSELING */}
-      <section className="parallax-pro-section" style={{ backgroundImage: `url('https://i.pinimg.com/1200x/f9/42/d6/f942d6dbd41891a36d3ce386d803cff2.jpg')` }}>
+      <section className="parallax-pro-section" style={{ backgroundImage: `url('https://collegemilan-backend-2.onrender.com/uploads/ExpertCounseling.jpg')` }}>
         <Container>
           <motion.div 
             initial={{ opacity: 0, y: 50 }} 
@@ -407,9 +438,9 @@ useEffect(() => {
   <Carousel.Item>
     <Row className="px-md-5 g-4">
       {[
-        { title: "Impact of Digital Learning", link: "/learningtypes", img: "https://i.pinimg.com/1200x/fe/90/d1/fe90d16be8cadcbe894be1bd8090b682.jpg", tag: "Learning" },
-        { title: "Top 10 Career Opportunities", link: "/careermap", img: "https://i.pinimg.com/736x/cc/a4/ed/cca4eddf6eb5ddadb356322404e056f7.jpg", tag: "Career" },
-        { title: "Choose the Right Stream", link: "/careermap", img: "https://i.pinimg.com/736x/8c/66/91/8c669117c73330f55ca438b3e34be459.jpg", tag: "Guidance" }
+        { title: "Impact of Digital Learning", link: "/learningtypes", img: "https://collegemilan-backend-2.onrender.com/uploads/learninghome.jpg", tag: "Learning" },
+        { title: "Top 10 Career Opportunities", link: "/careermap", img: "https://collegemilan-backend-2.onrender.com/uploads/careeroppurtunities.jpg", tag: "Career" },
+        { title: "Choose the Right Stream", link: "/careermap", img: "https://collegemilan-backend-2.onrender.com/uploads/guidance.jpg", tag: "Guidance" }
       ].map((blog, idx) => (
         <Col md={4} key={idx}>
           <div className="blog-card">
@@ -446,9 +477,9 @@ useEffect(() => {
   <Carousel.Item>
     <Row className="px-md-5 g-4">
       {[
-        { title: "Preparation Tips for Exams", link: "/learningtypes", img: "https://i.pinimg.com/736x/1b/90/0e/1b900ec45828a5bd98d0ae9b26f5bfa3.jpg", tag: "Study" },
-        { title: "Developing Soft Skills", link: "/test", img: "https://i.pinimg.com/1200x/54/23/b6/5423b6c25552ca95b35f0c2bf7f5a8e7.jpg", tag: "Skills" },
-        { title: "Mental Well-being", link: "/personalitytest", img: "https://i.pinimg.com/736x/2e/a4/6e/2ea46e02db4c04639487aac0337e5de4.jpg", tag: "Health" }
+        { title: "Preparation Tips for Exams", link: "/learningtypes", img: "https://collegemilan-backend-2.onrender.com/uploads/study.jpg", tag: "Study" },
+        { title: "Developing Soft Skills", link: "/test", img: "https://collegemilan-backend-2.onrender.com/uploads/skills.jpg", tag: "Skills" },
+        { title: "Mental Well-being", link: "/personalitytest", img: "https://collegemilan-backend-2.onrender.com/uploads/health.jpg", tag: "Health" }
       ].map((blog, idx) => (
         <Col md={4} key={idx}>
           <div className="blog-card">
@@ -485,7 +516,6 @@ useEffect(() => {
         </Container>
       </section>
 
-    {/* ================= TESTIMONIALS & FORM ================= */}
 <section className="dark-mesh-section">
   <div className="dark-mesh-dots"></div>
   <div className="dark-blob-anim"></div>

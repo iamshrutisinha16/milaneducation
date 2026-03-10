@@ -1,4 +1,284 @@
 import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { motion } from "framer-motion";
+import axios from "axios";
+
+const AboutUs = () => {
+
+const orange = "#FF8C00";
+const blue = "#003366";
+
+const [about,setAbout] = useState(null);
+
+useEffect(()=>{
+ axios.get("https://collegemilan-backend-2.onrender.com/api/admin/about")
+ .then(res=>{
+  setAbout(res.data)
+ })
+},[])
+
+if(!about) return <div>Loading...</div>
+
+const fadeInUp = {
+ hidden: { opacity: 0, y: 40 },
+ visible: { opacity: 1, y: 0, transition: { duration: 0.7 } }
+};
+
+return (
+
+<div style={{ overflowX:"hidden", backgroundColor:"#fff" }}>
+
+{/* HERO SECTION */}
+
+<section style={{
+ position:"relative",
+ height:"93vh",
+ background:`url(${about.bannerImage})`,
+ backgroundSize:"cover",
+ backgroundPosition:"center",
+ display:"flex",
+ alignItems:"center",
+ justifyContent:"center",
+ color:"white",
+ textAlign:"center",
+ paddingTop:"80px"
+}}>
+
+<div style={{
+ position:"absolute",
+ inset:0,
+ background:"rgba(0,0,0,0.4)"
+}}/>
+
+</section>
+
+
+{/* STORY SECTION */}
+
+<Container className="py-5 my-5">
+<Row className="align-items-center">
+
+<Col lg={6} className="mb-4">
+
+<motion.div
+ initial="hidden"
+ whileInView="visible"
+ variants={fadeInUp}
+ viewport={{ once:true }}
+>
+
+<h6 style={{color:orange,fontWeight:"bold",letterSpacing:"2px"}}>
+{about.story.smallTitle}
+</h6>
+
+<h2 className="fw-bold mb-4" style={{color:blue,fontSize:"2.3rem"}}>
+{about.story.mainTitle}
+</h2>
+
+<p className="text-muted">{about.story.description1}</p>
+<p className="text-muted">{about.story.description2}</p>
+<p className="text-muted">{about.story.description3}</p>
+
+</motion.div>
+
+</Col>
+
+
+<Col lg={6}>
+
+<motion.div
+ initial={{opacity:0,x:50}}
+ whileInView={{opacity:1,x:0}}
+ transition={{duration:0.8}}
+ viewport={{once:true}}
+>
+
+<div style={{position:"relative"}}>
+
+<img
+src={about.story.image}
+alt=""
+className="img-fluid rounded-5 shadow-lg"
+/>
+
+<div style={{
+ position:"absolute",
+ bottom:"-20px",
+ left:"-20px",
+ backgroundColor:orange,
+ color:"white",
+ padding:"20px",
+ borderRadius:"15px",
+ fontWeight:"bold"
+}}>
+{about.story.since}
+</div>
+
+</div>
+
+</motion.div>
+
+</Col>
+
+</Row>
+</Container>
+
+
+{/* STATS */}
+
+<section className="py-5" style={{backgroundColor:blue,color:"white"}}>
+
+<Container>
+<Row className="text-center">
+
+{about.stats.map((stat,index)=>(
+
+<Col md={3} sm={6} key={index} className="mb-4">
+
+<div style={{fontSize:"2.5rem"}}>{stat.icon}</div>
+
+<h1 className="fw-bold mt-2" style={{color:orange,fontSize:"3.2rem"}}>
+{stat.number}
+</h1>
+
+<p className="text-uppercase fw-bold small">
+{stat.label}
+</p>
+
+</Col>
+
+))}
+
+</Row>
+</Container>
+
+</section>
+
+
+{/* MISSION / VISION */}
+
+<Container className="py-5 my-5">
+
+<Row className="g-4 text-center">
+
+<Col md={6}>
+
+<Card className="h-100 p-5 border-0 shadow-sm">
+
+<h3 style={{color:blue}} className="fw-bold">
+{about.mission.title}
+</h3>
+
+<p className="text-muted">
+{about.mission.description}
+</p>
+
+</Card>
+
+</Col>
+
+
+<Col md={6}>
+
+<Card className="h-100 p-5 border-0 shadow-sm">
+
+<h3 style={{color:blue}} className="fw-bold">
+{about.vision.title}
+</h3>
+
+<p className="text-muted">
+{about.vision.description}
+</p>
+
+</Card>
+
+</Col>
+
+</Row>
+
+</Container>
+
+
+{/* VALUES */}
+
+<section className="py-5" style={{backgroundColor:"#f1f4f9"}}>
+
+<Container>
+
+<Row>
+
+{about.values.map((item,i)=>(
+
+<Col lg={3} md={6} key={i} className="mb-4">
+
+<div className="p-4 bg-white rounded-4 shadow-sm text-center">
+
+<div style={{fontSize:"3rem"}}>{item.icon}</div>
+
+<h5 style={{color:blue,fontWeight:"bold"}}>
+{item.title}
+</h5>
+
+<p className="small text-muted">
+{item.desc}
+</p>
+
+</div>
+
+</Col>
+
+))}
+
+</Row>
+
+</Container>
+
+</section>
+
+
+{/* CTA */}
+
+<section className="py-5 text-center text-white"
+style={{background:`linear-gradient(45deg, ${blue}, #001f40)`}}>
+
+<Container>
+
+<h2 className="display-5 fw-bold mb-5">
+{about.ctaTitle}
+</h2>
+
+<p className="lead mb-5 mx-auto" style={{maxWidth:"800px"}}>
+{about.ctaDesc}
+</p>
+
+<Link to="/contactus" style={{textDecoration:"none"}}>
+
+<Button size="lg" style={{
+backgroundColor:orange,
+border:"none",
+padding:"15px 40px",
+fontWeight:"bold",
+borderRadius:"50px"
+}}>
+
+Contact Us Now 📞
+
+</Button>
+
+</Link>
+
+</Container>
+
+</section>
+
+</div>
+);
+};
+
+export default AboutUs;
+
+/*import { Link } from "react-router-dom";
 import React from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { motion } from 'framer-motion';
@@ -22,12 +302,10 @@ const AboutUs = () => {
 
   return (
     <div style={{ overflowX: 'hidden', backgroundColor: '#fff' }}>
-      
-      {/* 1. HERO BANNER SECTION */}
       <section style={{
         position: 'relative',
         height: '93vh',
-        background: `url('/assets/aboutusbanner.png')`,
+        background: `url('https://collegemilan-backend-2.onrender.com/uploads/aboutusbanner.png')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         display: 'flex',
@@ -52,8 +330,6 @@ const AboutUs = () => {
         >
         </motion.div>
       </section>
-
-      {/* 2. OUR STORY SECTION (Detailed Content) */}
       <Container className="py-5 my-5">
         <Row className="align-items-center">
           <Col lg={6} className="mb-4">
@@ -89,7 +365,7 @@ const AboutUs = () => {
             >
               <div style={{ position: 'relative' }}>
                 <img 
-                  src="https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                  src="https://collegemilan-backend-2.onrender.com/uploads/aboutuspageimage.avif" 
                   alt="Milan Team" 
                   className="img-fluid rounded-5 shadow-lg"
                 />
@@ -106,7 +382,6 @@ const AboutUs = () => {
         </Row>
       </Container>
 
-      {/* 3. IMPACT STATISTICS SECTION */}
       <section className="py-5" style={{ backgroundColor: blue, color: 'white' }}>
         <Container>
           <Row className="text-center">
@@ -123,7 +398,6 @@ const AboutUs = () => {
         </Container>
       </section>
 
-      {/* 4. MISSION & VISION SECTION */}
       <Container className="py-5 my-5">
         <Row className="g-4 text-center">
           <Col md={6}>
@@ -151,7 +425,6 @@ const AboutUs = () => {
         </Row>
       </Container>
 
-      {/* 5. CORE VALUES SECTION */}
       <section className="py-5" style={{ backgroundColor: '#f1f4f9' }}>
         <Container>
           <div className="text-center mb-5">
@@ -182,7 +455,6 @@ const AboutUs = () => {
         </Container>
       </section>
 
-      {/* 6. CALL TO ACTION SECTION */}
       <section className="py-5 text-center text-white" style={{ background: `linear-gradient(45deg, ${blue}, #001f40)` }}>
         <Container>
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1 }}>
@@ -203,4 +475,4 @@ const AboutUs = () => {
   );
 };
 
-export default AboutUs;
+export default AboutUs; */

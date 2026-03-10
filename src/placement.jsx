@@ -45,7 +45,7 @@ const navigate = useNavigate();
 
             <div className="col-lg-6 mt-5 mt-lg-0 text-center">
               <motion.img 
-                src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                src="https://collegemilan-backend-2.onrender.com/uploads/placementbanner.avif"
                 alt="Placement Hero"
                 className="img-fluid rounded-4 shadow-lg border border-warning"
                 initial={{ scale: 0.8, opacity: 0 }}
@@ -66,7 +66,7 @@ const navigate = useNavigate();
             <div className="col-lg-6 mb-5 mb-lg-0">
               <div className="about-img-box">
                 <motion.img 
-                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  src="https://collegemilan-backend-2.onrender.com/uploads/placementmeeting.avif"
                   alt="Placement Meeting"
                   className="about-img"
                   whileHover={{ scale: 1.05 }}
@@ -149,25 +149,25 @@ const navigate = useNavigate();
 
       <div className="col-6 col-md-3">
         <div className="recruiter-card p-4">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft" className="img-fluid recruiter-logo" />
+          <img src="https://collegemilan-backend-2.onrender.com/uploads/Microsoftlogo.svg" alt="Microsoft" className="img-fluid recruiter-logo" />
         </div>
       </div>
 
       <div className="col-6 col-md-3">
         <div className="recruiter-card p-4">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" alt="IBM" className="img-fluid recruiter-logo" />
+          <img src="https://collegemilan-backend-2.onrender.com/uploads/IBM.svg" alt="IBM" className="img-fluid recruiter-logo" />
         </div>
       </div>
 
       <div className="col-6 col-md-3">
         <div className="recruiter-card p-4">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon" className="img-fluid recruiter-logo" />
+          <img src="https://collegemilan-backend-2.onrender.com/uploads/Amazon.svg" alt="Amazon" className="img-fluid recruiter-logo" />
         </div>
       </div>
 
       <div className="col-6 col-md-3">
         <div className="recruiter-card p-4">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/TCS_Logo.svg" alt="TCS" className="img-fluid recruiter-logo" />
+          <img src="https://collegemilan-backend-2.onrender.com/uploads/TCS.jpg" alt="TCS" className="img-fluid recruiter-logo" />
         </div>
       </div>
 

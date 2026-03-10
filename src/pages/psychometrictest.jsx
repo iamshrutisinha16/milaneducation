@@ -176,16 +176,15 @@ function Testpage() {
 
     <div className="row justify-content-center">
       <div className="col-lg-8 col-md-10">
-        <div className="video-card shadow-lg rounded">
-          <iframe 
-            width="100%"
-            height="400"
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-            title="Guide Video"
-            frameBorder="0"
-            allowFullScreen
-          ></iframe>
-        </div>
+        <div className="video-card shadow-lg">
+  <video width="100%" height="400" controls>
+    <source 
+      src="https://collegemilan-backend-2.onrender.com/uploads/psychnometricpagevideo.mp4" 
+      type="video/mp4"
+    />
+    Your browser does not support the video tag.
+  </video>
+</div>
       </div>
     </div>
 

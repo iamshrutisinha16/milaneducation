@@ -38,7 +38,7 @@ const CustomNavbar = () => {
           
           {/* Logo */}
           <Link className="navbar-brand" to="/" onClick={closeAll}>
-            <img src="/assets/logo.png" alt="Logo" className="navbar-logo" />
+            <img src="https://collegemilan-backend-2.onrender.com/uploads/logo.png" alt="Logo" className="navbar-logo" />
           </Link>
 
           {/* Burger Button */}

@@ -94,7 +94,7 @@ const PersonalityTest = () => {
               </motion.div>
             </div>
             <div className="col-lg-5 d-none d-lg-block">
-               <img src="https://cdni.iconscout.com/illustration/premium/thumb/personality-test-illustration-download-in-svg-png-gif-file-formats--interview-recruitment-finding-employee-human-resource-pack-business-illustrations-4841968.png" className="img-fluid" alt="Banner" />
+               <img src="https://collegemilan-backend-2.onrender.com/uploads/personallytestbanner.webp" className="img-fluid" alt="Banner" />
             </div>
           </div>
         </div>
@@ -104,9 +104,9 @@ const PersonalityTest = () => {
       <section className="container py-5">
         <div className="row g-4 text-center">
           {[
-            { title: "STRENGTHS", desc: "Know what makes you unique.", img: "https://cdn-icons-png.flaticon.com/512/3281/3281306.png" },
-            { title: "WEAKNESS", desc: "Identify areas for improvement.", img: "https://cdn-icons-png.flaticon.com/512/3850/3850125.png" },
-            { title: "KEY MOTIVATION", desc: "Find what drives your success.", img: "https://cdn-icons-png.flaticon.com/512/3160/3160270.png" }
+            { title: "STRENGTHS", desc: "Know what makes you unique.", img: "https://collegemilan-backend-2.onrender.com/uploads/strength.png" },
+            { title: "WEAKNESS", desc: "Identify areas for improvement.", img: "https://collegemilan-backend-2.onrender.com/uploads/weakness.png" },
+            { title: "KEY MOTIVATION", desc: "Find what drives your success.", img: "https://collegemilan-backend-2.onrender.com/uploads/motivation.png" }
           ].map((item, i) => (
             <div className="col-md-4" key={i}>
               <motion.div whileHover={{ y: -10 }} className="feature-box shadow-sm">
@@ -128,7 +128,7 @@ const PersonalityTest = () => {
         </h2>
           <p className="mb-5">Know yourself properly with our detailed analytical report.</p>
           <div className="wheel-img-container mx-auto text-center">
-       <img src="https://careerjaano.com/static/images/personality_traits_image.png" 
+       <img src="https://collegemilan-backend-2.onrender.com/uploads/persanalitywheel.png" 
          alt="Personality Wheel" 
           className="img-fluid" style={{ width: "850px", maxWidth: "95%" }} />
         </div>
@@ -146,12 +146,12 @@ const PersonalityTest = () => {
         <div className="container text-center">
           <div className="row g-4 align-items-center">
             {[
-              { title: "BETTER SUBJECTS", img: "https://careerjaano.com/static/images/better_subjects_personality_traits.jpg" },
-              { title: "BETTER COURSE", img: "https://careerjaano.com/static/images/better_course_personality_traits.jpg" },
-              { title: "BETTER CAREER", img: "https://careerjaano.com/static/images/better_career_personality_traits.jpg" },
-              { title: "BETTER PARTNER", img: "https://careerjaano.com/static/images/better_partner_personal_traits.jpg" },
-              { title: "BETTER LIFE DECISION", img: "https://careerjaano.com/static/images/better_lifestyle_personality_traits.jpg" },
-              { title: "BETTER LIFESTYLE", img: "https://careerjaano.com/static/images/better_life_decisions_personality_traits.jpg" }
+              { title: "BETTER SUBJECTS", img: "https://collegemilan-backend-2.onrender.com/uploads/bettersubjects.jpg" },
+              { title: "BETTER COURSE", img: "https://collegemilan-backend-2.onrender.com/uploads/bettercourse.jpg" },
+              { title: "BETTER CAREER", img: "https://collegemilan-backend-2.onrender.com/uploads/bettercareer.jpg" },
+              { title: "BETTER PARTNER", img: "https://collegemilan-backend-2.onrender.com/uploads/betterpartner.jpg" },
+              { title: "BETTER LIFE DECISION", img: "https://collegemilan-backend-2.onrender.com/uploads/betterlife.jpg" },
+              { title: "BETTER LIFESTYLE", img: "https://collegemilan-backend-2.onrender.com/uploads/betterlifestyle.jpg" }
             ].map((choice, index) => (
               <div className="col-md-4" key={index}>
                 <div className="benefit-card shadow-sm p-3">
@@ -170,15 +170,14 @@ const PersonalityTest = () => {
     <div className="row justify-content-center">
       <div className="col-lg-8 col-md-10">
         <div className="video-card shadow-lg">
-          <iframe 
-            width="100%" 
-            height="400"
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-            title="Guide Video"
-            frameBorder="0"
-            allowFullScreen
-          ></iframe>
-        </div>
+        <video width="100%" height="400" controls>
+        <source 
+      src="https://collegemilan-backend-2.onrender.com/uploads/persanalitypagevideo.mp4" 
+      type="video/mp4"
+    />
+       Your browser does not support the video tag.
+      </video>
+      </div>
       </div>
     </div>
   </div>

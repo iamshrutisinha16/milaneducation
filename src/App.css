@@ -200,7 +200,7 @@ html, body {
   height: 420px;
   background:
     linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
-    url("../assets/event1.jpeg");
+    url("https://collegemilan-backend-2.onrender.com/uploads/event1.jpeg");
   background-size: cover;
   background-position: center;
   display: flex;
@@ -635,10 +635,10 @@ html, body {
 
 .contact-banner {
     width: 100%;
-    min-height: 620px;   /* 650px zyada tha */
+    min-height: 620px;   
     
-    background: url('../assets/contactus.png') no-repeat center center;
-    background-size: cover;   /* fill karega */
+    background: url('https://collegemilan-backend-2.onrender.com/uploads/contactus.png') no-repeat center center;
+    background-size: cover; 
     
     display: flex;
     align-items: center;
@@ -649,7 +649,6 @@ html, body {
     text-align: center;
 }
 
-/* Overlay for better visibility (optional but recommended) */
 .contact-banner::before {
     content: "";
     position: absolute;
@@ -1972,8 +1971,6 @@ button:hover {
 }
 
 /*career map*/
-/* ================= HERO SECTION ================= */
-
 .career-hero {
   position: relative;
   min-height: 85vh;
@@ -1984,7 +1981,7 @@ button:hover {
       rgba(0, 0, 0, 0.55),
       rgba(0, 0, 0, 0.55)
     ),
-    url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f");
+    url("https://collegemilan-backend-2.onrender.com/uploads/careermapbanner.jpg");
   background-size: cover;
   background-position: center;
   color: white;
@@ -1992,8 +1989,6 @@ button:hover {
   text-align: center;
   overflow: visible;
 }
-
-/* ================= TITLES ================= */
 
 .career-title {
   font-size: 48px;
@@ -2005,8 +2000,6 @@ button:hover {
   color: #ff6a00;
   margin-bottom: 40px;
 }
-
-/* ================= FORM ================= */
 
 .career-form {
   max-width: 700px;

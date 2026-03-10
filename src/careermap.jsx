@@ -159,14 +159,12 @@ const CareerMap = () => {
           <Row className="justify-content-center text-center">
             <Col lg={8}>
               <h2 className="mb-4">Watch Career Guidance Video</h2>
-              <div className="video-wrapper">
-                <iframe
-                  src="https://www.youtube.com/embed/ysz5S6PUM-U"
-                  title="Career Guidance"
-                  frameBorder="0"
-                  allowFullScreen
-                ></iframe>
-              </div>
+             <div className="video-wrapper">
+  <video width="100%" height="500" controls>
+    <source src="https://collegemilan-backend-2.onrender.com/uploads/carrermapvideo.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+</div>
             </Col>
           </Row>
         </Container>

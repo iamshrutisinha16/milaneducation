@@ -122,6 +122,11 @@ const AdminLayout = () => {
                     Home
                   </Link>
                 </li>
+                 <li className="nav-item">
+                  <Link className="nav-link text-white" to="/admin/about">
+                    About
+                  </Link>
+                </li>
               </ul>
             )}
           </li>
