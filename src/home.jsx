@@ -21,7 +21,7 @@ const HomePage = () => {
   const [showSuccess, setShowSuccess] = useState(false);
 useEffect(() => {
   axios
-    .get("https://collegemilan-backend-2.onrender.com/api/admin/home-page")
+    .get("https://collegemilan-backend-2.onrender.com/api/admin/home")
     .then((res) => {
       setHomeData(res.data);
     })

@@ -44,7 +44,7 @@ setData({
 const updatePage = ()=>{
 
 axios.put(
-"https://collegemilan-backend-2.onrender.com/api/admin/home-page",
+"https://collegemilan-backend-2.onrender.com/api/admin/home",
 data
 )
 .then(()=>alert("Home Page Updated Successfully"))
