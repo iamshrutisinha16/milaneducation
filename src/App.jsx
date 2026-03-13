@@ -31,6 +31,7 @@ import AdminEvent from './admin/AdminEvent';
 import AdminCareer from './admin/AdminCareer';
 import AdminHome from './admin/AdminHome';
 import AdminAbout from './admin/AdminAbout';
+import AdminPlacement from './admin/AdminPlacement';
 
 function LayoutWrapper() {
   const location = useLocation();
@@ -87,6 +88,7 @@ function LayoutWrapper() {
             <Route path="events" element={<AdminEvent />} />
             <Route path="home" element={<AdminHome />} /> 
             <Route path="about" element={<AdminAbout />} />
+            <Route path="placement" element={<AdminPlacement />} />
           </Route>
 
         </Routes>

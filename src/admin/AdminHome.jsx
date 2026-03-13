@@ -9,7 +9,7 @@ const [data,setData] = useState(null)
 useEffect(()=>{
 
 axios
-.get("https://collegemilan-backend-2.onrender.com/api/admin/home/home-page")
+.get("https://collegemilan-backend-2.onrender.com/api/admin/home")
 .then(res=>setData(res.data))
 
 },[])
@@ -44,7 +44,7 @@ setData({
 const updatePage = ()=>{
 
 axios.put(
-"https://collegemilan-backend-2.onrender.com/api/admin/home/home-page",
+"https://collegemilan-backend-2.onrender.com/api/admin/home-page",
 data
 )
 .then(()=>alert("Home Page Updated Successfully"))
