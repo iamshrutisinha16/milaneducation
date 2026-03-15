@@ -121,12 +121,14 @@ useEffect(() => {
           </Row>
         </Container>
       </section>
-  
   <section className="services-section">
   <div className="bg-dots-pattern"></div>
+
   <Container>
     <Row className="g-4 justify-content-center">
-      {homeData?.featuresSection?.map((item, index) => {
+
+      {(homeData?.featuresSection ?? []).map((item, index) => {
+
         const iconMap = {
           "Career Map": <FaMapMarkedAlt />,
           "Psychometric Test": <FaBrain />,
@@ -143,9 +145,11 @@ useEffect(() => {
               transition={{ delay: index * 0.1, duration: 0.6 }}
               className="h-100"
             >
+
               <Link to={item.link} style={{ textDecoration: "none" }}>
+
                 <div className="premium-service-card shadow-lg">
-                  
+
                   <div
                     className="card-top-accent"
                     style={{ backgroundColor: item.color }}
@@ -166,6 +170,7 @@ useEffect(() => {
                   </div>
 
                   <div style={{ position: "relative", zIndex: 1 }}>
+
                     <h4
                       className="fw-bold mb-3"
                       style={{ color: "#1a1a1a", fontSize: "1.35rem" }}
@@ -180,23 +185,25 @@ useEffect(() => {
                       {item.description}
                     </p>
 
-                    <Link to={item.link} style={{ textDecoration: "none" }}>
-                      <Button
-                        variant="link"
-                        className="p-0 fw-bold text-decoration-none d-flex align-items-center justify-content-center mx-auto"
-                        style={{ color: item.color, gap: "8px" }}
-                      >
-                        EXPLORE <FaChevronRight size={12} />
-                      </Button>
-                    </Link>
+                    <Button
+                      variant="link"
+                      className="p-0 fw-bold d-flex align-items-center justify-content-center mx-auto"
+                      style={{ color: item.color, gap: "8px" }}
+                    >
+                      EXPLORE <FaChevronRight size={12} />
+                    </Button>
+
                   </div>
 
                 </div>
+
               </Link>
+
             </motion.div>
           </Col>
         );
       })}
+
     </Row>
   </Container>
 </section>

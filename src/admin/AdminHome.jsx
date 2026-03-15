@@ -1,19 +1,40 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
-import { Container, Row, Col, Form, Button, Card } from "react-bootstrap"
+import { Container, Row, Col, Form, Button, Card, Toast, ToastContainer } from "react-bootstrap"
+import { FaPlusCircle, FaTrash } from "react-icons/fa"
 
 function HomeAdmin(){
 
 const [data,setData] = useState(null)
+const [showToast,setShowToast] = useState(false)
 
 useEffect(()=>{
 
 axios
 .get("https://collegemilan-backend-2.onrender.com/api/admin/home")
-.then(res=>setData(res.data))
+.then(res=>{
+
+const d = res.data
+
+if(!d.featuresSection || d.featuresSection.length === 0){
+d.featuresSection = [
+{ title:"Career Map", description:"", link:"/careermap", color:"#f47920" },
+{ title:"Psychometric Test", description:"", link:"/test", color:"#2b2d42" },
+{ title:"Counseling Session", description:"", link:"/counselling", color:"#866248" },
+{ title:"Watch Photos & Videos", description:"", link:"/event&updates", color:"#2b2d42" }
+]
+}
+
+setData(d)
+
+})
+.catch(err=>console.log(err))
 
 },[])
 
+
+
+/* OBJECT CHANGE */
 
 const handleObjectChange = (section,field,value)=>{
 
@@ -28,9 +49,13 @@ setData({
 }
 
 
+
+/* ARRAY CHANGE */
+
 const handleArrayChange = (section,index,field,value)=>{
 
 const updated = [...data[section]]
+
 updated[index][field] = value
 
 setData({
@@ -41,18 +66,66 @@ setData({
 }
 
 
-const updatePage = ()=>{
 
-axios.put(
-"https://collegemilan-backend-2.onrender.com/api/admin/home",
-data
-)
-.then(()=>alert("Home Page Updated Successfully"))
+/* ADD FEATURE */
+
+const addFeature = ()=>{
+
+setData({
+...data,
+featuresSection:[
+...data.featuresSection,
+{ title:"", description:"", link:"", color:"#f47920" }
+]
+})
 
 }
 
 
+
+/* DELETE FEATURE */
+
+const deleteFeature = (index)=>{
+
+const updated = [...data.featuresSection]
+
+updated.splice(index,1)
+
+setData({
+...data,
+featuresSection:updated
+})
+
+}
+
+
+
+/* UPDATE PAGE */
+
+const updatePage = async ()=>{
+
+try{
+
+await axios.put(
+"https://collegemilan-backend-2.onrender.com/api/admin/home",
+data
+)
+
+setShowToast(true)
+
+}catch(err){
+
+console.log(err)
+alert("Update Failed")
+
+}
+
+}
+
+
+
 if(!data) return <p className="text-center mt-5">Loading...</p>
+
 
 
 return(
@@ -64,9 +137,11 @@ return(
 <h3 className="mb-4">Homepage Admin Panel</h3>
 
 
+
 {/* HERO SECTION */}
 
 <Card className="p-3 mb-4">
+
 <h5>Hero Section</h5>
 
 <Form.Control
@@ -97,10 +172,28 @@ onChange={(e)=>handleObjectChange("heroSection","buttonText",e.target.value)}
 
 <Card className="p-3 mb-4">
 
-<h5>Features Section</h5>
+<div className="d-flex justify-content-between align-items-center mb-3">
+
+<h5 className="mb-0">Features Section</h5>
+
+<Button
+style={{background:"#f47920",border:"none"}}
+onClick={addFeature}
+>
+
+<FaPlusCircle className="me-2"/>
+
+Add Feature
+
+</Button>
+
+</div>
 
 {data.featuresSection?.map((item,index)=>(
-<Row key={index} className="mb-3">
+
+<Card key={index} className="p-3 mb-3">
+
+<Row className="g-3">
 
 <Col md={6}>
 <Form.Control
@@ -126,7 +219,7 @@ onChange={(e)=>handleArrayChange("featuresSection",index,"link",e.target.value)}
 />
 </Col>
 
-<Col md={6}>
+<Col md={4}>
 <Form.Control
 placeholder="Color (#f47920)"
 value={item.color || ""}
@@ -134,7 +227,22 @@ onChange={(e)=>handleArrayChange("featuresSection",index,"color",e.target.value)
 />
 </Col>
 
+<Col md={2} className="d-flex align-items-center">
+
+<Button
+variant="danger"
+onClick={()=>deleteFeature(index)}
+>
+
+<FaTrash/>
+
+</Button>
+
+</Col>
+
 </Row>
+
+</Card>
 
 ))}
 
@@ -177,9 +285,9 @@ onChange={(e)=>handleObjectChange("founderSection","founderName",e.target.value)
 />
 
 <Form.Control
-  placeholder="Hero Image URL"
-  value={data.heroSection?.heroImage || ""}
-  onChange={(e)=>handleObjectChange("heroSection","heroImage",e.target.value)}
+placeholder="Hero Image URL"
+value={data.heroSection?.heroImage || ""}
+onChange={(e)=>handleObjectChange("heroSection","heroImage",e.target.value)}
 />
 
 </Card>
@@ -319,7 +427,7 @@ onChange={(e)=>handleArrayChange("blogSection",index,"image",e.target.value)}
 
 
 
-{/* TESTIMONIAL SECTION */}
+{/* TESTIMONIAL */}
 
 <Card className="p-3 mb-4">
 
@@ -375,16 +483,41 @@ onChange={(e)=>setData({...data,metaDescription:e.target.value})}
 
 
 <Button
-variant="primary"
+style={{background:"#f47920",border:"none"}}
 size="lg"
 className="w-100"
 onClick={updatePage}
 >
+
 Save Homepage
+
 </Button>
 
-
 </Card>
+
+
+
+<ToastContainer position="top-end" className="p-3">
+
+<Toast
+bg="success"
+show={showToast}
+onClose={()=>setShowToast(false)}
+delay={3000}
+autohide
+>
+
+<Toast.Body className="text-white">
+
+Homepage Updated Successfully 🚀
+
+</Toast.Body>
+
+</Toast>
+
+</ToastContainer>
+
+
 
 </Container>
 
@@ -392,5 +525,4 @@ Save Homepage
 
 }
 
-export default HomeAdmin;
-
+export default HomeAdmin
