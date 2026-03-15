@@ -100,7 +100,6 @@ onChange={(e)=>handleObjectChange("heroSection","buttonText",e.target.value)}
 <h5>Features Section</h5>
 
 {data.featuresSection?.map((item,index)=>(
-
 <Row key={index} className="mb-3">
 
 <Col md={6}>
@@ -120,12 +119,21 @@ onChange={(e)=>handleArrayChange("featuresSection",index,"description",e.target.
 </Col>
 
 <Col md={6}>
-  <Form.Control
-    placeholder="Icon"
-    value={item.icon || ""}
-    onChange={(e)=>handleArrayChange("featuresSection",index,"icon",e.target.value)}
-  />
+<Form.Control
+placeholder="Link"
+value={item.link || ""}
+onChange={(e)=>handleArrayChange("featuresSection",index,"link",e.target.value)}
+/>
 </Col>
+
+<Col md={6}>
+<Form.Control
+placeholder="Color (#f47920)"
+value={item.color || ""}
+onChange={(e)=>handleArrayChange("featuresSection",index,"color",e.target.value)}
+/>
+</Col>
+
 </Row>
 
 ))}

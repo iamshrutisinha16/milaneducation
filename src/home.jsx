@@ -126,7 +126,7 @@ useEffect(() => {
   <div className="bg-dots-pattern"></div>
   <Container>
     <Row className="g-4 justify-content-center">
-      {homeData?.servicesSection?.map((item, index) => {
+      {homeData?.featuresSection?.map((item, index) => {
         const iconMap = {
           "Career Map": <FaMapMarkedAlt />,
           "Psychometric Test": <FaBrain />,
@@ -200,7 +200,7 @@ useEffect(() => {
     </Row>
   </Container>
 </section>
-{/* ================= ABOUT SECTION ================= */}
+
 <section id="about" className="about-section">
   <div className="about-mesh-gradient"></div>
 
