@@ -1,177 +1,318 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { Bar } from "react-chartjs-2";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
+import {
+Chart as ChartJS,
+CategoryScale,
+LinearScale,
+PointElement,
+LineElement,
+BarElement,
+ArcElement,
+Tooltip,
+Legend
+} from "chart.js";
+
+import { Bar, Line, Pie } from "react-chartjs-2";
+
+import {
+FaUsers,
+FaEnvelope,
+FaBook,
+FaUniversity,
+FaClipboardList
+} from "react-icons/fa";
+
+ChartJS.register(
+CategoryScale,
+LinearScale,
+PointElement,
+LineElement,
+BarElement,
+ArcElement,
+Tooltip,
+Legend
+);
 
 const AdminDashboard = () => {
-  const navigate = useNavigate();
 
-  const [stats, setStats] = useState(null);
-  const [recentEnquiries, setRecentEnquiries] = useState([]);
-  const [monthlyData, setMonthlyData] = useState([]);
-  const [loading, setLoading] = useState(true);
+const navigate = useNavigate();
 
-  const API_BASE_URL = "https://collegemilan-backend-2.onrender.com";
+const [stats,setStats] = useState({});
+const [monthlyData,setMonthlyData] = useState([]);
 
-  useEffect(() => {
-    const fetchDashboard = async () => {
-      try {
-        const token = localStorage.getItem("adminToken");
+const API = "https://collegemilan-backend-2.onrender.com";
 
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
+useEffect(()=>{
 
-        const [statsRes, recentRes, monthlyRes] = await Promise.all([
-          axios.get(`${API_BASE_URL}/api/admin/dashboard/stats`, { headers }),
-          axios.get(`${API_BASE_URL}/api/admin/dashboard/recent-enquiries`, { headers }),
-          axios.get(`${API_BASE_URL}/api/admin/dashboard/monthly-enquiries`, { headers }),
-        ]);
+const loadData = async ()=>{
 
-        setStats(statsRes.data);
-        setRecentEnquiries(recentRes.data);
-        setMonthlyData(monthlyRes.data);
-      } catch (err) {
-        console.error("Dashboard Error:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+const token = localStorage.getItem("adminToken");
 
-    fetchDashboard();
-  }, []);
+const headers = {
+Authorization:`Bearer ${token}`
+};
 
-  if (loading) return <div className="text-center mt-5">Loading Dashboard...</div>;
+const [statsRes,monthlyRes] = await Promise.all([
 
-  // Graph Data
-  const monthNames = [
-    "", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-  ];
+axios.get(`${API}/api/admin/dashboard/stats`,{headers}),
+axios.get(`${API}/api/admin/dashboard/monthly-enquiries`,{headers})
 
-  const chartData = {
-    labels: monthlyData.map(item => monthNames[item._id]),
-    datasets: [
-      {
-        label: "Monthly Enquiries",
-        data: monthlyData.map(item => item.count),
-        backgroundColor: "#0d6efd",
-      },
-    ],
-  };
+]);
 
-  return (
-    <div>
-      {/* Header */}
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h3 className="fw-bold">Admin Dashboard</h3>
-        <button
-          className="btn btn-primary"
-          onClick={() => navigate("/admin/courses")}
-        >
-          + Add Course
-        </button>
-      </div>
+setStats(statsRes.data);
+setMonthlyData(monthlyRes.data);
 
-      {/* Stats Cards */}
-      <div className="row g-4 mb-5">
-        {[
-          { title: "Users", value: stats.totalUsers },
-          { title: "Enquiries", value: stats.totalEnquiries },
-          { title: "Courses", value: stats.totalCourses },
-          { title: "Tests", value: stats.totalTests },
-          { title: "Universities", value: stats.totalUniversities },
-        ].map((item, index) => (
-          <div className="col-md-4" key={index}>
-           <div className="card shadow-sm border-0 p-3 rounded-4 text-white"
-           style={{ backgroundColor: ["#FF6B6B", "#6BCB77", "#4D96FF", "#FFD93D", "#845EC2"]
-           [index % 5] }}>
-        <h6>{item.title}</h6>
-         <h2 className="fw-bold">{item.value}</h2>
-         </div>
-          </div>
-        ))}
-      </div>
+};
 
-      {/* Graph Section */}
-      <div className="card shadow-sm border-0 p-4 rounded-4 mb-5">
-        <h5 className="mb-3">Enquiries Analytics</h5>
-        <Bar data={chartData} />
-      </div>
+loadData();
 
-      {/* Recent Enquiries */}
-      <div className="card shadow-sm border-0 p-4 rounded-4">
-        <h5 className="mb-3">Recent Enquiries</h5>
+},[]);
 
-        <div className="table-responsive">
-          <table className="table table-hover">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Course</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {recentEnquiries.length > 0 ? (
-                recentEnquiries.map((enquiry, index) => (
-                  <tr key={index}>
-                    <td>{enquiry.name}</td>
-                    <td>{enquiry.email}</td>
-                    <td>{enquiry.course}</td>
-                    <td>
-                      {new Date(enquiry.createdAt).toLocaleDateString()}
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="4" className="text-center">
-                    No recent enquiries
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
+const months = [
+"",
+"Jan","Feb","Mar","Apr","May","Jun",
+"Jul","Aug","Sep","Oct","Nov","Dec"
+];
 
-      {/* Quick Actions */}
-      <div className="mt-4 d-flex gap-3 flex-wrap">
-        <button
-          className="btn btn-outline-primary"
-          onClick={() => navigate("/admin/universities")}
-        >
-          Manage Universities
-        </button>
+const barData = {
+labels: monthlyData.map(i=>months[i._id]),
+datasets:[
+{
+label:"Monthly Enquiries",
+data: monthlyData.map(i=>i.count),
+backgroundColor:"#6366f1",
+borderRadius:8
+}
+]
+};
 
-        <button
-          className="btn btn-outline-success"
-          onClick={() => navigate("/admin/tests")}
-        >
-          Manage Tests
-        </button>
+const lineData = {
+labels: monthlyData.map(i=>months[i._id]),
+datasets:[
+{
+label:"User Growth",
+data: monthlyData.map(i=>i.count + 3),
+borderColor:"#10b981",
+backgroundColor:"#10b981",
+tension:0.4
+}
+]
+};
 
-        <button
-          className="btn btn-outline-dark"
-          onClick={() => navigate("/admin/enquiries")}
-        >
-          View All Enquiries
-        </button>
-      </div>
-    </div>
-  );
+const pieData = {
+labels:["MBA","BTech","BCA","BBA"],
+datasets:[
+{
+data:[40,25,20,15],
+backgroundColor:[
+"#6366f1",
+"#10b981",
+"#f59e0b",
+"#ef4444"
+]
+}
+]
+};
+
+const cards = [
+
+{
+title:"Users",
+value:stats.totalUsers,
+icon:<FaUsers/>,
+bg:"linear-gradient(135deg,#667eea,#764ba2)"
+},
+
+{
+title:"Enquiries",
+value:stats.totalEnquiries,
+icon:<FaEnvelope/>,
+bg:"linear-gradient(135deg,#43cea2,#185a9d)"
+},
+
+{
+title:"Courses",
+value:stats.totalCourses,
+icon:<FaBook/>,
+bg:"linear-gradient(135deg,#ff9966,#ff5e62)"
+},
+
+{
+title:"Tests",
+value:stats.totalTests,
+icon:<FaClipboardList/>,
+bg:"linear-gradient(135deg,#00c6ff,#0072ff)"
+},
+
+{
+title:"Universities",
+value:stats.totalUniversities,
+icon:<FaUniversity/>,
+bg:"linear-gradient(135deg,#f7971e,#ffd200)"
+}
+
+];
+
+return (
+
+<div className="container-fluid py-4">
+
+<div className="d-flex justify-content-between align-items-center mb-4">
+
+<div>
+<h3 className="fw-bold">Admin Dashboard</h3>
+<p className="text-muted">Platform Overview</p>
+</div>
+
+<button
+className="btn btn-primary"
+onClick={()=>navigate("/admin/courses")}
+>
++ Add Course
+</button>
+
+</div>
+
+
+{/* COLOR CARDS */}
+
+<div className="row g-4 mb-5">
+
+{cards.map((card,i)=>(
+
+<div className="col-lg-3 col-md-4 col-sm-6" key={i}>
+
+<div
+className="text-white p-4 rounded-4 shadow-lg"
+style={{
+background:card.bg,
+transition:"0.3s",
+cursor:"pointer"
+}}
+>
+
+<div className="d-flex justify-content-between align-items-center">
+
+<div>
+
+<h6>{card.title}</h6>
+<h2 className="fw-bold">{card.value}</h2>
+
+</div>
+
+<div style={{fontSize:"30px"}}>
+{card.icon}
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+))}
+
+</div>
+
+
+{/* CHARTS */}
+
+<div className="row g-4">
+
+<div className="col-lg-6">
+
+<div className="card border-0 shadow-lg p-4 rounded-4">
+
+<h5 className="mb-3">
+Monthly Enquiries
+</h5>
+
+<Bar data={barData}/>
+
+</div>
+
+</div>
+
+
+<div className="col-lg-6">
+
+<div className="card border-0 shadow-lg p-4 rounded-4">
+
+<h5 className="mb-3">
+User Growth
+</h5>
+
+<Line data={lineData}/>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div className="row g-4 mt-4">
+
+<div className="col-lg-6">
+
+<div className="card border-0 shadow-lg p-4 rounded-4">
+
+<h5 className="mb-3">
+Course Distribution
+</h5>
+
+<Pie data={pieData}/>
+
+</div>
+
+</div>
+
+
+<div className="col-lg-6">
+
+<div className="card border-0 shadow-lg p-4 rounded-4">
+
+<h5 className="mb-3">
+Quick Actions
+</h5>
+
+<div className="d-flex flex-wrap gap-3">
+
+<button
+className="btn btn-outline-primary"
+onClick={()=>navigate("/admin/universities")}
+>
+Manage Universities
+</button>
+
+<button
+className="btn btn-outline-success"
+onClick={()=>navigate("/admin/tests")}
+>
+Manage Tests
+</button>
+
+<button
+className="btn btn-outline-dark"
+onClick={()=>navigate("/admin/enquiries")}
+>
+View Enquiries
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+);
+
 };
 
 export default AdminDashboard;
