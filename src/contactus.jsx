@@ -133,7 +133,7 @@ const ContactPage = () => {
     {/* Call */}
     <div className="mb-4 d-flex">
       <FaPhoneAlt className="me-3 mt-1" style={{ color: '#f47920' }} />
-      <div>
+      <div> 
         <h6 style={{ color: 'white' }}>Call Us</h6>
         <p style={{ margin: 0 }}>
           <a href="tel:+919773784854" style={{ color: 'white', textDecoration: 'none' }}>

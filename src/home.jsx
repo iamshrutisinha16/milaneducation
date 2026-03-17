@@ -225,7 +225,7 @@ useEffect(() => {
             className="collage-img-1"
           >
             <img
-              src={`https://collegemilan-backend-2.onrender.com${homeData.founderSection?.image1}`}
+              src="https://collegemilan-backend-2.onrender.com/uploads/aboutimage1.jpg"
               alt="Founder"
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
@@ -238,7 +238,7 @@ useEffect(() => {
             className="collage-img-2"
           >
             <img
-              src={`https://collegemilan-backend-2.onrender.com${homeData.founderSection?.image2}`}
+              src= "https://collegemilan-backend-2.onrender.com/uploads/event1.jpeg"
               alt="Session"
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
@@ -251,7 +251,7 @@ useEffect(() => {
             className="collage-img-3"
           >
             <img
-              src={`https://collegemilan-backend-2.onrender.com${homeData.founderSection?.image3}`}
+              src="https://collegemilan-backend-2.onrender.com/uploads/aboutimage2.jpg"
               alt="Detail"
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
@@ -320,7 +320,7 @@ useEffect(() => {
         <div className="video-container">
           <video width="100%" height="500" controls>
             <source
-              src={`https://collegemilan-backend-2.onrender.com${homeData.videoSection?.videoUrl}`}
+              src= "https://collegemilan-backend-2.onrender.com/uploads/homevideo.mp4"
               type="video/mp4"
             />
             Your browser does not support the video tag.
@@ -333,7 +333,7 @@ useEffect(() => {
 </section>
 
       {/* 1. CAREER MAP */}
-      <section className="parallax-pro-section" style={{ backgroundImage: `url('https://collegemilan-backend-2.onrender.com/uploads/careerjourney.jpg')` }}>
+      <section className="parallax-pro-section" style={{ backgroundImage: `url('https://collegemilan-backend-2.onrender.com/uploads/carrerjourney.jpg')` }}>
         <Container>
           <motion.div 
             initial={{ opacity: 0, x: -50 }} 

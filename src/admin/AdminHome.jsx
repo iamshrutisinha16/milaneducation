@@ -7,6 +7,7 @@ function HomeAdmin(){
 
 const [data,setData] = useState(null)
 const [showToast,setShowToast] = useState(false)
+const [isSaving, setIsSaving] = useState(false) // NAYA LOADING STATE
 
 useEffect(()=>{
 
@@ -22,6 +23,24 @@ d.featuresSection = [
 { title:"Psychometric Test", description:"", link:"/test", color:"#2b2d42" },
 { title:"Counseling Session", description:"", link:"/counselling", color:"#866248" },
 { title:"Watch Photos & Videos", description:"", link:"/event&updates", color:"#2b2d42" }
+]
+}
+
+if(!d.servicesSection || d.servicesSection.length === 0){
+d.servicesSection = [
+{ title:"", description:"" }
+]
+}
+
+if(!d.statsSection || d.statsSection.length === 0){
+d.statsSection = [
+{ number:"", title:"" }
+]
+}
+
+if(!d.blogSection || d.blogSection.length === 0){
+d.blogSection = [
+{ title:"", category:"", image:"" }
 ]
 }
 
@@ -41,7 +60,7 @@ const handleObjectChange = (section,field,value)=>{
 setData({
 ...data,
 [section]:{
-...data[section],
+...(data[section] || {}),
 [field]:value
 }
 })
@@ -100,9 +119,109 @@ featuresSection:updated
 
 
 
+/* ADD SERVICE */
+
+const addService = ()=>{
+
+setData({
+...data,
+servicesSection:[
+...data.servicesSection,
+{ title:"", description:"" }
+]
+})
+
+}
+
+
+
+/* DELETE SERVICE */
+
+const deleteService = (index)=>{
+
+const updated = [...data.servicesSection]
+
+updated.splice(index,1)
+
+setData({
+...data,
+servicesSection:updated
+})
+
+}
+
+
+
+/* ADD STAT */
+
+const addStat = ()=>{
+
+setData({
+...data,
+statsSection:[
+...data.statsSection,
+{ number:"", title:"" }
+]
+})
+
+}
+
+
+
+/* DELETE STAT */
+
+const deleteStat = (index)=>{
+
+const updated = [...data.statsSection]
+
+updated.splice(index,1)
+
+setData({
+...data,
+statsSection:updated
+})
+
+}
+
+
+
+/* ADD BLOG */
+
+const addBlog = ()=>{
+
+setData({
+...data,
+blogSection:[
+...data.blogSection,
+{ title:"", category:"", image:"" }
+]
+})
+
+}
+
+
+
+/* DELETE BLOG */
+
+const deleteBlog = (index)=>{
+
+const updated = [...data.blogSection]
+
+updated.splice(index,1)
+
+setData({
+...data,
+blogSection:updated
+})
+
+}
+
+
+
 /* UPDATE PAGE */
 
 const updatePage = async ()=>{
+setIsSaving(true) // Button disable hoga aur Saving dikhega
 
 try{
 
@@ -115,9 +234,11 @@ setShowToast(true)
 
 }catch(err){
 
-console.log(err)
-alert("Update Failed")
+console.log("Save Error:", err)
+alert("Update Failed: " + (err.response?.data?.message || err.message)) // Clear Error Dikhayega
 
+} finally {
+setIsSaving(false) // Request khatam hone par wapas theek ho jayega
 }
 
 }
@@ -159,9 +280,16 @@ onChange={(e)=>handleObjectChange("heroSection","description",e.target.value)}
 />
 
 <Form.Control
+className="mb-3"
 placeholder="Button Text"
 value={data.heroSection?.buttonText || ""}
 onChange={(e)=>handleObjectChange("heroSection","buttonText",e.target.value)}
+/>
+
+<Form.Control
+placeholder="Hero Image URL"
+value={data.heroSection?.heroImage || ""}
+onChange={(e)=>handleObjectChange("heroSection","heroImage",e.target.value)}
 />
 
 </Card>
@@ -278,16 +406,9 @@ onChange={(e)=>handleObjectChange("founderSection","description",e.target.value)
 />
 
 <Form.Control
-className="mb-3"
 placeholder="Founder Name"
 value={data.founderSection?.founderName || ""}
 onChange={(e)=>handleObjectChange("founderSection","founderName",e.target.value)}
-/>
-
-<Form.Control
-placeholder="Hero Image URL"
-value={data.heroSection?.heroImage || ""}
-onChange={(e)=>handleObjectChange("heroSection","heroImage",e.target.value)}
 />
 
 </Card>
@@ -321,13 +442,30 @@ onChange={(e)=>handleObjectChange("videoSection","videoUrl",e.target.value)}
 
 <Card className="p-3 mb-4">
 
-<h5>Services Section</h5>
+<div className="d-flex justify-content-between align-items-center mb-3">
+
+<h5 className="mb-0">Services Section</h5>
+
+<Button
+style={{background:"#f47920",border:"none"}}
+onClick={addService}
+>
+
+<FaPlusCircle className="me-2"/>
+
+Add Service
+
+</Button>
+
+</div>
 
 {data.servicesSection?.map((service,index)=>(
 
-<Row key={index} className="mb-3">
+<Card key={index} className="p-3 mb-3">
 
-<Col md={6}>
+<Row className="g-3">
+
+<Col md={5}>
 <Form.Control
 placeholder="Title"
 value={service.title}
@@ -335,7 +473,7 @@ onChange={(e)=>handleArrayChange("servicesSection",index,"title",e.target.value)
 />
 </Col>
 
-<Col md={6}>
+<Col md={5}>
 <Form.Control
 placeholder="Description"
 value={service.description}
@@ -343,7 +481,22 @@ onChange={(e)=>handleArrayChange("servicesSection",index,"description",e.target.
 />
 </Col>
 
+<Col md={2} className="d-flex align-items-center">
+
+<Button
+variant="danger"
+onClick={()=>deleteService(index)}
+>
+
+<FaTrash/>
+
+</Button>
+
+</Col>
+
 </Row>
+
+</Card>
 
 ))}
 
@@ -355,13 +508,30 @@ onChange={(e)=>handleArrayChange("servicesSection",index,"description",e.target.
 
 <Card className="p-3 mb-4">
 
-<h5>Stats Section</h5>
+<div className="d-flex justify-content-between align-items-center mb-3">
+
+<h5 className="mb-0">Stats Section</h5>
+
+<Button
+style={{background:"#f47920",border:"none"}}
+onClick={addStat}
+>
+
+<FaPlusCircle className="me-2"/>
+
+Add Stat
+
+</Button>
+
+</div>
 
 {data.statsSection?.map((stat,index)=>(
 
-<Row key={index} className="mb-3">
+<Card key={index} className="p-3 mb-3">
 
-<Col md={6}>
+<Row className="g-3">
+
+<Col md={5}>
 <Form.Control
 placeholder="Number"
 value={stat.number}
@@ -369,7 +539,7 @@ onChange={(e)=>handleArrayChange("statsSection",index,"number",e.target.value)}
 />
 </Col>
 
-<Col md={6}>
+<Col md={5}>
 <Form.Control
 placeholder="Title"
 value={stat.title}
@@ -377,7 +547,22 @@ onChange={(e)=>handleArrayChange("statsSection",index,"title",e.target.value)}
 />
 </Col>
 
+<Col md={2} className="d-flex align-items-center">
+
+<Button
+variant="danger"
+onClick={()=>deleteStat(index)}
+>
+
+<FaTrash/>
+
+</Button>
+
+</Col>
+
 </Row>
+
+</Card>
 
 ))}
 
@@ -389,13 +574,30 @@ onChange={(e)=>handleArrayChange("statsSection",index,"title",e.target.value)}
 
 <Card className="p-3 mb-4">
 
-<h5>Blog Section</h5>
+<div className="d-flex justify-content-between align-items-center mb-3">
+
+<h5 className="mb-0">Blog Section</h5>
+
+<Button
+style={{background:"#f47920",border:"none"}}
+onClick={addBlog}
+>
+
+<FaPlusCircle className="me-2"/>
+
+Add Blog
+
+</Button>
+
+</div>
 
 {data.blogSection?.map((blog,index)=>(
 
-<Row key={index} className="mb-3">
+<Card key={index} className="p-3 mb-3">
 
-<Col md={4}>
+<Row className="g-3">
+
+<Col md={3}>
 <Form.Control
 placeholder="Title"
 value={blog.title}
@@ -403,7 +605,7 @@ onChange={(e)=>handleArrayChange("blogSection",index,"title",e.target.value)}
 />
 </Col>
 
-<Col md={4}>
+<Col md={3}>
 <Form.Control
 placeholder="Category"
 value={blog.category}
@@ -419,7 +621,22 @@ onChange={(e)=>handleArrayChange("blogSection",index,"image",e.target.value)}
 />
 </Col>
 
+<Col md={2} className="d-flex align-items-center">
+
+<Button
+variant="danger"
+onClick={()=>deleteBlog(index)}
+>
+
+<FaTrash/>
+
+</Button>
+
+</Col>
+
 </Row>
+
+</Card>
 
 ))}
 
@@ -483,21 +700,18 @@ onChange={(e)=>setData({...data,metaDescription:e.target.value})}
 
 
 <Button
-style={{background:"#f47920",border:"none"}}
+style={{background: isSaving ? "#866248" : "#f47920", border:"none"}}
 size="lg"
 className="w-100"
 onClick={updatePage}
+disabled={isSaving}
 >
 
-Save Homepage
+{isSaving ? "Saving Please Wait..." : "Save Homepage"}
 
 </Button>
-
 </Card>
-
-
-
-<ToastContainer position="top-end" className="p-3">
+<ToastContainer position="top-end" className="p-3" style={{ position: "fixed", top: 20, right: 20, zIndex: 9999 }}>
 
 <Toast
 bg="success"
@@ -507,20 +721,14 @@ delay={3000}
 autohide
 >
 
-<Toast.Body className="text-white">
-
+<Toast.Body className="text-white fw-bold">
 Homepage Updated Successfully 🚀
 
 </Toast.Body>
 
 </Toast>
-
 </ToastContainer>
-
-
-
 </Container>
-
 )
 
 }

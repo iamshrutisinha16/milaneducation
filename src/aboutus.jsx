@@ -28,27 +28,24 @@ const fadeInUp = {
 return (
 
 <div style={{ overflowX:"hidden", backgroundColor:"#fff" }}>
-
-{/* HERO SECTION */}
-
 <section style={{
- position:"relative",
- height:"93vh",
- background:`url(${about.bannerImage})`,
- backgroundSize:"cover",
- backgroundPosition:"center",
- display:"flex",
- alignItems:"center",
- justifyContent:"center",
- color:"white",
- textAlign:"center",
- paddingTop:"80px"
+  position:"relative",
+  height:"93vh",
+  backgroundImage: "url('https://collegemilan-backend-2.onrender.com/uploads/aboutusbanner.png')",
+  backgroundSize:"cover",
+  backgroundPosition:"center",
+  display:"flex",
+  alignItems:"center",
+  justifyContent:"center",
+  color:"white",
+  textAlign:"center",
+  paddingTop:"80px"
 }}>
 
 <div style={{
- position:"absolute",
- inset:0,
- background:"rgba(0,0,0,0.4)"
+  position:"absolute",
+  inset:0,
+  background:"rgba(0,0,0,0.4)"
 }}/>
 
 </section>
@@ -94,28 +91,21 @@ return (
  viewport={{once:true}}
 >
 
-<div style={{position:"relative"}}>
+<div style={{ position: 'relative' }}>
+                <img 
+                  src="https://collegemilan-backend-2.onrender.com/uploads/aboutuspageimage.avif" 
+                  alt="Milan Team" 
+                  className="img-fluid rounded-5 shadow-lg"
+                />
+                <div style={{
+                  position: 'absolute', bottom: '-20px', left: '-20px', 
+                  backgroundColor: orange, color: 'white', padding: '20px', 
+                  borderRadius: '15px', fontWeight: 'bold'
+                }}>
+                  Since 2015
+                </div>
+              </div>
 
-<img
-src={about.story.image}
-alt=""
-className="img-fluid rounded-5 shadow-lg"
-/>
-
-<div style={{
- position:"absolute",
- bottom:"-20px",
- left:"-20px",
- backgroundColor:orange,
- color:"white",
- padding:"20px",
- borderRadius:"15px",
- fontWeight:"bold"
-}}>
-{about.story.since}
-</div>
-
-</div>
 
 </motion.div>
 
