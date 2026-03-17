@@ -126,12 +126,20 @@ const AdminLayout = () => {
                   <Link className="nav-link text-white" to="/admin/about">
                     About
                   </Link>
+                  
+                </li>
+                 <li className="nav-item">
+                  <Link className="nav-link text-white" to="/admin/payment">
+                    Payment Setting
+                  </Link>
+                  
                 </li>
                   <li className="nav-item">
                   <Link className="nav-link text-white" to="/admin/placement">
                     Placement
                   </Link>
                 </li>
+                
               </ul>
             )}
           </li>

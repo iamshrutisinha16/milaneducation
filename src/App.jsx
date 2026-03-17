@@ -32,6 +32,7 @@ import AdminCareer from './admin/AdminCareer';
 import AdminHome from './admin/AdminHome';
 import AdminAbout from './admin/AdminAbout';
 import AdminPlacement from './admin/AdminPlacement';
+import AdminPaymentSettings from './admin/AdminPaymentSettings';
 
 function LayoutWrapper() {
   const location = useLocation();
@@ -89,6 +90,7 @@ function LayoutWrapper() {
             <Route path="home" element={<AdminHome />} /> 
             <Route path="about" element={<AdminAbout />} />
             <Route path="placement" element={<AdminPlacement />} />
+            <Route path="payment" element={<AdminPaymentSettings />} />
           </Route>
 
         </Routes>
