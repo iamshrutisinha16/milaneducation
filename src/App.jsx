@@ -79,6 +79,7 @@ function LayoutWrapper() {
               </ProtectAdmin>
             }
           >
+              <Route index element={<AdminDashboard />} />
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="users" element={<Users />} />
             <Route path="enquiries" element={<Enquiries />} />
