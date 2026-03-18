@@ -105,7 +105,7 @@ const PersonalityTest = () => {
         <div className="row g-4 text-center">
           {[
             { title: "STRENGTHS", desc: "Know what makes you unique.", img: "https://collegemilan-backend-2.onrender.com/uploads/strength.png" },
-            { title: "WEAKNESS", desc: "Identify areas for improvement.", img: "https://collegemilan-backend-2.onrender.com/uploads/weakness.png" },
+            { title: "WEAKNESS", desc: "Identify areas for improvement.", img: "https://collegemilan-backend-2.onrender.com/uploads/weekness.png" },
             { title: "KEY MOTIVATION", desc: "Find what drives your success.", img: "https://collegemilan-backend-2.onrender.com/uploads/motivation.png" }
           ].map((item, i) => (
             <div className="col-md-4" key={i}>
@@ -215,10 +215,6 @@ const PersonalityTest = () => {
                   <div className="input-group mb-3">
                     <span className="input-group-text"><MapPin size={18}/></span>
                     <input type="text" name="city" className="form-control" placeholder="City" required value={formData.city} onChange={handleChange} />
-                  </div>
-                  <div className="input-group mb-4">
-                    <span className="input-group-text"><GraduationCap size={18}/></span>
-                    <input type="text" name="course" className="form-control" placeholder="Interested Course" value={formData.course} onChange={handleChange} />
                   </div>
                   <button type="submit" className="btn-main w-100"><Send size={18} className="me-2"/>Submit Enquiry</button>
                 </form>
