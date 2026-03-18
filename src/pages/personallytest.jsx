@@ -22,6 +22,7 @@ const PersonalityTest = () => {
   // States
   const [showModal, setShowModal] = useState(false);
   const [isLoggedIn] = useState(false); 
+  const [successPopup, setSuccessPopup] = useState(false); // ✅ NEW
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -36,23 +37,18 @@ const PersonalityTest = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handle Form Submission (Enquiry)
+  // 🔥 UPDATED SUBMIT
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const submissionData = {
-        ...formData,
-        source: "Personality Test Page"
-      };
-
-      // Backend API Call
       const res = await axios.post(
-        "https://collegemilan-backend-2.onrender.com/api/enquiries",
-        submissionData
+        "https://collegemilan-backend-2.onrender.com/api/general-enquiry", // ✅ FIX
+        formData
       );
 
       if (res.status === 200 || res.status === 201) {
-        alert("Success! We will call you back soon.");
+        setSuccessPopup(true); // ✅ POPUP
+
         setFormData({
           fullName: "",
           city: "",
@@ -62,8 +58,8 @@ const PersonalityTest = () => {
         });
       }
     } catch (err) {
-      console.error("Submission Error:", err);
-      alert("Error: Backend se connect nahi ho paya. Please try again.");
+      console.error("Submission Error:", err.response?.data);
+      alert("Error: Backend se connect nahi ho paya.");
     }
   };
 
@@ -85,8 +81,12 @@ const PersonalityTest = () => {
             <div className="col-lg-7 text-white">
               <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }}>
                 <span className="badge-top mb-3">SCIENTIFIC PERSONALITY TEST</span>
-                <h1 className="display-4 fw-bold">Explore Your <span className="txt-orange">True Potential</span> In 15 Minutes</h1>
-                <p className="lead mt-3">Identify your strengths, overcome weaknesses, and find your key motivations with our expert-designed personality assessment.</p>
+                <h1 className="display-4 fw-bold">
+                  Explore Your <span className="txt-orange">True Potential</span> In 15 Minutes
+                </h1>
+                <p className="lead mt-3">
+                  Identify your strengths, overcome weaknesses, and find your key motivations with our expert-designed personality assessment.
+                </p>
                 <div className="d-flex gap-3 mt-4">
                   <button className="btn-main" onClick={handleApplyNow}>Apply For Test</button>
                   <a href="#video" className="btn-watch"><Play size={18} /> Watch Video</a>
@@ -94,7 +94,7 @@ const PersonalityTest = () => {
               </motion.div>
             </div>
             <div className="col-lg-5 d-none d-lg-block">
-               <img src="https://collegemilan-backend-2.onrender.com/uploads/personallytestbanner.webp" className="img-fluid" alt="Banner" />
+              <img src="https://collegemilan-backend-2.onrender.com/uploads/personallytestbanner.webp" className="img-fluid" alt="Banner" />
             </div>
           </div>
         </div>
@@ -122,22 +122,23 @@ const PersonalityTest = () => {
       {/* --- 3. PERSONALITY TRAITS WHEEL --- */}
       <section className="traits-wheel-section py-5 bg-light">
         <div className="container text-center">
-         <h2 className="fw-bold display-4" style={{ fontSize: "3rem" }}>
-           Get % Blend of Your 
-          <span style={{ color: "#f47920" }}> Core Traits</span>
-        </h2>
+          <h2 className="fw-bold display-4" style={{ fontSize: "3rem" }}>
+            Get % Blend of Your <span style={{ color: "#f47920" }}> Core Traits</span>
+          </h2>
           <p className="mb-5">Know yourself properly with our detailed analytical report.</p>
+
           <div className="wheel-img-container mx-auto text-center">
-       <img src="https://collegemilan-backend-2.onrender.com/uploads/persanalitywheel.png" 
-         alt="Personality Wheel" 
-          className="img-fluid" style={{ width: "850px", maxWidth: "95%" }} />
-        </div>
-          <button 
-  className="btn-main mt-5" 
-  onClick={() => navigate("/contactus")}
->
-  Apply Now
-</button>
+            <img
+              src="https://collegemilan-backend-2.onrender.com/uploads/persanalitywheel.png"
+              alt="Personality Wheel"
+              className="img-fluid"
+              style={{ width: "850px", maxWidth: "95%" }}
+            />
+          </div>
+
+          <button className="btn-main mt-5" onClick={() => navigate("/contactus")}>
+            Apply Now
+          </button>
         </div>
       </section>
 
@@ -164,81 +165,62 @@ const PersonalityTest = () => {
         </div>
       </section>
 
-      {/* --- 4. YOUTUBE VIDEO SECTION --- */}
+      {/* --- VIDEO SECTION --- */}
       <section id="video" className="video-section py-5 bg-light">
-  <div className="container text-center">
-    <div className="row justify-content-center">
-      <div className="col-lg-8 col-md-10">
-        <div className="video-card shadow-lg">
-        <video width="100%" height="400" controls>
-        <source 
-      src="https://collegemilan-backend-2.onrender.com/uploads/persanalitypagevideo.mp4" 
-      type="video/mp4"
-    />
-       Your browser does not support the video tag.
-      </video>
-      </div>
-      </div>
-    </div>
-  </div>
-</section>
+        <div className="container text-center">
+          <video width="100%" height="400" controls>
+            <source src="https://collegemilan-backend-2.onrender.com/uploads/persanalitypagevideo.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </section>
 
-      {/* --- 5. ENQUIRY FORM SECTION --- */}
+      {/* --- FORM SECTION --- */}
       <section className="enquiry-section py-5">
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-lg-8 shadow p-0 rounded-4 overflow-hidden d-flex flex-column flex-md-row">
+
               <div className="form-info p-5 text-white col-md-5">
                 <h4>Have Questions?</h4>
-                <p className="small">Talk to our career experts and get the right path for your future.</p>
-                <ul className="list-unstyled mt-4">
-                  <li className="mb-2"><CheckCircle size={16} /> 100% Secure</li>
-                  <li className="mb-2"><CheckCircle size={16} /> Expert Counselors</li>
-                  <li className="mb-2"><CheckCircle size={16} /> Trusted by 5k+ Students</li>
-                </ul>
               </div>
+
               <div className="form-container p-5 col-md-7 bg-white">
-                <h4 className="fw-bold mb-4 text-dark">Quick Enquiry</h4>
                 <form onSubmit={handleSubmit}>
-                  <div className="input-group mb-3">
-                    <span className="input-group-text"><User size={18}/></span>
-                    <input type="text" name="fullName" className="form-control" placeholder="Full Name" required value={formData.fullName} onChange={handleChange} />
-                  </div>
-                  <div className="input-group mb-3">
-                    <span className="input-group-text"><Mail size={18}/></span>
-                    <input type="email" name="email" className="form-control" placeholder="Email Address" required value={formData.email} onChange={handleChange} />
-                  </div>
-                  <div className="input-group mb-3">
-                    <span className="input-group-text"><Phone size={18}/></span>
-                    <input type="tel" name="mobile" className="form-control" placeholder="Mobile Number" required value={formData.mobile} onChange={handleChange} />
-                  </div>
-                  <div className="input-group mb-3">
-                    <span className="input-group-text"><MapPin size={18}/></span>
-                    <input type="text" name="city" className="form-control" placeholder="City" required value={formData.city} onChange={handleChange} />
-                  </div>
-                  <button type="submit" className="btn-main w-100"><Send size={18} className="me-2"/>Submit Enquiry</button>
+
+                  <input name="fullName" value={formData.fullName} onChange={handleChange} placeholder="Full Name" required />
+                  <input name="email" value={formData.email} onChange={handleChange} placeholder="Email" required />
+                  <input name="mobile" value={formData.mobile} onChange={handleChange} placeholder="Mobile" required />
+                  <input name="city" value={formData.city} onChange={handleChange} placeholder="City" required />
+                  <input name="course" value={formData.course} onChange={handleChange} placeholder="Course" required />
+
+                  <button type="submit">Submit</button>
+
                 </form>
               </div>
+
             </div>
           </div>
         </div>
       </section>
 
-      {/* --- 6. MODAL (Popup) --- */}
+      {/* EXISTING MODAL */}
       <AnimatePresence>
-        {showModal && (
+        {showModal && <div>Test Modal</div>}
+      </AnimatePresence>
+
+      {/* 🔥 SUCCESS POPUP */}
+      <AnimatePresence>
+        {successPopup && (
           <div className="modal-overlay">
-            <motion.div initial={{scale:0.8, opacity:0}} animate={{scale:1, opacity:1}} exit={{scale:0.8, opacity:0}} className="modal-content-box p-5 text-center shadow">
-              <h2 className="fw-bold txt-orange">Ready to Start?</h2>
-              <p className="text-muted">You are about to start your 15-minute personality assessment.</p>
-              <div className="d-flex gap-3 justify-content-center mt-4">
-                <button className="btn btn-light px-4" onClick={() => setShowModal(false)}>Cancel</button>
-                <button className="btn-main px-4">Begin Test</button>
-              </div>
+            <motion.div className="modal-content-box p-5 text-center">
+              <CheckCircle size={60} color="green" />
+              <h2>Success 🎉</h2>
+              <button onClick={() => setSuccessPopup(false)}>OK</button>
             </motion.div>
           </div>
         )}
       </AnimatePresence>
+
     </div>
   );
 };
