@@ -3,6 +3,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { Container, Row, Col, Form, Button, Alert, Spinner } from "react-bootstrap";
 import { motion } from "framer-motion";
 import axios from "axios";
+import Swal from "sweetalert2";
 import {
   FaPhoneAlt,
   FaEnvelope,
@@ -47,8 +48,10 @@ const ContactPage = () => {
     setSuccessMsg("");
     setErrorMsg("");
 
-    if (!captchaToken) {
-      setErrorMsg("Please verify that you are not a robot.");
+    const token = recaptchaRef.current.getValue(); 
+
+    if (!token) {
+      Swal.fire("Error", "Please verify captcha", "error");
       return;
     }
 
@@ -63,8 +66,16 @@ const ContactPage = () => {
         }
       );
 
+
       if (response.data.success) {
-        setSuccessMsg("Message sent successfully! We will contact you soon.");
+        // ✅ SWEET SUCCESS POPUP
+        Swal.fire({
+          title: "Success 🎉",
+          text: "Message sent successfully!",
+          icon: "success",
+          confirmButtonColor: "#3085d6",
+        });
+
         setFormData({
           firstName: "",
           lastName: "",
@@ -238,11 +249,14 @@ const ContactPage = () => {
                     required
                   />
                 </Form.Group>
-
                 <Form.Group className="mb-4 text-center">
                   <ReCAPTCHA
                     sitekey="6LcPrI4sAAAAALehD0MVzC9WenKIMcc8YJj_R-Lb"
                     onChange={handleCaptchaChange}
+                    onExpired={() => {
+                      setCaptchaToken(null);
+                      Swal.fire("Expired", "Captcha expired, verify again", "warning");
+                    }}
                     ref={recaptchaRef}
                   />
                 </Form.Group>
