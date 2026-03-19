@@ -248,8 +248,7 @@ const ContactPage = () => {
                   />
                 </Form.Group>
                  <ReCAPTCHA
-      sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY} 
-     // sitekey="6LcPrI4sAAAAALehD0MVzC9WenKIMcc8YJj_R-Lb"
+        sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY || "6LcPrI4sAAAAALehD0MVzC9WenKIMcc8YJj_R-Lb"}
        onChange={handleCaptchaChange}
       onExpired={() => {
     setCaptchaToken(null);
