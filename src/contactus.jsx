@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
+import React, { useState } from "react";
+// import ReCAPTCHA from "react-google-recaptcha"; // ❌ disabled
 import { Container, Row, Col, Form, Button, Alert, Spinner } from "react-bootstrap";
 import { motion } from "framer-motion";
 import axios from "axios";
@@ -15,7 +15,6 @@ import {
 } from "react-icons/fa";
 
 const ContactPage = () => {
-  const recaptchaRef = useRef();
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 30 },
@@ -30,48 +29,26 @@ const ContactPage = () => {
     message: "",
   });
 
-  const [captchaToken, setCaptchaToken] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleCaptchaChange = (token) => {
-    setCaptchaToken(token);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSuccessMsg("");
     setErrorMsg("");
-
-    if (!captchaToken) {
-      Swal.fire("Error", "Please verify captcha", "error");
-      return;
-    }
-
     setLoading(true);
 
     try {
       const response = await axios.post(
         "https://collegemilan-backend-2.onrender.com/api/contact",
-        {
-          ...formData,
-          captchaToken: captchaToken,
-        }
+        formData
       );
 
-
       if (response.data.success) {
-        Swal.fire({
-          title: "Success 🎉",
-          text: "Message sent successfully!",
-          icon: "success",
-          confirmButtonColor: "#3085d6",
-        });
+        Swal.fire("Success 🎉", "Message sent successfully!", "success");
 
         setFormData({
           firstName: "",
@@ -80,14 +57,11 @@ const ContactPage = () => {
           subject: "",
           message: "",
         });
-        setCaptchaToken(null);
-        recaptchaRef.current.reset();
-      } else {
-        setErrorMsg("Captcha verification failed. Try again.");
       }
+
     } catch (error) {
       console.error(error);
-      setErrorMsg("Something went wrong. Please try again later.");
+      setErrorMsg("Something went wrong. Try again.");
     }
 
     setLoading(false);
@@ -95,86 +69,58 @@ const ContactPage = () => {
 
   return (
     <div className="contact-wrapper">
-      
-      {/* Banner Section */}
-      <section className="contact-banner py-5 text-center bg-light">
-        <motion.div initial="hidden" whileInView="visible" variants={fadeInUp}>
 
+      {/* 🔹 Banner */}
+      <section className="py-5 text-center bg-light">
+        <motion.div initial="hidden" whileInView="visible" variants={fadeInUp}>
+          <h2>Contact Us</h2>
+          <p>We would love to hear from you</p>
         </motion.div>
       </section>
 
-      {/* Contact Info + Form */}
+      {/* 🔹 Main Section */}
       <Container className="py-5">
         <Row className="gy-4">
 
-        {/* LEFT SIDE DETAILS */}
-<Col lg={5}>
-  <motion.div
-    initial="hidden"
-    whileInView="visible"
-    variants={fadeInUp}
-    className="shadow-lg p-4 h-100"
-    style={{
-      backgroundColor: '#0a2a5b', 
-    }}
-  >
-    <h3 className="mb-4" style={{ color: '#f47920' }}>Contact Information</h3>
+          {/* LEFT SIDE */}
+          <Col lg={5}>
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              variants={fadeInUp}
+              className="shadow-lg p-4 h-100"
+              style={{ backgroundColor: "#0a2a5b" }}
+            >
+              <h3 style={{ color: "#f47920" }}>Contact Information</h3>
 
-    {/* Address */}
-    <div className="mb-4 d-flex">
-      <FaMapMarkerAlt className="me-3 mt-1" style={{ color: '#f47920' }} />
-      <div>
-        <h6 style={{ color: 'white' }}>Address</h6>
-        <p style={{ color: 'white', margin: 0 }}>
-          <a 
-            href="https://www.google.com/maps/search/?api=1&query=C917,+Sector+7,+Dwarka,+New+Delhi+110075" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            style={{ color: 'white', textDecoration: 'none' }}
-          >
-            C917, Sector 7, Dwarka, New Delhi - 110075
-          </a>
-        </p>
-      </div>
-    </div>
+              <div className="mb-3 d-flex">
+                <FaMapMarkerAlt className="me-2 mt-1" style={{ color: "#f47920" }} />
+                <span style={{ color: "white" }}>
+                  C917, Sector 7, Dwarka, New Delhi - 110075
+                </span>
+              </div>
 
-    {/* Call */}
-    <div className="mb-4 d-flex">
-      <FaPhoneAlt className="me-3 mt-1" style={{ color: '#f47920' }} />
-      <div> 
-        <h6 style={{ color: 'white' }}>Call Us</h6>
-        <p style={{ margin: 0 }}>
-          <a href="tel:+919773784854" style={{ color: 'white', textDecoration: 'none' }}>
-            +91 9773784854
-          </a>
-        </p>
-      </div>
-    </div>
+              <div className="mb-3 d-flex">
+                <FaPhoneAlt className="me-2 mt-1" style={{ color: "#f47920" }} />
+                <span style={{ color: "white" }}>+91 9773784854</span>
+              </div>
 
-    {/* Email */}
-    <div className="mb-4 d-flex">
-      <FaEnvelope className="me-3 mt-1" style={{ color: '#f47920' }} />
-      <div>
-        <h6 style={{ color: 'white' }}>Email</h6>
-        <p style={{ margin: 0 }}>
-          <a href="mailto:enquiry@collagemilan.com" style={{ color: 'white', textDecoration: 'none' }}>
-            enquiry@collagemilan.com
-          </a>
-        </p>
-      </div>
-    </div>
+              <div className="mb-3 d-flex">
+                <FaEnvelope className="me-2 mt-1" style={{ color: "#f47920" }} />
+                <span style={{ color: "white" }}>enquiry@collagemilan.com</span>
+              </div>
 
-    <hr style={{ borderColor: '#f47920' }} />
+              <hr style={{ borderColor: "#f47920" }} />
 
-    {/* Social Icons */}
-    <div className="mt-3">
-      <a href="#" className="me-3" style={{ color: '#f47920' }}><FaFacebookF /></a>
-      <a href="#" className="me-3" style={{ color: '#f47920' }}><FaTwitter /></a>
-      <a href="#" className="me-3" style={{ color: '#f47920' }}><FaInstagram /></a>
-      <a href="#" style={{ color: '#f47920' }}><FaLinkedinIn /></a>
-    </div>
-  </motion.div>
-</Col>
+              <div>
+                <FaFacebookF className="me-3" style={{ color: "#f47920" }} />
+                <FaTwitter className="me-3" style={{ color: "#f47920" }} />
+                <FaInstagram className="me-3" style={{ color: "#f47920" }} />
+                <FaLinkedinIn style={{ color: "#f47920" }} />
+              </div>
+            </motion.div>
+          </Col>
+
           {/* RIGHT SIDE FORM */}
           <Col lg={7}>
             <motion.div
@@ -185,7 +131,6 @@ const ContactPage = () => {
             >
               <h3 className="mb-4">Send Us a Message</h3>
 
-              {successMsg && <Alert variant="success">{successMsg}</Alert>}
               {errorMsg && <Alert variant="danger">{errorMsg}</Alert>}
 
               <Form onSubmit={handleSubmit}>
@@ -213,49 +158,44 @@ const ContactPage = () => {
                   </Col>
                 </Row>
 
-                <Form.Group className="mb-3">
-                  <Form.Control
-                    type="email"
-                    placeholder="Email Address"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                  />
-                </Form.Group>
+                <Form.Control
+                  className="mb-3"
+                  type="email"
+                  placeholder="Email Address"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
 
-                <Form.Group className="mb-3">
-                  <Form.Control
-                    type="text"
-                    placeholder="Subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    required
-                  />
-                </Form.Group>
+                <Form.Control
+                  className="mb-3"
+                  type="text"
+                  placeholder="Subject"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  required
+                />
 
-                <Form.Group className="mb-4">
-                  <Form.Control
-                    as="textarea"
-                    rows={4}
-                    placeholder="Your Message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                  />
-                </Form.Group>
-                 <ReCAPTCHA
-      sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY} 
-     // sitekey="6LcPrI4sAAAAALehD0MVzC9WenKIMcc8YJj_R-Lb"
-       onChange={handleCaptchaChange}
-      onExpired={() => {
-    setCaptchaToken(null);
-    Swal.fire("Expired", "Captcha expired, verify again", "warning");
-  }}
-  ref={recaptchaRef}
-/>
+                <Form.Control
+                  className="mb-4"
+                  as="textarea"
+                  rows={4}
+                  placeholder="Your Message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                />
+
+                {/* ❌ CAPTCHA TEMP REMOVED */}
+                {/* 
+                <ReCAPTCHA
+                  sitekey="YOUR_KEY"
+                  onChange={handleCaptchaChange}
+                />
+                */}
 
                 <Button type="submit" className="w-100" disabled={loading}>
                   {loading ? (
@@ -269,21 +209,22 @@ const ContactPage = () => {
               </Form>
             </motion.div>
           </Col>
+
         </Row>
       </Container>
 
-      {/* MAP SECTION */}
-      <section className="map-section mt-5">
+      {/* 🔹 MAP */}
+      <section className="mt-5">
         <iframe
-          title="College Milan Map"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3501.956897148858!2d77.37130091508264!3d28.631024582415956!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd26c8b9d7e3%3A0x6b4904a08a28731!2sSector%2062%2C%20Noida%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1676900000000!5m2!1sen!2sin"
+          title="map"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3501.956897148858!2d77.37130091508264!3d28.631024582415956"
           width="100%"
-          height="450"
+          height="400"
           style={{ border: 0 }}
-          allowFullScreen
           loading="lazy"
         ></iframe>
       </section>
+
     </div>
   );
 };
