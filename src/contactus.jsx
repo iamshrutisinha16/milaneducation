@@ -30,6 +30,7 @@ const ContactPage = () => {
   });
 
   const [loading, setLoading] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
   const handleChange = (e) => {
@@ -38,7 +39,9 @@ const ContactPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSuccessMsg("");
     setErrorMsg("");
+
     setLoading(true);
 
     try {
@@ -48,7 +51,12 @@ const ContactPage = () => {
       );
 
       if (response.data.success) {
-        Swal.fire("Success 🎉", "Message sent successfully!", "success");
+        Swal.fire({
+          title: "Success 🎉",
+          text: "Message sent successfully!",
+          icon: "success",
+          confirmButtonColor: "#3085d6",
+        });
 
         setFormData({
           firstName: "",
@@ -61,7 +69,7 @@ const ContactPage = () => {
 
     } catch (error) {
       console.error(error);
-      setErrorMsg("Something went wrong. Try again.");
+      setErrorMsg("Something went wrong. Please try again later.");
     }
 
     setLoading(false);
@@ -69,162 +77,189 @@ const ContactPage = () => {
 
   return (
     <div className="contact-wrapper">
-
-      {/* 🔹 Banner */}
-      <section className="py-5 text-center bg-light">
+      
+      {/* Banner Section */}
+      <section className="contact-banner py-5 text-center bg-light">
         <motion.div initial="hidden" whileInView="visible" variants={fadeInUp}>
-          <h2>Contact Us</h2>
-          <p>We would love to hear from you</p>
+          {/* banner content agar chaho yaha add kar sakti ho */}
         </motion.div>
       </section>
 
-      {/* 🔹 Main Section */}
+      {/* Contact Info + Form */}
       <Container className="py-5">
         <Row className="gy-4">
 
-          {/* LEFT SIDE */}
-          <Col lg={5}>
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              variants={fadeInUp}
-              className="shadow-lg p-4 h-100"
-              style={{ backgroundColor: "#0a2a5b" }}
-            >
-              <h3 style={{ color: "#f47920" }}>Contact Information</h3>
+        {/* LEFT SIDE DETAILS */}
+<Col lg={5}>
+  <motion.div
+    initial="hidden"
+    whileInView="visible"
+    variants={fadeInUp}
+    className="shadow-lg p-4 h-100"
+    style={{ backgroundColor: '#0a2a5b' }}
+  >
+    <h3 className="mb-4" style={{ color: '#f47920' }}>Contact Information</h3>
 
-              <div className="mb-3 d-flex">
-                <FaMapMarkerAlt className="me-2 mt-1" style={{ color: "#f47920" }} />
-                <span style={{ color: "white" }}>
-                  C917, Sector 7, Dwarka, New Delhi - 110075
-                </span>
-              </div>
+    <div className="mb-4 d-flex">
+      <FaMapMarkerAlt className="me-3 mt-1" style={{ color: '#f47920' }} />
+      <div>
+        <h6 style={{ color: 'white' }}>Address</h6>
+        <p style={{ color: 'white', margin: 0 }}>
+          <a 
+            href="https://www.google.com/maps/search/?api=1&query=C917,+Sector+7,+Dwarka,+New+Delhi+110075" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            style={{ color: 'white', textDecoration: 'none' }}
+          >
+            C917, Sector 7, Dwarka, New Delhi - 110075
+          </a>
+        </p>
+      </div>
+    </div>
 
-              <div className="mb-3 d-flex">
-                <FaPhoneAlt className="me-2 mt-1" style={{ color: "#f47920" }} />
-                <span style={{ color: "white" }}>+91 9773784854</span>
-              </div>
+    <div className="mb-4 d-flex">
+      <FaPhoneAlt className="me-3 mt-1" style={{ color: '#f47920' }} />
+      <div> 
+        <h6 style={{ color: 'white' }}>Call Us</h6>
+        <p style={{ margin: 0 }}>
+          <a href="tel:+919773784854" style={{ color: 'white' }}>
+            +91 9773784854
+          </a>
+        </p>
+      </div>
+    </div>
 
-              <div className="mb-3 d-flex">
-                <FaEnvelope className="me-2 mt-1" style={{ color: "#f47920" }} />
-                <span style={{ color: "white" }}>enquiry@collagemilan.com</span>
-              </div>
+    <div className="mb-4 d-flex">
+      <FaEnvelope className="me-3 mt-1" style={{ color: '#f47920' }} />
+      <div>
+        <h6 style={{ color: 'white' }}>Email</h6>
+        <p style={{ margin: 0 }}>
+          <a href="mailto:enquiry@collagemilan.com" style={{ color: 'white' }}>
+            enquiry@collagemilan.com
+          </a>
+        </p>
+      </div>
+    </div>
 
-              <hr style={{ borderColor: "#f47920" }} />
+    <hr style={{ borderColor: '#f47920' }} />
 
-              <div>
-                <FaFacebookF className="me-3" style={{ color: "#f47920" }} />
-                <FaTwitter className="me-3" style={{ color: "#f47920" }} />
-                <FaInstagram className="me-3" style={{ color: "#f47920" }} />
-                <FaLinkedinIn style={{ color: "#f47920" }} />
-              </div>
-            </motion.div>
-          </Col>
+    <div className="mt-3">
+      <a href="#" className="me-3" style={{ color: '#f47920' }}><FaFacebookF /></a>
+      <a href="#" className="me-3" style={{ color: '#f47920' }}><FaTwitter /></a>
+      <a href="#" className="me-3" style={{ color: '#f47920' }}><FaInstagram /></a>
+      <a href="#" style={{ color: '#f47920' }}><FaLinkedinIn /></a>
+    </div>
+  </motion.div>
+</Col>
 
-          {/* RIGHT SIDE FORM */}
-          <Col lg={7}>
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              variants={fadeInUp}
-              className="shadow-lg p-4 h-100"
-            >
-              <h3 className="mb-4">Send Us a Message</h3>
+{/* RIGHT SIDE FORM */}
+<Col lg={7}>
+  <motion.div
+    initial="hidden"
+    whileInView="visible"
+    variants={fadeInUp}
+    className="shadow-lg p-4 h-100"
+  >
+    <h3 className="mb-4">Send Us a Message</h3>
 
-              {errorMsg && <Alert variant="danger">{errorMsg}</Alert>}
+    {successMsg && <Alert variant="success">{successMsg}</Alert>}
+    {errorMsg && <Alert variant="danger">{errorMsg}</Alert>}
 
-              <Form onSubmit={handleSubmit}>
-                <Row>
-                  <Col md={6} className="mb-3">
-                    <Form.Control
-                      type="text"
-                      placeholder="First Name"
-                      name="firstName"
-                      value={formData.firstName}
-                      onChange={handleChange}
-                      required
-                    />
-                  </Col>
+    <Form onSubmit={handleSubmit}>
+      <Row>
+        <Col md={6} className="mb-3">
+          <Form.Control
+            type="text"
+            placeholder="First Name"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleChange}
+            required
+          />
+        </Col>
 
-                  <Col md={6} className="mb-3">
-                    <Form.Control
-                      type="text"
-                      placeholder="Last Name"
-                      name="lastName"
-                      value={formData.lastName}
-                      onChange={handleChange}
-                      required
-                    />
-                  </Col>
-                </Row>
+        <Col md={6} className="mb-3">
+          <Form.Control
+            type="text"
+            placeholder="Last Name"
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleChange}
+            required
+          />
+        </Col>
+      </Row>
 
-                <Form.Control
-                  className="mb-3"
-                  type="email"
-                  placeholder="Email Address"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
+      <Form.Group className="mb-3">
+        <Form.Control
+          type="email"
+          placeholder="Email Address"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+      </Form.Group>
 
-                <Form.Control
-                  className="mb-3"
-                  type="text"
-                  placeholder="Subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  required
-                />
+      <Form.Group className="mb-3">
+        <Form.Control
+          type="text"
+          placeholder="Subject"
+          name="subject"
+          value={formData.subject}
+          onChange={handleChange}
+          required
+        />
+      </Form.Group>
 
-                <Form.Control
-                  className="mb-4"
-                  as="textarea"
-                  rows={4}
-                  placeholder="Your Message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                />
+      <Form.Group className="mb-4">
+        <Form.Control
+          as="textarea"
+          rows={4}
+          placeholder="Your Message"
+          name="message"
+          value={formData.message}
+          onChange={handleChange}
+          required
+        />
+      </Form.Group>
 
-                {/* ❌ CAPTCHA TEMP REMOVED */}
-                {/* 
-                <ReCAPTCHA
-                  sitekey="YOUR_KEY"
-                  onChange={handleCaptchaChange}
-                />
-                */}
+      {/* ❌ CAPTCHA TEMP DISABLED PROPERLY */}
+      {/*
+      <ReCAPTCHA
+        sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+        onChange={handleCaptchaChange}
+        ref={recaptchaRef}
+      />
+      */}
 
-                <Button type="submit" className="w-100" disabled={loading}>
-                  {loading ? (
-                    <>
-                      <Spinner size="sm" animation="border" /> Sending...
-                    </>
-                  ) : (
-                    "Submit Message"
-                  )}
-                </Button>
-              </Form>
-            </motion.div>
-          </Col>
+      <Button type="submit" className="w-100" disabled={loading}>
+        {loading ? (
+          <>
+            <Spinner size="sm" animation="border" /> Sending...
+          </>
+        ) : (
+          "Submit Message"
+        )}
+      </Button>
+    </Form>
+  </motion.div>
+</Col>
 
         </Row>
       </Container>
 
-      {/* 🔹 MAP */}
-      <section className="mt-5">
+      {/* MAP SECTION */}
+      <section className="map-section mt-5">
         <iframe
-          title="map"
+          title="College Milan Map"
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3501.956897148858!2d77.37130091508264!3d28.631024582415956"
           width="100%"
-          height="400"
+          height="450"
           style={{ border: 0 }}
           loading="lazy"
         ></iframe>
       </section>
-
     </div>
   );
 };
