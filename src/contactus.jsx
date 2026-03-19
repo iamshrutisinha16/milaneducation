@@ -249,17 +249,20 @@ const ContactPage = () => {
                     required
                   />
                 </Form.Group>
-                <Form.Group className="mb-4 text-center">
-                  <ReCAPTCHA
-                    sitekey="6LcPrI4sAAAAALehD0MVzC9WenKIMcc8YJj_R-Lb"
-                    onChange={handleCaptchaChange}
-                    onExpired={() => {
-                      setCaptchaToken(null);
-                      Swal.fire("Expired", "Captcha expired, verify again", "warning");
-                    }}
-                    ref={recaptchaRef}
-                  />
-                </Form.Group>
+                 <ReCAPTCHA
+  // अगर आप Create React App यूज़ कर रही हैं:
+  sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} 
+  
+  // या अगर आप Vite यूज़ कर रही हैं (चेक करें package.json में):
+  // sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY} 
+  // sitekey="6LcPrI4sAAAAALehD0MVzC9WenKIMcc8YJj_R-Lb"
+  onChange={handleCaptchaChange}
+  onExpired={() => {
+    setCaptchaToken(null);
+    Swal.fire("Expired", "Captcha expired, verify again", "warning");
+  }}
+  ref={recaptchaRef}
+/>
 
                 <Button type="submit" className="w-100" disabled={loading}>
                   {loading ? (
