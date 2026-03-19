@@ -107,7 +107,7 @@ const ContactPage = () => {
     variants={fadeInUp}
     className="shadow-lg p-4 h-100"
     style={{
-      backgroundColor: '#0a2a5b', // Dark blue background
+      backgroundColor: '#0a2a5b', 
     }}
   >
     <h3 className="mb-4" style={{ color: '#f47920' }}>Contact Information</h3>
@@ -241,7 +241,7 @@ const ContactPage = () => {
 
                 <Form.Group className="mb-4 text-center">
                   <ReCAPTCHA
-                    sitekey="YOUR_REAL_RECAPTCHA_SITE_KEY"
+                    sitekey="6LcPrI4sAAAAALehD0MVzC9WenKIMcc8YJj_R-Lb"
                     onChange={handleCaptchaChange}
                     ref={recaptchaRef}
                   />
