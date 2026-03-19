@@ -48,9 +48,7 @@ const ContactPage = () => {
     setSuccessMsg("");
     setErrorMsg("");
 
-    const token = recaptchaRef.current.getValue(); 
-
-    if (!token) {
+    if (!captchaToken) {
       Swal.fire("Error", "Please verify captcha", "error");
       return;
     }
@@ -62,13 +60,12 @@ const ContactPage = () => {
         "https://collegemilan-backend-2.onrender.com/api/contact",
         {
           ...formData,
-          captchaToken: token,
+          captchaToken: captchaToken,
         }
       );
 
 
       if (response.data.success) {
-        // ✅ SWEET SUCCESS POPUP
         Swal.fire({
           title: "Success 🎉",
           text: "Message sent successfully!",
@@ -250,10 +247,10 @@ const ContactPage = () => {
                   />
                 </Form.Group>
                  <ReCAPTCHA
-   sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY} 
-  // sitekey="6LcPrI4sAAAAALehD0MVzC9WenKIMcc8YJj_R-Lb"
-  onChange={handleCaptchaChange}
-  onExpired={() => {
+      sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY} 
+     // sitekey="6LcPrI4sAAAAALehD0MVzC9WenKIMcc8YJj_R-Lb"
+       onChange={handleCaptchaChange}
+      onExpired={() => {
     setCaptchaToken(null);
     Swal.fire("Expired", "Captcha expired, verify again", "warning");
   }}
