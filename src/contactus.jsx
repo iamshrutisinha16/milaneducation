@@ -62,7 +62,7 @@ const ContactPage = () => {
         "https://collegemilan-backend-2.onrender.com/api/contact",
         {
           ...formData,
-          captchaToken,
+          captchaToken: token,
         }
       );
 
