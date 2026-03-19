@@ -250,11 +250,7 @@ const ContactPage = () => {
                   />
                 </Form.Group>
                  <ReCAPTCHA
-  // अगर आप Create React App यूज़ कर रही हैं:
-  sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} 
-  
-  // या अगर आप Vite यूज़ कर रही हैं (चेक करें package.json में):
-  // sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY} 
+   sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY} 
   // sitekey="6LcPrI4sAAAAALehD0MVzC9WenKIMcc8YJj_R-Lb"
   onChange={handleCaptchaChange}
   onExpired={() => {
