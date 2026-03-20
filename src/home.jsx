@@ -1,16 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Container, Button, Row, Col, Carousel } from 'react-bootstrap';
 import { Link, useNavigate } from "react-router-dom";
+import ReCAPTCHA from "react-google-recaptcha";
+import Swal from "sweetalert2";
 import { motion } from 'framer-motion'; 
-import axios from "axios"
+import axios from "axios";
 import { 
   FaMapMarkedAlt, FaBrain, FaUserTie, FaVideo, FaArrowRight, 
-  FaChevronRight, FaUserGraduate, FaChalkboardTeacher,FaCheckCircle, FaAward, FaGlobe 
+  FaChevronRight, FaUserGraduate, FaChalkboardTeacher, FaCheckCircle, FaAward, FaGlobe 
 } from 'react-icons/fa';
 
 const HomePage = () => {
   const navigate = useNavigate();
+
+  const recaptchaRef = useRef(null); // ✅ missing tha
+
+  const [captchaToken, setCaptchaToken] = useState(null);
   const [homeData, setHomeData] = useState(null);
+  const [showSuccess, setShowSuccess] = useState(false);
+
   const [formData, setFormData] = useState({
     fullName: "",
     city: "",
@@ -18,31 +26,41 @@ const HomePage = () => {
     mobile: "",
   });
 
-  const [showSuccess, setShowSuccess] = useState(false);
-useEffect(() => {
-  axios
-    .get("https://collegemilan-backend-2.onrender.com/api/admin/home")
-    .then((res) => {
-      setHomeData(res.data);
-    })
-    .catch((err) => {
-      console.log("Home fetch error", err);
-    });
-}, []);
-  
+  useEffect(() => {
+    axios
+      .get("https://collegemilan-backend-2.onrender.com/api/admin/home")
+      .then((res) => {
+        setHomeData(res.data);
+      })
+      .catch((err) => {
+        console.log("Home fetch error", err);
+      });
+  }, []);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
+  };
+
+  const handleCaptchaChange = (token) => {
+    setCaptchaToken(token);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!captchaToken) {
+      Swal.fire("Error", "Please verify captcha", "error");
+      return;
+    }
+
     try {
-      const submissionData = { 
-        ...formData, 
-        source: "Book a Session Form" 
+      const submissionData = {
+        ...formData,
+        captchaToken: captchaToken,
+        source: "Book a Session Form",
       };
 
       const res = await axios.post(
@@ -52,13 +70,24 @@ useEffect(() => {
 
       if (res.status === 200 || res.status === 201) {
         setShowSuccess(true);
-        setFormData({ fullName: "", city: "", email: "", mobile: "" });
+
+        setFormData({
+          fullName: "",
+          city: "",
+          email: "",
+          mobile: "",
+        });
+
+        setCaptchaToken(null);
+        recaptchaRef.current?.reset(); 
       }
+
     } catch (err) {
       console.error("Submission Error:", err);
-      alert("Something went wrong. Please try again.");
+      Swal.fire("Error", "Something went wrong. Please try again.", "error");
     }
   };
+
   if (!homeData) return null;
   return (
     <>
@@ -617,7 +646,18 @@ useEffect(() => {
         placeholder="Phone Number" 
         required 
       />
-      
+       <ReCAPTCHA
+                  sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+                  onChange={handleCaptchaChange}
+                  onExpired={() => {
+                    setCaptchaToken(null);
+
+                    if (!loading) {
+                      Swal.fire("Expired", "Captcha expired, verify again", "warning");
+                    }
+                  }}
+                  ref={recaptchaRef}
+                />
       <motion.button 
         type="submit" 
         whileHover={{ scale: 1.02 }}
