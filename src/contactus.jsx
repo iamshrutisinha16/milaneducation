@@ -46,7 +46,6 @@ const ContactPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // ✅ double submit protection
     if (loading) return;
 
     setSuccessMsg("");
@@ -70,7 +69,7 @@ const ContactPage = () => {
 
       if (response.data.success) {
         Swal.fire({
-          title: "Success 🎉",
+          title: "Success ",
           text: "Message sent successfully!",
           icon: "success",
           confirmButtonColor: "#3085d6",
@@ -182,11 +181,11 @@ const ContactPage = () => {
               <Form onSubmit={handleSubmit}>
                 <Row>
                   <Col md={6} className="mb-3">
-                    <Form.Control type="text" placeholder="First Name" name="firstName" value={formData.firstName} onChange={handleChange} required />
-                  </Col>
-
+                <Form.Control type="text" placeholder="Full Name (As per 10th Certificate)" name="Name" value={formData.firstName} 
+                onChange={handleChange} required />
+                </Col>
                   <Col md={6} className="mb-3">
-                    <Form.Control type="text" placeholder="Last Name" name="lastName" value={formData.lastName} onChange={handleChange} required />
+                    <Form.Control type="tel" placeholder="Mobile no" name="mobile" value={formData.mobile} onChange={handleChange} required />
                   </Col>
                 </Row>
 
@@ -208,7 +207,6 @@ const ContactPage = () => {
                   onExpired={() => {
                     setCaptchaToken(null);
 
-                    // ✅ only show if NOT submitting
                     if (!loading) {
                       Swal.fire("Expired", "Captcha expired, verify again", "warning");
                     }

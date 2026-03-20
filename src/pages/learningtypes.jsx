@@ -181,10 +181,11 @@ const LearningTypes = () => {
             <h5 className="section-title mt-4">Student Personal Information</h5>
             <div className="row g-3">
               <div className="col-md-6">
-                <label className="form-label"><User size={16} /> Full Name*</label>
-                <input type="text" name="name" className="form-control" required onChange={handleChange} />
-              </div>
-
+            <label className="form-label">
+            <User size={16} /> Full Name (As per 10th Certificate)*
+            </label>
+             <input type="text" name="name" className="form-control" required onChange={handleChange} />
+           </div>
               <div className="col-md-6">
                 <label className="form-label"><Mail size={16} /> Email*</label>
                 <input type="email" name="email" className="form-control" required onChange={handleChange} />
