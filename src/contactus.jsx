@@ -231,18 +231,13 @@ const ContactPage = () => {
           </Col>
         </Row>
       </Container>
-
-      {/* MAP */}
-      <section className="map-section mt-5">
-        <iframe
-          title="Map"
-          src="https://www.google.com/maps/embed?pb=!1m18!..."
-          width="100%"
-          height="450"
-          style={{ border: 0 }}
-          loading="lazy"
-        ></iframe>
-      </section>
+    <section className="map-section mt-5">
+       <iframe title="College Milan Map"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3501.956897148858!2d77.37130091508264!3d28.631024582415956!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd26c8b9d7e3%3A0x6b4904a08a28731!2sSector%2062%2C%20Noida%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1676900000000!5m2!1sen!2sin" 
+        width="100%" height="450" style={{ border: 0 }}
+         allowFullScreen loading="lazy" >
+        </iframe> 
+        </section>
     </div>
   );
 };
