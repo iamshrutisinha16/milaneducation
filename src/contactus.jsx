@@ -24,7 +24,7 @@ const ContactPage = () => {
 
   const [formData, setFormData] = useState({
     firstName: "",
-    lastName: "",
+    mobile: "",
     email: "",
     subject: "",
     message: "",
@@ -76,12 +76,12 @@ const ContactPage = () => {
         });
 
         setFormData({
-          firstName: "",
-          lastName: "",
-          email: "",
-          subject: "",
-          message: "",
-        });
+        firstName: "",
+        mobile: "",
+        email: "",
+        subject: "",
+        message: "",
+     });
 
         setCaptchaToken(null);
         recaptchaRef.current.reset();
@@ -181,8 +181,8 @@ const ContactPage = () => {
               <Form onSubmit={handleSubmit}>
                 <Row>
                   <Col md={6} className="mb-3">
-                <Form.Control type="text" placeholder="Full Name (As per 10th Certificate)" name="Name" value={formData.firstName} 
-                onChange={handleChange} required />
+                 <Form.Control type="text" placeholder="Full Name (As per 10th Certificate)" name="firstName" 
+                  value={formData.firstName} onChange={handleChange} required />
                 </Col>
                   <Col md={6} className="mb-3">
                     <Form.Control type="tel" placeholder="Mobile no" name="mobile" value={formData.mobile} onChange={handleChange} required />
