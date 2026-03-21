@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react"; 
 import axios from "axios";
 import { Container, Row, Col, Card, Button, Form, Modal } from "react-bootstrap";
-import { toast, ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
 
 const AdminEvents = () => {
   const [events, setEvents] = useState([]);
@@ -10,6 +8,9 @@ const AdminEvents = () => {
   const [image, setImage] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [editEventId, setEditEventId] = useState(null);
+
+  // Feedback modal state
+  const [feedback, setFeedback] = useState({ show: false, message: "", type: "success" });
 
   useEffect(() => {
     fetchEvents();
@@ -21,13 +22,18 @@ const AdminEvents = () => {
       setEvents(res.data);
     } catch (err) {
       console.log(err);
+      showFeedback("Failed to fetch events!", "error");
     }
+  };
+
+  const showFeedback = (message, type = "success") => {
+    setFeedback({ show: true, message, type });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title) return toast.error("Title is required");
-    
+    if (!title) return showFeedback("Title is required!", "error");
+
     const formData = new FormData();
     formData.append("title", title);
     if (image) formData.append("image", image);
@@ -37,12 +43,12 @@ const AdminEvents = () => {
         await axios.put(`/api/events/${editEventId}`, formData, {
           headers: { "Content-Type": "multipart/form-data" }
         });
-        toast.success("Event updated successfully!");
+        showFeedback("Event updated successfully!", "success");
       } else {
         await axios.post("/api/events", formData, {
           headers: { "Content-Type": "multipart/form-data" }
         });
-        toast.success("Event added successfully!");
+        showFeedback("Event added successfully!", "success");
       }
       fetchEvents();
       setTitle("");
@@ -51,7 +57,7 @@ const AdminEvents = () => {
       setShowModal(false);
     } catch (err) {
       console.log(err);
-      toast.error("Something went wrong!");
+      showFeedback("Something went wrong!", "error");
     }
   };
 
@@ -59,11 +65,11 @@ const AdminEvents = () => {
     if (!window.confirm("Are you sure you want to delete this event?")) return;
     try {
       await axios.delete(`/api/events/${id}`);
-      toast.success("Event deleted!");
+      showFeedback("Event deleted!", "success");
       fetchEvents();
     } catch (err) {
       console.log(err);
-      toast.error("Delete failed!");
+      showFeedback("Delete failed!", "error");
     }
   };
 
@@ -75,7 +81,6 @@ const AdminEvents = () => {
 
   return (
     <Container className="py-4">
-      <ToastContainer />
       <h2 className="mb-4">Admin Events Panel</h2>
 
       <Button variant="primary" onClick={() => setShowModal(true)}>Add New Event</Button>
@@ -95,7 +100,7 @@ const AdminEvents = () => {
         ))}
       </Row>
 
-      {/* Modal for Add/Edit */}
+      {/* Add/Edit Modal */}
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>{editEventId ? "Edit Event" : "Add New Event"}</Modal.Title>
@@ -125,6 +130,21 @@ const AdminEvents = () => {
             <Button variant="success" type="submit">{editEventId ? "Update" : "Add Event"}</Button>
           </Form>
         </Modal.Body>
+      </Modal>
+
+      {/* Feedback Modal */}
+      <Modal show={feedback.show} onHide={() => setFeedback({ ...feedback, show: false })} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>{feedback.type === "success" ? "Success" : "Error"}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>{feedback.message}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={() => setFeedback({ ...feedback, show: false })}>
+            OK
+          </Button>
+        </Modal.Footer>
       </Modal>
     </Container>
   );

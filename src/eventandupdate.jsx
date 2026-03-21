@@ -1,29 +1,79 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { Container, Row, Col, Card } from "react-bootstrap";
 import { motion } from "framer-motion";
 import axios from "axios";
 
 const EventsPage = () => {
   const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true); // optional: show loading state
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get("https://collegemilan-backend-2.onrender.com/api/events")
-      .then(res => setEvents(res.data))
-      .catch(err => console.log(err));
+    const fetchEvents = async () => {
+      try {
+        const res = await axios.get("https://collegemilan-backend-2.onrender.com/api/events");
+        if (Array.isArray(res.data)) {
+          setEvents(res.data);
+        } else {
+          console.error("Invalid data format:", res.data);
+          setError("Failed to load events.");
+        }
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load events.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEvents();
   }, []);
+
+  if (loading) {
+    return (
+      <Container className="py-5 mt-4 text-center">
+        <h4>Loading events...</h4>
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container className="py-5 mt-4 text-center">
+        <h4>{error}</h4>
+      </Container>
+    );
+  }
+
+  if (!events.length) {
+    return (
+      <Container className="py-5 mt-4 text-center">
+        <h4>No events found</h4>
+      </Container>
+    );
+  }
 
   return (
     <Container className="py-5 mt-4">
       <Row className="g-4">
         {events.map(item => (
-          <Col lg={4} md={6} key={item._id}>
-            <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
+          <Col lg={4} md={6} key={item._id || Math.random()}>
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
               <Card className="premium-event-card">
                 <div className="event-img-container">
-                  <Card.Img variant="top" src={item.image} alt="Event" />
+                  {item.image ? (
+                    <Card.Img variant="top" src={item.image} alt={item.title || "Event"} />
+                  ) : (
+                    <div style={{ height: "200px", backgroundColor: "#ddd" }}>No Image</div>
+                  )}
                 </div>
                 <Card.Body className="p-4">
-                  <Card.Title className="event-text-main">{item.title}</Card.Title>
+                  <Card.Title className="event-text-main">{item.title || "Untitled Event"}</Card.Title>
                 </Card.Body>
               </Card>
             </motion.div>
