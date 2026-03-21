@@ -5,13 +5,16 @@ import axios from "axios";
 
 const EventsPage = () => {
   const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true); // optional: show loading state
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await axios.get("https://collegemilan-backend-2.onrender.com/api/events");
+        const res = await axios.get(
+          "https://collegemilan-backend-2.onrender.com/api/events"
+        );
+
         if (Array.isArray(res.data)) {
           setEvents(res.data);
         } else {
@@ -54,33 +57,80 @@ const EventsPage = () => {
   }
 
   return (
-    <Container className="py-5 mt-4">
-      <Row className="g-4">
-        {events.map(item => (
-          <Col lg={4} md={6} key={item._id || Math.random()}>
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              <Card className="premium-event-card">
-                <div className="event-img-container">
-                  {item.image ? (
-                    <Card.Img variant="top" src={item.image} alt={item.title || "Event"} />
-                  ) : (
-                    <div style={{ height: "200px", backgroundColor: "#ddd" }}>No Image</div>
-                  )}
-                </div>
-                <Card.Body className="p-4">
-                  <Card.Title className="event-text-main">{item.title || "Untitled Event"}</Card.Title>
-                </Card.Body>
-              </Card>
-            </motion.div>
-          </Col>
-        ))}
-      </Row>
-    </Container>
+    <div className="events-main-wrapper">
+      {/* Banner Section */}
+      <section className="premium-banner">
+        <div className="banner-overlay"></div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1 }}
+          className="banner-content-box"
+        >
+          <h1 className="banner-title">
+            Events & <span className="highlight-orange">Updates</span>
+          </h1>
+          <div className="title-line"></div>
+          <p className="banner-subtitle">
+            Stay connected with the latest news, awards, and milestones of
+            College Milan.
+          </p>
+        </motion.div>
+      </section>
+
+      {/* Events Grid */}
+      <Container className="py-5 mt-4">
+        <Row className="g-4">
+          {events.map((item) => (
+            <Col lg={4} md={6} key={item._id || Math.random()}>
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+              >
+                <Card className="premium-event-card">
+                  <div className="event-img-container">
+                    {item.image ? (
+                      <Card.Img
+                        variant="top"
+                        src={item.image}
+                        alt={item.title || "Event"}
+                        style={{
+                          height: "250px",
+                          objectFit: "cover",
+                        }}
+                      />
+                    ) : (
+                      <div
+                        style={{
+                          height: "250px",
+                          backgroundColor: "#f0f0f0",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: "#888",
+                        }}
+                      >
+                        No Image
+                      </div>
+                    )}
+                  </div>
+                  <Card.Body className="p-4">
+                    <Card.Title className="event-text-main">
+                      {item.title || "Untitled Event"}
+                    </Card.Title>
+                  </Card.Body>
+                </Card>
+              </motion.div>
+            </Col>
+          ))}
+        </Row>
+      </Container>
+
+      {/* Floating Badge */}
+      <div className="floating-badge">Milan Updates</div>
+    </div>
   );
 };
 

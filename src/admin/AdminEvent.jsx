@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"; 
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Container, Row, Col, Card, Button, Form, Modal } from "react-bootstrap";
 
@@ -8,30 +8,20 @@ const AdminEvents = () => {
   const [image, setImage] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [editEventId, setEditEventId] = useState(null);
-
-  // Feedback modal state
   const [feedback, setFeedback] = useState({ show: false, message: "", type: "success" });
 
-  // ✅ Backend URL
-  const API_BASE = "https://collegemilan-backend-2.onrender.com"; // Render backend
+  const API_BASE = "https://collegemilan-backend-2.onrender.com";
 
-  // showFeedback function
   const showFeedback = (message, type = "success") => {
     setFeedback({ show: true, message, type });
-    setTimeout(() => {
-      setFeedback(prev => ({ ...prev, show: false }));
-    }, 2500);
+    setTimeout(() => setFeedback(prev => ({ ...prev, show: false })), 2500);
   };
 
-  // Fetch events
   const fetchEvents = async () => {
     try {
       const res = await axios.get(`${API_BASE}/api/events`);
       if (Array.isArray(res.data)) setEvents(res.data);
-      else {
-        showFeedback("Invalid response from server", "error");
-        setEvents([]);
-      }
+      else showFeedback("Invalid response from server", "error");
     } catch (err) {
       console.log(err);
       showFeedback("Failed to fetch events!", "error");
@@ -42,7 +32,6 @@ const AdminEvents = () => {
     fetchEvents();
   }, []);
 
-  // Add / Update event
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title) return showFeedback("Title is required!", "error");
@@ -53,14 +42,10 @@ const AdminEvents = () => {
 
     try {
       if (editEventId) {
-        await axios.put(`${API_BASE}/api/events/${editEventId}`, formData, {
-          headers: { "Content-Type": "multipart/form-data" }
-        });
+        await axios.put(`${API_BASE}/api/events/${editEventId}`, formData, { headers: { "Content-Type": "multipart/form-data" } });
         showFeedback("Event updated successfully!", "success");
       } else {
-        await axios.post(`${API_BASE}/api/events`, formData, {
-          headers: { "Content-Type": "multipart/form-data" }
-        });
+        await axios.post(`${API_BASE}/api/events`, formData, { headers: { "Content-Type": "multipart/form-data" } });
         showFeedback("Event added successfully!", "success");
       }
       fetchEvents();
@@ -74,7 +59,6 @@ const AdminEvents = () => {
     }
   };
 
-  // Delete event
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this event?")) return;
     try {
@@ -95,33 +79,38 @@ const AdminEvents = () => {
 
   return (
     <Container className="py-4">
-      <h2 className="mb-4">Admin Events Panel</h2>
+      <h2 className="mb-4 text-center">Admin Events Panel</h2>
+      <div className="text-center mb-4">
+        <Button variant="primary" onClick={() => setShowModal(true)}>+ Add New Event</Button>
+      </div>
 
-      <Button variant="primary" onClick={() => setShowModal(true)}>Add New Event</Button>
-
-      <Row className="mt-4 g-4">
-        {Array.isArray(events) && events.length > 0 ? (
-          events.map(e => (
-            <Col md={4} key={e._id || Math.random()}>
-              <Card>
-                {e.image ? (
+      <Row className="g-4">
+        {events.length > 0 ? events.map(e => (
+          <Col md={6} lg={4} key={e._id}>
+            <Card className="shadow-sm rounded-3">
+              {e.image ? (
+                <div style={{ height: "220px", overflow: "hidden", borderTopLeftRadius: "0.375rem", borderTopRightRadius: "0.375rem" }}>
                   <Card.Img
-                    variant="top"
                     src={e.image.startsWith("/uploads/") ? `${API_BASE}${e.image}` : e.image}
-                    style={{ height: "200px", objectFit: "cover" }}
+                    alt={e.title}
+                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }}
                   />
-                ) : (
-                  <div style={{ height: "200px", backgroundColor: "#ddd" }}>No Image</div>
-                )}
-                <Card.Body>
-                  <Card.Title>{e.title || "Untitled Event"}</Card.Title>
-                  <Button variant="warning" size="sm" onClick={() => handleEdit(e)} className="me-2">Edit</Button>
+                </div>
+              ) : (
+                <div style={{ height: "220px", backgroundColor: "#f0f0f0", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  No Image
+                </div>
+              )}
+              <Card.Body>
+                <Card.Title className="fw-bold">{e.title || "Untitled Event"}</Card.Title>
+                <div className="d-flex justify-content-between mt-3">
+                  <Button variant="warning" size="sm" onClick={() => handleEdit(e)}>Edit</Button>
                   <Button variant="danger" size="sm" onClick={() => handleDelete(e._id)}>Delete</Button>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))
-        ) : (
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        )) : (
           <Col>
             <p className="text-center mt-4">No events found</p>
           </Col>
@@ -129,7 +118,7 @@ const AdminEvents = () => {
       </Row>
 
       {/* Add/Edit Modal */}
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>{editEventId ? "Edit Event" : "Add New Event"}</Modal.Title>
         </Modal.Header>
@@ -145,7 +134,6 @@ const AdminEvents = () => {
                 required
               />
             </Form.Group>
-
             <Form.Group className="mb-3">
               <Form.Label>Image</Form.Label>
               <Form.Control
@@ -154,8 +142,7 @@ const AdminEvents = () => {
                 accept="image/*"
               />
             </Form.Group>
-
-            <Button variant="success" type="submit">{editEventId ? "Update" : "Add Event"}</Button>
+            <Button variant="success" type="submit" className="w-100">{editEventId ? "Update Event" : "Add Event"}</Button>
           </Form>
         </Modal.Body>
       </Modal>
