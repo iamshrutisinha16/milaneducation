@@ -1,202 +1,131 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {
-  Container, Row, Col, Card, Form, Button, Spinner, Toast, ToastContainer
-} from "react-bootstrap";
+import { Container, Row, Col, Card, Button, Form, Modal } from "react-bootstrap";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const AdminEvents = () => {
-  const API_URL = "https://collegemilan-backend-2.onrender.com";
-
-  // Admin token from localStorage (change as per your auth)
-  const ADMIN_TOKEN = localStorage.getItem("adminToken") || "";
-
   const [events, setEvents] = useState([]);
   const [title, setTitle] = useState("");
-  const [imageFile, setImageFile] = useState(null);
-  const [bannerFile, setBannerFile] = useState(null);
-  const [banner, setBanner] = useState("");
-  const [editId, setEditId] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  const [toast, setToast] = useState({ show: false, message: "", type: "success" });
-  const showToast = (message, type = "success") => setToast({ show: true, message, type });
-
-  // =========================
-  // 🔹 Fetch events & banner
-  // =========================
-  const fetchEvents = async () => {
-    try {
-      const res = await axios.get(`${API_URL}/api/admin/events?type=event`, {
-        headers: { Authorization: `Bearer ${ADMIN_TOKEN}` }
-      });
-      setEvents(res.data);
-    } catch (err) {
-      console.error("Fetch events error:", err.response || err);
-      showToast("Failed to load events", "danger");
-    }
-  };
-
-  const fetchBanner = async () => {
-    try {
-      const res = await axios.get(`${API_URL}/api/admin/events?type=banner`, {
-        headers: { Authorization: `Bearer ${ADMIN_TOKEN}` }
-      });
-      setBanner(res.data[0]?.imageUrl || "");
-    } catch (err) {
-      console.log("No banner found", err.response || err);
-    }
-  };
+  const [image, setImage] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [editEventId, setEditEventId] = useState(null);
 
   useEffect(() => {
     fetchEvents();
-    fetchBanner();
   }, []);
 
-  // =========================
-  // 🔹 Add/Edit Event
-  // =========================
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!title || (!imageFile && !editId)) return showToast("Title & Image required!", "danger");
-
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("type", "event");
-    if (imageFile) formData.append("image", imageFile);
-
-    console.log("Submitting event FormData:");
-    for (let pair of formData.entries()) console.log(pair[0], pair[1]);
-
-    setLoading(true);
+  const fetchEvents = async () => {
     try {
-      if (editId) {
-        await axios.put(`${API_URL}/api/admin/events/${editId}`, formData, {
-          headers: { Authorization: `Bearer ${ADMIN_TOKEN}` }
-        });
-        showToast("Event updated!");
-      } else {
-        await axios.post(`${API_URL}/api/admin/events`, formData, {
-          headers: { Authorization: `Bearer ${ADMIN_TOKEN}` }
-        });
-        showToast("Event added!");
-      }
-      setTitle(""); setImageFile(null); setEditId(null);
-      fetchEvents();
+      const res = await axios.get("/api/events");
+      setEvents(res.data);
     } catch (err) {
-      console.error("Event POST error:", err.response || err);
-      showToast("Error occurred while saving event", "danger");
-    } finally { setLoading(false); }
-  };
-
-  // =========================
-  // 🔹 Banner Upload
-  // =========================
-  const handleBannerUpload = async () => {
-    if (!bannerFile) return showToast("Select banner first", "danger");
-
-    const formData = new FormData();
-    formData.append("image", bannerFile);
-    formData.append("type", "banner");
-    formData.append("title", "Banner");
-
-    console.log("Submitting banner FormData:");
-    for (let pair of formData.entries()) console.log(pair[0], pair[1]);
-
-    setLoading(true);
-    try {
-      await axios.post(`${API_URL}/api/admin/events`, formData, {
-        headers: { Authorization: `Bearer ${ADMIN_TOKEN}` }
-      });
-      showToast("Banner updated!");
-      fetchBanner();
-    } catch (err) {
-      console.error("Banner upload error:", err.response || err);
-      showToast("Banner upload failed", "danger");
-    } finally { setLoading(false); }
-  };
-
-  // =========================
-  // 🔹 Edit & Delete
-  // =========================
-  const handleEdit = (ev) => {
-    setTitle(ev.title);
-    setEditId(ev._id);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const handleDelete = async (id) => {
-    if (!window.confirm("Delete this event?")) return;
-    try {
-      await axios.delete(`${API_URL}/api/admin/events/${id}`, {
-        headers: { Authorization: `Bearer ${ADMIN_TOKEN}` }
-      });
-      showToast("Deleted!", "danger");
-      fetchEvents();
-    } catch (err) {
-      console.error("Delete error:", err.response || err);
-      showToast("Delete failed", "danger");
+      console.log(err);
     }
   };
 
-  // =========================
-  // 🔹 Render
-  // =========================
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!title) return toast.error("Title is required");
+    
+    const formData = new FormData();
+    formData.append("title", title);
+    if (image) formData.append("image", image);
+
+    try {
+      if (editEventId) {
+        await axios.put(`/api/events/${editEventId}`, formData, {
+          headers: { "Content-Type": "multipart/form-data" }
+        });
+        toast.success("Event updated successfully!");
+      } else {
+        await axios.post("/api/events", formData, {
+          headers: { "Content-Type": "multipart/form-data" }
+        });
+        toast.success("Event added successfully!");
+      }
+      fetchEvents();
+      setTitle("");
+      setImage(null);
+      setEditEventId(null);
+      setShowModal(false);
+    } catch (err) {
+      console.log(err);
+      toast.error("Something went wrong!");
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this event?")) return;
+    try {
+      await axios.delete(`/api/events/${id}`);
+      toast.success("Event deleted!");
+      fetchEvents();
+    } catch (err) {
+      console.log(err);
+      toast.error("Delete failed!");
+    }
+  };
+
+  const handleEdit = (event) => {
+    setTitle(event.title);
+    setEditEventId(event._id);
+    setShowModal(true);
+  };
+
   return (
-    <Container fluid className="p-4 position-relative">
-      <ToastContainer position="top-end" className="p-3">
-        <Toast show={toast.show} onClose={() => setToast({ ...toast, show: false })} delay={3000} autohide bg={toast.type}>
-          <Toast.Body className="text-white fw-bold">{toast.message}</Toast.Body>
-        </Toast>
-      </ToastContainer>
+    <Container className="py-4">
+      <ToastContainer />
+      <h2 className="mb-4">Admin Events Panel</h2>
 
-      <h3 className="fw-bold mb-4">Manage Events</h3>
+      <Button variant="primary" onClick={() => setShowModal(true)}>Add New Event</Button>
 
-      {/* Banner */}
-      <Card className="mb-4 shadow-sm">
-        <Card.Body>
-          <Card.Title>Events Banner</Card.Title>
-          <Form.Control type="file" onChange={(e) => setBannerFile(e.target.files[0])} />
-          {banner && <img src={`${API_URL}/${banner}`} className="mt-3 rounded" style={{ width: "100%", maxHeight: "200px", objectFit: "cover" }} />}
-          <Button className="mt-3" onClick={handleBannerUpload} disabled={loading}>
-            {loading ? <Spinner size="sm" /> : "Upload Banner"}
-          </Button>
-        </Card.Body>
-      </Card>
-
-      {/* Event Form */}
-      <Card className="mb-4 shadow-sm">
-        <Card.Body>
-          <Form onSubmit={handleSubmit}>
-            <Row>
-              <Col md={6}>
-                <Form.Control placeholder="Event Title" value={title} onChange={(e) => setTitle(e.target.value)} className="mb-3" />
-              </Col>
-              <Col md={6}>
-                <Form.Control type="file" onChange={(e) => setImageFile(e.target.files[0])} />
-              </Col>
-            </Row>
-            <Button type="submit" disabled={loading}>
-              {loading ? <Spinner size="sm" /> : editId ? "Update" : "Add Event"}
-            </Button>
-          </Form>
-        </Card.Body>
-      </Card>
-
-      {/* Events List */}
-      <Row>
-        {events.map(ev => (
-          <Col md={4} key={ev._id}>
-            <Card className="mb-4 shadow-sm">
-              <Card.Img src={`${API_URL}/${ev.imageUrl}`} />
+      <Row className="mt-4 g-4">
+        {events.map(e => (
+          <Col md={4} key={e._id}>
+            <Card>
+              <Card.Img variant="top" src={e.image} style={{ height: "200px", objectFit: "cover" }} />
               <Card.Body>
-                <Card.Title>{ev.title}</Card.Title>
-                <Button size="sm" variant="warning" onClick={() => handleEdit(ev)}>Edit</Button>{" "}
-                <Button size="sm" variant="danger" onClick={() => handleDelete(ev._id)}>Delete</Button>
+                <Card.Title>{e.title}</Card.Title>
+                <Button variant="warning" size="sm" onClick={() => handleEdit(e)} className="me-2">Edit</Button>
+                <Button variant="danger" size="sm" onClick={() => handleDelete(e._id)}>Delete</Button>
               </Card.Body>
             </Card>
           </Col>
         ))}
       </Row>
+
+      {/* Modal for Add/Edit */}
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>{editEventId ? "Edit Event" : "Add New Event"}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3">
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter event title"
+                value={title}
+                onChange={e => setTitle(e.target.value)}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Image</Form.Label>
+              <Form.Control
+                type="file"
+                onChange={e => setImage(e.target.files[0])}
+                accept="image/*"
+              />
+            </Form.Group>
+
+            <Button variant="success" type="submit">{editEventId ? "Update" : "Add Event"}</Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </Container>
   );
 };

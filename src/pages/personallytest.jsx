@@ -47,7 +47,7 @@ const PersonalityTest = () => {
       );
 
       if (res.status === 200 || res.status === 201) {
-        setSuccessPopup(true); // ✅ POPUP
+        setSuccessPopup(true); 
 
         setFormData({
           fullName: "",
@@ -59,7 +59,7 @@ const PersonalityTest = () => {
       }
     } catch (err) {
       console.error("Submission Error:", err.response?.data);
-      alert("Error: Backend se connect nahi ho paya.");
+      alert("Error: Backend is not connected.");
     }
   };
 
@@ -248,7 +248,7 @@ const PersonalityTest = () => {
           <div className="modal-overlay">
             <motion.div className="modal-content-box p-5 text-center">
               <CheckCircle size={60} color="green" />
-              <h2>Success 🎉</h2>
+               <h2>Submitted successfully! Our team will connect with you soon.</h2>
               <button onClick={() => setSuccessPopup(false)}>OK</button>
             </motion.div>
           </div>

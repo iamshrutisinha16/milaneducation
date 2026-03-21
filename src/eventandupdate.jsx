@@ -1,4 +1,42 @@
-import React from 'react'; 
+import React, { useEffect, useState } from "react";
+import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { motion } from "framer-motion";
+import axios from "axios";
+
+const EventsPage = () => {
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    axios.get("https://collegemilan-backend-2.onrender.com/api/events")
+      .then(res => setEvents(res.data))
+      .catch(err => console.log(err));
+  }, []);
+
+  return (
+    <Container className="py-5 mt-4">
+      <Row className="g-4">
+        {events.map(item => (
+          <Col lg={4} md={6} key={item._id}>
+            <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
+              <Card className="premium-event-card">
+                <div className="event-img-container">
+                  <Card.Img variant="top" src={item.image} alt="Event" />
+                </div>
+                <Card.Body className="p-4">
+                  <Card.Title className="event-text-main">{item.title}</Card.Title>
+                </Card.Body>
+              </Card>
+            </motion.div>
+          </Col>
+        ))}
+      </Row>
+    </Container>
+  );
+};
+
+export default EventsPage;
+
+/*import React from 'react'; 
 import { Container, Row, Col, Card } from 'react-bootstrap'; 
 import { motion } from 'framer-motion';
  const EventsPage = () => {
@@ -42,7 +80,7 @@ title: "Green Youth Icon Award 2024 felicitation ceremony.",
                                                       image: "/assets/event6.jpeg",
                                                      } ];
                                                       return ( <div className="events-main-wrapper">
-                                                         {/* 1. Premium Banner Section */} 
+                                                 
                                                          <section className="premium-banner">
                                                              <div className="banner-overlay"></div> 
                                                              <motion.div initial={{ opacity: 0, scale: 0.9 }} 
@@ -78,4 +116,4 @@ title: "Green Youth Icon Award 2024 felicitation ceremony.",
                                                                                               <div className="floating-badge">Milan Updates</div> </div>
                                                                                                ); 
                                                                                               }; 
-                                     export default EventsPage;
+                                     export default EventsPage;*/
