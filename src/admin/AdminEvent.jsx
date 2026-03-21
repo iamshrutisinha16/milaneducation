@@ -12,20 +12,20 @@ const AdminEvents = () => {
   // Feedback modal state
   const [feedback, setFeedback] = useState({ show: false, message: "", type: "success" });
 
-  // ✅ showFeedback ko pehle declare kiya
+  // ✅ showFeedback function pehle declare kiya
   const showFeedback = (message, type = "success") => {
     setFeedback({ show: true, message, type });
 
-    // Optional: auto close after 2.5 seconds
+    // Auto close 2.5 second me
     setTimeout(() => {
       setFeedback(prev => ({ ...prev, show: false }));
     }, 2500);
   };
 
+  // ✅ Fetch events from backend
   const fetchEvents = async () => {
     try {
-      const res = await axios.get("/api/events");
-
+      const res = await axios.get("/api/events"); // backend GET route
       if (Array.isArray(res.data)) {
         setEvents(res.data);
       } else {

@@ -5,13 +5,14 @@ import axios from "axios";
 
 const EventsPage = () => {
   const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true); // optional: show loading state
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await axios.get("https://collegemilan-backend-2.onrender.com/api/events");
+        // ✅ Backend ke hisaab se correct URL
+        const res = await axios.get("/api/events");
         if (Array.isArray(res.data)) {
           setEvents(res.data);
         } else {
@@ -29,6 +30,7 @@ const EventsPage = () => {
     fetchEvents();
   }, []);
 
+  // 🔹 Loading State
   if (loading) {
     return (
       <Container className="py-5 mt-4 text-center">
@@ -37,6 +39,7 @@ const EventsPage = () => {
     );
   }
 
+  // 🔹 Error State
   if (error) {
     return (
       <Container className="py-5 mt-4 text-center">
@@ -45,6 +48,7 @@ const EventsPage = () => {
     );
   }
 
+  // 🔹 No events
   if (!events.length) {
     return (
       <Container className="py-5 mt-4 text-center">
@@ -67,7 +71,13 @@ const EventsPage = () => {
               <Card className="premium-event-card">
                 <div className="event-img-container">
                   {item.image ? (
-                    <Card.Img variant="top" src={item.image} alt={item.title || "Event"} />
+                    // ✅ Backend image path ke hisaab se
+                    <Card.Img
+                      variant="top"
+                      src={item.image.startsWith("/uploads/") ? item.image : `/uploads/${item.image}`}
+                      alt={item.title || "Event"}
+                      style={{ height: "200px", objectFit: "cover" }}
+                    />
                   ) : (
                     <div style={{ height: "200px", backgroundColor: "#ddd" }}>No Image</div>
                   )}
