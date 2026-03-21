@@ -12,23 +12,23 @@ const AdminEvents = () => {
   // Feedback modal state
   const [feedback, setFeedback] = useState({ show: false, message: "", type: "success" });
 
-  // ✅ showFeedback function pehle declare kiya
+  // ✅ Backend URL
+  const API_BASE = "https://collegemilan-backend-2.onrender.com"; // Render backend
+
+  // showFeedback function
   const showFeedback = (message, type = "success") => {
     setFeedback({ show: true, message, type });
-
-    // Auto close 2.5 second me
     setTimeout(() => {
       setFeedback(prev => ({ ...prev, show: false }));
     }, 2500);
   };
 
-  // ✅ Fetch events from backend
+  // Fetch events
   const fetchEvents = async () => {
     try {
-      const res = await axios.get("/api/events"); // backend GET route
-      if (Array.isArray(res.data)) {
-        setEvents(res.data);
-      } else {
+      const res = await axios.get(`${API_BASE}/api/events`);
+      if (Array.isArray(res.data)) setEvents(res.data);
+      else {
         showFeedback("Invalid response from server", "error");
         setEvents([]);
       }
@@ -42,6 +42,7 @@ const AdminEvents = () => {
     fetchEvents();
   }, []);
 
+  // Add / Update event
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title) return showFeedback("Title is required!", "error");
@@ -52,12 +53,12 @@ const AdminEvents = () => {
 
     try {
       if (editEventId) {
-        await axios.put(`/api/events/${editEventId}`, formData, {
+        await axios.put(`${API_BASE}/api/events/${editEventId}`, formData, {
           headers: { "Content-Type": "multipart/form-data" }
         });
         showFeedback("Event updated successfully!", "success");
       } else {
-        await axios.post("/api/events", formData, {
+        await axios.post(`${API_BASE}/api/events`, formData, {
           headers: { "Content-Type": "multipart/form-data" }
         });
         showFeedback("Event added successfully!", "success");
@@ -73,10 +74,11 @@ const AdminEvents = () => {
     }
   };
 
+  // Delete event
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this event?")) return;
     try {
-      await axios.delete(`/api/events/${id}`);
+      await axios.delete(`${API_BASE}/api/events/${id}`);
       showFeedback("Event deleted!", "success");
       fetchEvents();
     } catch (err) {
@@ -103,7 +105,11 @@ const AdminEvents = () => {
             <Col md={4} key={e._id || Math.random()}>
               <Card>
                 {e.image ? (
-                  <Card.Img variant="top" src={e.image} style={{ height: "200px", objectFit: "cover" }} />
+                  <Card.Img
+                    variant="top"
+                    src={e.image.startsWith("/uploads/") ? `${API_BASE}${e.image}` : e.image}
+                    style={{ height: "200px", objectFit: "cover" }}
+                  />
                 ) : (
                   <div style={{ height: "200px", backgroundColor: "#ddd" }}>No Image</div>
                 )}
