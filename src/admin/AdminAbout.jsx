@@ -23,14 +23,12 @@ const AdminAboutUs = () => {
 
   const [uploading, setUploading] = useState(false);
   
-  // 🔥 NAYA: Toast (Popup) State
   const [toast, setToast] = useState({
     show: false,
     message: "",
-    type: "success", // 'success' ya 'danger'
+    type: "success", 
   });
 
-  // Helper function to show popup
   const showNotification = (message, type = "success") => {
     setToast({ show: true, message, type });
   };
@@ -59,9 +57,6 @@ const AdminAboutUs = () => {
     });
   };
 
-  // ==========================================
-  // VALUES (DYNAMIC ARRAY) HANDLERS
-  // ==========================================
   const handleValueChange = (index, e) => {
     const { name, value } = e.target;
     const newValues = [...about.values]; 
@@ -81,9 +76,6 @@ const AdminAboutUs = () => {
     setAbout({ ...about, values: newValues });
   };
 
-  // ==========================================
-  // IMAGE UPLOAD HANDLER
-  // ==========================================
   const handleImageUpload = async (e, fieldName) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -107,36 +99,27 @@ const AdminAboutUs = () => {
         setAbout({ ...about, story: { ...about.story, image: uploadedUrl } });
       }
 
-      // 🔥 Premium Success Popup
       showNotification("Image uploaded! Click 'Save All Changes' to update.", "success");
     } catch (error) {
       console.error("Image upload failed", error);
-      // 🔥 Premium Error Popup
       showNotification("Failed to upload image. Please try again.", "danger");
     } finally {
       setUploading(false);
     }
   };
 
-  // ==========================================
-  // SAVE CHANGES
-  // ==========================================
   const handleSave = async () => {
     try {
       await axios.put("https://collegemilan-backend-2.onrender.com/api/admin/about", about);
-      // 🔥 Premium Success Popup
       showNotification("About page updated successfully! 🎉", "success");
     } catch (error) {
       console.error("Update failed", error);
-      // 🔥 Premium Error Popup
       showNotification("Failed to update About page.", "danger");
     }
   };
 
   return (
     <Container fluid className="p-4 position-relative">
-      
-      {/* 🔥 MODERN FLOATING POPUP (TOAST) 🔥 */}
       <ToastContainer 
         position="top-end" 
         className="p-3" 
@@ -151,7 +134,7 @@ const AdminAboutUs = () => {
         >
           <Toast.Header closeButton={false} className="d-flex justify-content-between">
             <strong className="me-auto text-dark">
-              {toast.type === "success" ? "✅ Success" : "❌ Error"}
+              {toast.type === "success" ? " Success" : "Error"}
             </strong>
             <button 
               type="button" 
@@ -183,9 +166,18 @@ const AdminAboutUs = () => {
                   disabled={uploading}
                 />
                 {about.bannerImage && (
-                  <div className="mt-3">
-                    <img src={about.bannerImage} alt="Banner Preview" style={{ width: "100%", maxHeight: "200px", objectFit: "cover", borderRadius: "8px" }} />
-                  </div>
+  <div className="mt-3">
+    <img 
+      src={
+        about.bannerImage.startsWith("http") 
+          ? about.bannerImage 
+          : `https://collegemilan-backend-2.onrender.com/${about.bannerImage.startsWith('/') ? about.bannerImage.substring(1) : about.bannerImage}`
+      } 
+      alt="Banner Preview" 
+      style={{ width: "100%", maxHeight: "200px", objectFit: "cover", borderRadius: "8px" }} 
+    />
+  </div>
+
                 )}
               </Form.Group>
             </Card.Body>
@@ -228,10 +220,18 @@ const AdminAboutUs = () => {
                   <Form.Group className="mb-3">
                     <Form.Label>Upload Story Image</Form.Label>
                     <Form.Control type="file" accept="image/*" onChange={(e) => handleImageUpload(e, "storyImage")} disabled={uploading} />
-                    {about.story.image && (
-                      <div className="mt-3">
-                        <img src={about.story.image} alt="Story" style={{ width: "100%", maxHeight: "150px", objectFit: "cover", borderRadius: "8px" }} />
-                      </div>
+                      {about.story.image && (
+  <div className="mt-3">
+    <img 
+      src={
+        about.story.image.startsWith("http") 
+          ? about.story.image 
+          : `https://collegemilan-backend-2.onrender.com/${about.story.image.startsWith('/') ? about.story.image.substring(1) : about.story.image}`
+      } 
+      alt="Story" 
+      style={{ width: "100%", maxHeight: "150px", objectFit: "cover", borderRadius: "8px" }} 
+    />
+  </div>
                     )}
                   </Form.Group>
                 </Col>
