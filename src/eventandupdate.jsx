@@ -94,11 +94,11 @@ const EventsPage = () => {
                     {item.image ? (
                       <Card.Img
                         variant="top"
-                        src={
-                          item.image.startsWith("http")
-                            ? item.image
-                            : `https://collegemilan-backend-2.onrender.com${item.image}`
-                        }
+                       src={
+       item.image.startsWith("http")
+    ? item.image
+    : `https://collegemilan-backend-2.onrender.com/${item.image.startsWith('/') ? item.image.substring(1) : item.image}`
+}
                         alt={item.title || "Event"}
                         style={{
                           height: "250px",
