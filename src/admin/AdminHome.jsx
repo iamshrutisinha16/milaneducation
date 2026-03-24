@@ -410,95 +410,112 @@ onClick={()=>deleteFeature(index)}
 </Card>
 
 {/* FOUNDER SECTION */}
-
 <Card className="p-3 mb-4">
+  <h5>Founder Section</h5>
 
-<h5>Founder Section</h5>
-
-<Form.Control
-className="mb-3"
-placeholder="Since"
-value={data.founderSection?.since || ""}
-onChange={(e)=>handleObjectChange("founderSection","since",e.target.value)}
-/>
-
-<Form.Control
-className="mb-3"
-placeholder="Title"
-value={data.founderSection?.title || ""}
-onChange={(e)=>handleObjectChange("founderSection","title",e.target.value)}
-/>
-
-<Form.Control
-className="mb-3"
-placeholder="Description"
-value={data.founderSection?.description || ""}
-onChange={(e)=>handleObjectChange("founderSection","description",e.target.value)}
-/>
-
-<Form.Control
-className="mb-3"
-placeholder="Founder Name"
-value={data.founderSection?.founderName || ""}
-onChange={(e)=>handleObjectChange("founderSection","founderName",e.target.value)}
-/>
-
-{/* 🔥 IMAGE 1 */}
-<Form.Group className="mb-3">
-  <Form.Label>Upload Image 1</Form.Label>
+  {/* Since */}
   <Form.Control
-    type="file"
-    accept="image/*"
-    onChange={(e) => handleFounderImageUpload(e, "image1")}
+    className="mb-3"
+    placeholder="Since"
+    value={data.founderSection?.since || ""}
+    onChange={(e) => handleObjectChange("founderSection", "since", e.target.value)}
   />
 
-  {data.founderSection?.image1 && (
-    <img
-      src={data.founderSection.image1}
-      alt="img1"
-      style={{ width: "100%", marginTop: "10px", borderRadius: "8px" }}
-    />
-  )}
-</Form.Group>
-
-{/* 🔥 IMAGE 2 */}
-<Form.Group className="mb-3">
-  <Form.Label>Upload Image 2</Form.Label>
+  {/* Title */}
   <Form.Control
-    type="file"
-    accept="image/*"
-    onChange={(e) => handleFounderImageUpload(e, "image2")}
+    className="mb-3"
+    placeholder="Title"
+    value={data.founderSection?.title || ""}
+    onChange={(e) => handleObjectChange("founderSection", "title", e.target.value)}
   />
 
-  {data.founderSection?.image2 && (
-    <img
-      src={data.founderSection.image2}
-      alt="img2"
-      style={{ width: "100%", marginTop: "10px", borderRadius: "8px" }}
-    />
-  )}
-</Form.Group>
-
-{/* 🔥 IMAGE 3 */}
-<Form.Group>
-  <Form.Label>Upload Image 3</Form.Label>
+  {/* Description */}
   <Form.Control
-    type="file"
-    accept="image/*"
-    onChange={(e) => handleFounderImageUpload(e, "image3")}
+    className="mb-3"
+    placeholder="Description"
+    value={data.founderSection?.description || ""}
+    onChange={(e) => handleObjectChange("founderSection", "description", e.target.value)}
   />
 
-  {data.founderSection?.image3 && (
-    <img
-      src={data.founderSection.image3}
-      alt="img3"
-      style={{ width: "100%", marginTop: "10px", borderRadius: "8px" }}
-    />
-  )}
-</Form.Group>
+  {/* Founder Name */}
+  <Form.Control
+    className="mb-3"
+    placeholder="Founder Name"
+    value={data.founderSection?.founderName || ""}
+    onChange={(e) => handleObjectChange("founderSection", "founderName", e.target.value)}
+  />
 
+  {/* Common preview style for images */}
+  {/** define at top of component if you like */}
+  <Form.Group className="mb-3">
+    <Form.Label>Upload Image 1</Form.Label>
+    <Form.Control
+      type="file"
+      accept="image/*"
+      onChange={(e) => handleFounderImageUpload(e, "image1")}
+    />
+    {data.founderSection?.image1 && (
+      <img
+        src={data.founderSection.image1}
+        alt="img1"
+        style={{
+          width: "120px",
+          height: "120px",
+          objectFit: "cover",
+          marginTop: "10px",
+          borderRadius: "8px",
+          border: "1px solid #ddd"
+        }}
+      />
+    )}
+  </Form.Group>
+
+  <Form.Group className="mb-3">
+    <Form.Label>Upload Image 2</Form.Label>
+    <Form.Control
+      type="file"
+      accept="image/*"
+      onChange={(e) => handleFounderImageUpload(e, "image2")}
+    />
+    {data.founderSection?.image2 && (
+      <img
+        src={data.founderSection.image2}
+        alt="img2"
+        style={{
+          width: "120px",
+          height: "120px",
+          objectFit: "cover",
+          marginTop: "10px",
+          borderRadius: "8px",
+          border: "1px solid #ddd"
+        }}
+      />
+    )}
+  </Form.Group>
+
+  <Form.Group className="mb-3">
+    <Form.Label>Upload Image 3</Form.Label>
+    <Form.Control
+      type="file"
+      accept="image/*"
+      onChange={(e) => handleFounderImageUpload(e, "image3")}
+    />
+    {data.founderSection?.image3 && (
+      <img
+        src={data.founderSection.image3}
+        alt="img3"
+        style={{
+          width: "120px",
+          height: "120px",
+          objectFit: "cover",
+          marginTop: "10px",
+          borderRadius: "8px",
+          border: "1px solid #ddd"
+        }}
+      />
+    )}
+  </Form.Group>
 </Card>
-
 {/* VIDEO SECTION */}
 
 <Card className="p-3 mb-4">
