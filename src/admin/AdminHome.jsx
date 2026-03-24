@@ -316,8 +316,8 @@ onChange={(e)=>handleObjectChange("heroSection","buttonText",e.target.value)}
         src={data.heroSection.heroImage}
         alt="Hero"
         style={{
-          width: "100%",
-          maxHeight: "200px",
+          width: "200px",
+          Height: "200px",
           objectFit: "cover",
           borderRadius: "8px"
         }}
@@ -445,8 +445,6 @@ onClick={()=>deleteFeature(index)}
     onChange={(e) => handleObjectChange("founderSection", "founderName", e.target.value)}
   />
 
-  {/* Common preview style for images */}
-  {/** define at top of component if you like */}
   <Form.Group className="mb-3">
     <Form.Label>Upload Image 1</Form.Label>
     <Form.Control
