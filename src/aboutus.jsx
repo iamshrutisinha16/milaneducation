@@ -96,16 +96,8 @@ const AboutUs = () => {
             >
               <div style={{ position: "relative" }}>
                 
-               {/* 2. STORY IMAGE */}
-<img
-  src={
-    about.story?.image?.startsWith("http")
-      ? about.story.image
-      : `https://collegemilan-backend-2.onrender.com/${about.story?.image?.startsWith('/') ? about.story.image.substring(1) : about.story?.image}`
-  }
-  alt="Milan Team"
-  className="img-fluid rounded-5 shadow-lg"
-/>
+              <img src={about?.story?.image}
+            alt="Milan Team"className="img-fluid rounded-5 shadow-lg"/>
                 
                 <div
                   style={{

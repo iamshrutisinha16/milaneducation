@@ -168,14 +168,10 @@ const AdminAboutUs = () => {
                 {about.bannerImage && (
   <div className="mt-3">
     <img 
-      src={
-        about.bannerImage.startsWith("http") 
-          ? about.bannerImage 
-          : `https://collegemilan-backend-2.onrender.com/${about.bannerImage.startsWith('/') ? about.bannerImage.substring(1) : about.bannerImage}`
-      } 
-      alt="Banner Preview" 
-      style={{ width: "100%", maxHeight: "200px", objectFit: "cover", borderRadius: "8px" }} 
-    />
+  src={about?.bannerImage} 
+  alt="Banner Preview" 
+  style={{ width: "100%", maxHeight: "200px", objectFit: "cover", borderRadius: "8px" }} 
+/>
   </div>
 
                 )}
