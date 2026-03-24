@@ -221,17 +221,13 @@ const AdminAboutUs = () => {
                     <Form.Label>Upload Story Image</Form.Label>
                     <Form.Control type="file" accept="image/*" onChange={(e) => handleImageUpload(e, "storyImage")} disabled={uploading} />
                       {about.story.image && (
-  <div className="mt-3">
-    <img 
-      src={
-        about.story.image.startsWith("http") 
-          ? about.story.image 
-          : `https://collegemilan-backend-2.onrender.com/${about.story.image.startsWith('/') ? about.story.image.substring(1) : about.story.image}`
-      } 
-      alt="Story" 
-      style={{ width: "100%", maxHeight: "150px", objectFit: "cover", borderRadius: "8px" }} 
-    />
-  </div>
+                    <div className="mt-3">
+  <img 
+    src={about?.story?.image} 
+    alt="Story" 
+    style={{ width: "100%", maxHeight: "150px", objectFit: "cover", borderRadius: "8px" }} 
+  />
+</div>
                     )}
                   </Form.Group>
                 </Col>
