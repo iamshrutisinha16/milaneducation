@@ -13,7 +13,7 @@ import {
 const HomePage = () => {
   const navigate = useNavigate();
 
-  const recaptchaRef = useRef(null); // ✅ missing tha
+  const recaptchaRef = useRef(null); 
 
   const [captchaToken, setCaptchaToken] = useState(null);
   const [homeData, setHomeData] = useState(null);
@@ -131,12 +131,18 @@ const HomePage = () => {
                 <div className="hero-image-glow" />
 
                 <motion.img
-                  src="https://collegemilan-backend-2.onrender.com/uploads/homeimage.jpg"
-                  alt="Education Hero"
-                  animate={{ scale: [1, 1.07, 1] }}   
-                  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                  className="hero-img"
-                />
+  src={
+    homeData?.heroSection?.heroImage?.startsWith("http")
+      ? homeData.heroSection.heroImage
+      : `https://collegemilan-backend-2.onrender.com/${homeData?.heroSection?.heroImage?.startsWith('/') 
+          ? homeData.heroSection.heroImage.substring(1) 
+          : homeData?.heroSection?.heroImage}`
+  }
+  alt="Education Hero"
+  animate={{ scale: [1, 1.07, 1] }}
+  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+  className="hero-img"
+/>
 
                 <div className="hero-stats-card">
                   <FaUserGraduate size={28} color="#f47920" />
