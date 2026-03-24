@@ -235,6 +235,36 @@ const handleFounderImageUpload = async (e, field) => {
 };
 
 
+/* UPDATE PAGE */
+
+const updatePage = async ()=>{
+setIsSaving(true)
+
+try{
+
+await axios.put(
+"https://collegemilan-backend-2.onrender.com/api/admin/home",
+data
+)
+
+setShowToast(true)
+
+}catch(err){
+
+console.log("Save Error:", err)
+alert("Update Failed: " + (err.response?.data?.message || err.message))
+
+} finally {
+setIsSaving(false) 
+}
+
+}
+
+if(!data) return <p className="text-center mt-5">Loading...</p>
+
+
+
+
 return(
 
 <Container className="mt-4 mb-5">
