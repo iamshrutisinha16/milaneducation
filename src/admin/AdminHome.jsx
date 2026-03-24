@@ -302,12 +302,29 @@ value={data.heroSection?.buttonText || ""}
 onChange={(e)=>handleObjectChange("heroSection","buttonText",e.target.value)}
 />
 
-<Form.Control
-placeholder="Hero Image URL"
-value={data.heroSection?.heroImage || ""}
-onChange={(e)=>handleObjectChange("heroSection","heroImage",e.target.value)}
-/>
+<Form.Group className="mb-3">
+  <Form.Label>Upload Hero Image</Form.Label>
+  <Form.Control
+    type="file"
+    accept="image/*"
+    onChange={(e) => handleImageUpload(e, "heroImage")}
+  />
 
+  {data.heroSection?.heroImage && (
+    <div className="mt-3">
+      <img
+        src={data.heroSection.heroImage}
+        alt="Hero"
+        style={{
+          width: "100%",
+          maxHeight: "200px",
+          objectFit: "cover",
+          borderRadius: "8px"
+        }}
+      />
+    </div>
+  )}
+</Form.Group>
 </Card>
 
 
