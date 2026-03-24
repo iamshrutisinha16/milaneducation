@@ -254,7 +254,7 @@ const HomePage = () => {
             className="collage-img-1"
           >
             <img
-              src="https://collegemilan-backend-2.onrender.com/uploads/aboutimage1.jpg"
+              src={homeData?.founderSection?.image1}
               alt="Founder"
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
@@ -267,7 +267,7 @@ const HomePage = () => {
             className="collage-img-2"
           >
             <img
-              src= "https://collegemilan-backend-2.onrender.com/uploads/event1.jpeg"
+              src={homeData?.founderSection?.image3}
               alt="Session"
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
@@ -280,7 +280,7 @@ const HomePage = () => {
             className="collage-img-3"
           >
             <img
-              src="https://collegemilan-backend-2.onrender.com/uploads/aboutimage2.jpg"
+              src={homeData?.founderSection?.image2}
               alt="Detail"
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />

@@ -206,33 +206,33 @@ blogSection:updated
 
 }
 
-/* UPDATE PAGE */
+const handleFounderImageUpload = async (e, field) => {
+  const file = e.target.files[0];
+  if (!file) return;
 
-const updatePage = async ()=>{
-setIsSaving(true) // Button disable hoga aur Saving dikhega
+  const formData = new FormData();
+  formData.append("image", file);
 
-try{
+  try {
+    const res = await axios.post(
+      "https://collegemilan-backend-2.onrender.com/api/admin/upload",
+      formData
+    );
 
-await axios.put(
-"https://collegemilan-backend-2.onrender.com/api/admin/home",
-data
-)
+    const url = res.data.imageUrl;
 
-setShowToast(true)
+    setData({
+      ...data,
+      founderSection: {
+        ...data.founderSection,
+        [field]: url
+      }
+    });
 
-}catch(err){
-
-console.log("Save Error:", err)
-alert("Update Failed: " + (err.response?.data?.message || err.message)) // Clear Error Dikhayega
-
-} finally {
-setIsSaving(false) 
-}
-
-}
-
-if(!data) return <p className="text-center mt-5">Loading...</p>
-
+  } catch (err) {
+    console.log("Upload error:", err);
+  }
+};
 
 
 return(
@@ -362,8 +362,6 @@ onClick={()=>deleteFeature(index)}
 
 </Card>
 
-
-
 {/* FOUNDER SECTION */}
 
 <Card className="p-3 mb-4">
@@ -392,14 +390,67 @@ onChange={(e)=>handleObjectChange("founderSection","description",e.target.value)
 />
 
 <Form.Control
+className="mb-3"
 placeholder="Founder Name"
 value={data.founderSection?.founderName || ""}
 onChange={(e)=>handleObjectChange("founderSection","founderName",e.target.value)}
 />
 
+{/* 🔥 IMAGE 1 */}
+<Form.Group className="mb-3">
+  <Form.Label>Upload Image 1</Form.Label>
+  <Form.Control
+    type="file"
+    accept="image/*"
+    onChange={(e) => handleFounderImageUpload(e, "image1")}
+  />
+
+  {data.founderSection?.image1 && (
+    <img
+      src={data.founderSection.image1}
+      alt="img1"
+      style={{ width: "100%", marginTop: "10px", borderRadius: "8px" }}
+    />
+  )}
+</Form.Group>
+
+{/* 🔥 IMAGE 2 */}
+<Form.Group className="mb-3">
+  <Form.Label>Upload Image 2</Form.Label>
+  <Form.Control
+    type="file"
+    accept="image/*"
+    onChange={(e) => handleFounderImageUpload(e, "image2")}
+  />
+
+  {data.founderSection?.image2 && (
+    <img
+      src={data.founderSection.image2}
+      alt="img2"
+      style={{ width: "100%", marginTop: "10px", borderRadius: "8px" }}
+    />
+  )}
+</Form.Group>
+
+{/* 🔥 IMAGE 3 */}
+<Form.Group>
+  <Form.Label>Upload Image 3</Form.Label>
+  <Form.Control
+    type="file"
+    accept="image/*"
+    onChange={(e) => handleFounderImageUpload(e, "image3")}
+  />
+
+  {data.founderSection?.image3 && (
+    <img
+      src={data.founderSection.image3}
+      alt="img3"
+      style={{ width: "100%", marginTop: "10px", borderRadius: "8px" }}
+    />
+  )}
+</Form.Group>
+
 </Card>
-
-
 
 {/* VIDEO SECTION */}
 
