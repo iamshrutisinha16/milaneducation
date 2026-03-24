@@ -35,11 +35,7 @@ const AboutUs = () => {
     position: "relative",
     height: "93vh",
     // Check karein ki URL Cloudinary ka hai ya local path ka
-    backgroundImage: `url('${
-      about.bannerImage?.startsWith("http")
-        ? about.bannerImage
-        : `https://collegemilan-backend-2.onrender.com/${about.bannerImage?.startsWith('/') ? about.bannerImage.substring(1) : about.bannerImage}`
-    }')`, 
+  backgroundImage: `url(${about.bannerImage})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     display: "flex",

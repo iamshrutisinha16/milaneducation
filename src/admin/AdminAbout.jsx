@@ -75,38 +75,38 @@ const AdminAboutUs = () => {
     const newValues = about.values.filter((_, i) => i !== index);
     setAbout({ ...about, values: newValues });
   };
-
+  
   const handleImageUpload = async (e, fieldName) => {
-    const file = e.target.files[0];
-    if (!file) return;
+  const file = e.target.files[0];
+  if (!file) return;
 
-    const formData = new FormData();
-    formData.append("image", file);
+  const formData = new FormData();
+  formData.append("image", file);
 
-    setUploading(true);
-    try {
-      const res = await axios.post(
-        "https://collegemilan-backend-2.onrender.com/api/admin/upload",
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
+  setUploading(true);
+  try {
+    const res = await axios.post(
+      "https://collegemilan-backend-2.onrender.com/api/admin/upload",
+      formData
+    );
 
-      const uploadedUrl = res.data.imageUrl;
+    const uploadedUrl = res.data.imageUrl;
 
-      if (fieldName === "bannerImage") {
-        setAbout({ ...about, bannerImage: uploadedUrl });
-      } else if (fieldName === "storyImage") {
-        setAbout({ ...about, story: { ...about.story, image: uploadedUrl } });
-      }
-
-      showNotification("Image uploaded! Click 'Save All Changes' to update.", "success");
-    } catch (error) {
-      console.error("Image upload failed", error);
-      showNotification("Failed to upload image. Please try again.", "danger");
-    } finally {
-      setUploading(false);
+    if (fieldName === "bannerImage") {
+      setAbout({ ...about, bannerImage: uploadedUrl });
+    } else if (fieldName === "storyImage") {
+      setAbout({ ...about, story: { ...about.story, image: uploadedUrl } });
     }
-  };
+
+    showNotification("Image uploaded! Click 'Save All Changes' to update.", "success");
+
+  } catch (error) {
+    console.error("Image upload failed", error);
+    showNotification("Failed to upload image. Please try again.", "danger");
+  } finally {
+    setUploading(false);
+  }
+};
 
   const handleSave = async () => {
     try {
