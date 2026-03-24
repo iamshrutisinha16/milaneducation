@@ -7,7 +7,7 @@ function HomeAdmin(){
 
 const [data,setData] = useState(null)
 const [showToast,setShowToast] = useState(false)
-const [isSaving, setIsSaving] = useState(false) 
+const [isSaving, setIsSaving] = useState(false) // NAYA LOADING STATE
 
 useEffect(()=>{
 
@@ -51,6 +51,10 @@ setData(d)
 
 },[])
 
+
+
+/* OBJECT CHANGE */
+
 const handleObjectChange = (section,field,value)=>{
 
 setData({
@@ -62,6 +66,10 @@ setData({
 })
 
 }
+
+
+
+/* ARRAY CHANGE */
 
 const handleArrayChange = (section,index,field,value)=>{
 
@@ -76,6 +84,8 @@ setData({
 
 }
 
+/* ADD FEATURE */
+
 const addFeature = ()=>{
 
 setData({
@@ -87,6 +97,8 @@ featuresSection:[
 })
 
 }
+
+
 
 /* DELETE FEATURE */
 
@@ -102,6 +114,8 @@ featuresSection:updated
 })
 
 }
+
+
 
 /* ADD SERVICE */
 
@@ -193,87 +207,33 @@ blogSection:updated
 }
 
 /* UPDATE PAGE */
-const handleImageUpload = async (e, fieldName) => {
-  const file = e.target.files[0];
-  if (!file) return;
 
-  const formData = new FormData();
-  formData.append("image", file);
-
-  try {
-    const res = await axios.post(
-      "https://collegemilan-backend-2.onrender.com/api/admin/upload",
-      formData
-    );
-
-    const uploadedUrl = res.data.imageUrl;
-
-    if (fieldName === "heroImage") {
-      setData({
-        ...data,
-        heroSection: {
-          ...data.heroSection,
-          heroImage: uploadedUrl
-        }
-      });
-    }
-
-  } catch (error) {
-    console.error("Upload failed", error);
-  }
-};
-
-
-/* BLOG IMAGE UPLOAD */
-const handleBlogImageUpload = async (e, index) => {
-  const file = e.target.files[0];
-  if (!file) return;
-
-  const formData = new FormData();
-  formData.append("image", file);
-
-  try {
-    const res = await axios.post(
-      "https://collegemilan-backend-2.onrender.com/api/admin/upload",
-      formData
-    );
-
-    const uploadedUrl = res.data.imageUrl;
-
-    const updatedBlogs = [...data.blogSection];
-    updatedBlogs[index].image = uploadedUrl;
-
-    setData({
-      ...data,
-      blogSection: updatedBlogs
-    });
-
-  } catch (error) {
-    console.error("Blog upload failed", error);
-  }
-};
-
-
-/* UPDATE PAGE */
 const updatePage = async ()=>{
-  setIsSaving(true)
+setIsSaving(true) // Button disable hoga aur Saving dikhega
 
-  try{
-    await axios.put(
-      "https://collegemilan-backend-2.onrender.com/api/admin/home",
-      data
-    )
-    setShowToast(true)
+try{
 
-  }catch(err){
-    console.log("Save Error:", err)
-    alert("Update Failed: " + (err.response?.data?.message || err.message))
-  } finally {
-    setIsSaving(false) 
-  }
+await axios.put(
+"https://collegemilan-backend-2.onrender.com/api/admin/home",
+data
+)
+
+setShowToast(true)
+
+}catch(err){
+
+console.log("Save Error:", err)
+alert("Update Failed: " + (err.response?.data?.message || err.message)) // Clear Error Dikhayega
+
+} finally {
+setIsSaving(false) 
+}
+
 }
 
 if(!data) return <p className="text-center mt-5">Loading...</p>
+
+
 
 return(
 
@@ -312,31 +272,14 @@ value={data.heroSection?.buttonText || ""}
 onChange={(e)=>handleObjectChange("heroSection","buttonText",e.target.value)}
 />
 
-<Form.Group className="mb-3">
-  <Form.Label>Upload Hero Image</Form.Label>
-  <Form.Control
-    type="file"
-    accept="image/*"
-    onChange={(e) => handleImageUpload(e, "heroImage")}
-  />
-
-  {data.heroSection?.heroImage && (
-    <div className="mt-3">
-      <img
-        src={data.heroSection.heroImage}
-        alt="Hero"
-        style={{
-          width: "100%",
-          maxHeight: "200px",
-          objectFit: "cover",
-          borderRadius: "8px"
-        }}
-      />
-    </div>
-  )}
-</Form.Group>
+<Form.Control
+placeholder="Hero Image URL"
+value={data.heroSection?.heroImage || ""}
+onChange={(e)=>handleObjectChange("heroSection","heroImage",e.target.value)}
+/>
 
 </Card>
+
 
 
 {/* FEATURES SECTION */}
@@ -658,18 +601,10 @@ onChange={(e)=>handleArrayChange("blogSection",index,"category",e.target.value)}
 
 <Col md={4}>
 <Form.Control
-  type="file"
-  accept="image/*"
-  onChange={(e) => handleBlogImageUpload(e, index)}
+placeholder="Image URL"
+value={blog.image}
+onChange={(e)=>handleArrayChange("blogSection",index,"image",e.target.value)}
 />
-
-{blog.image && (
-  <img
-    src={blog.image}
-    alt="blog"
-    style={{ width: "100%", marginTop: "10px", borderRadius: "8px" }}
-  />
-)}
 </Col>
 
 <Col md={2} className="d-flex align-items-center">
