@@ -514,28 +514,37 @@ onClick={()=>deleteFeature(index)}
     )}
   </Form.Group>
 </Card>
+
 {/* VIDEO SECTION */}
-
 <Card className="p-3 mb-4">
+  <h5>Video Section</h5>
 
-<h5>Video Section</h5>
+  {/* Title */}
+  <Form.Control
+    className="mb-3"
+    placeholder="Title"
+    value={data.videoSection?.title || ""}
+    onChange={(e) => handleObjectChange("videoSection", "title", e.target.value)}
+  />
 
-<Form.Control
-className="mb-3"
-placeholder="Title"
-value={data.videoSection?.title || ""}
-onChange={(e)=>handleObjectChange("videoSection","title",e.target.value)}
-/>
+  {/* Video URL */}
+  <Form.Control
+    className="mb-3"
+    placeholder="Video URL"
+    value={data.videoSection?.videoUrl || ""}
+    onChange={(e) => handleObjectChange("videoSection", "videoUrl", e.target.value)}
+  />
 
-<Form.Control
-placeholder="Video URL"
-value={data.videoSection?.videoUrl || ""}
-onChange={(e)=>handleObjectChange("videoSection","videoUrl",e.target.value)}
-/>
-
+  {/* Small preview */}
+  {data.videoSection?.videoUrl && (
+    <div style={{ marginTop: "10px" }}>
+      <video width="300px" height="200px" controls style={{ borderRadius: "8px", border: "1px solid #ddd" }}>
+        <source src={data.videoSection.videoUrl} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  )}
 </Card>
-
-
 
 {/* SERVICES SECTION */}
 

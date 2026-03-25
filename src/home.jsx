@@ -130,13 +130,10 @@ const HomePage = () => {
               >
                 <div className="hero-image-glow" />
 
-               <motion.img
- src={homeData?.heroSection?.heroImage}
-  alt="Education Hero"
-  animate={{ scale: [1, 1.07, 1] }}
-  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-  className="hero-img"
-/>
+               <motion.img src={homeData?.heroSection?.heroImage}
+               alt="Education Hero" animate={{ scale: [1, 1.07, 1] }}
+               transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+               className="hero-img"/>
 
                 <div className="hero-stats-card">
                   <FaUserGraduate size={28} color="#f47920" />
@@ -330,37 +327,29 @@ const HomePage = () => {
     </Row>
   </Container>
 </section>
-     <section className="video-section">
+  <section className="video-section">
   <Container>
     <Row className="justify-content-center">
       <Col lg={10}>
         <div className="text-center">
-
-          <h2>
-            {homeData.videoSection?.title}
-          </h2>
-
-          <p>
-            {homeData.videoSection?.description}
-          </p>
-
+          <h2>{homeData.videoSection?.title}</h2>
+          <p>{homeData.videoSection?.description}</p>
         </div>
 
-        <div className="video-container">
-          <video width="100%" height="500" controls>
-            <source
-              src= "https://collegemilan-backend-2.onrender.com/uploads/homevideo.mp4"
-              type="video/mp4"
-            />
-            Your browser does not support the video tag.
-          </video>
+        <div className="video-container" style={{ marginTop: "20px" }}>
+          {homeData.videoSection?.videoUrl ? (
+            <video width="100%" height="500" controls>
+              <source src={homeData.videoSection.videoUrl} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          ) : (
+            <p className="text-muted">No video uploaded yet.</p>
+          )}
         </div>
-
       </Col>
     </Row>
   </Container>
 </section>
-
       {/* 1. CAREER MAP */}
       <section className="parallax-pro-section" style={{ backgroundImage: `url('https://collegemilan-backend-2.onrender.com/uploads/carrerjourney.jpg')` }}>
         <Container>
