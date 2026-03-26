@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import { motion } from 'framer-motion'; 
 import axios from "axios";
 import { 
-  FaMapMarkedAlt, FaBrain, FaUserTie, FaVideo, FaArrowRight, 
+  FaMapMarkedAlt, FaBrain, FaUserTie, FaVideo, FaArrowRight, FaChartBar,
   FaChevronRight, FaUserGraduate, FaChalkboardTeacher, FaCheckCircle, FaAward, FaGlobe 
 } from 'react-icons/fa';
 
