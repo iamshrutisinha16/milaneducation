@@ -610,73 +610,68 @@ onClick={()=>deleteService(index)}
 
 </Card>
 
-
-
 {/* STATS SECTION */}
-
 <Card className="p-3 mb-4">
 
-<div className="d-flex justify-content-between align-items-center mb-3">
+  <div className="d-flex justify-content-between align-items-center mb-3">
+    <h5 className="mb-0">Stats Section</h5>
 
-<h5 className="mb-0">Stats Section</h5>
+    <Button
+      style={{ background: "#f47920", border: "none" }}
+      onClick={addStat}
+    >
+      <FaPlusCircle className="me-2" />
+      Add Stat
+    </Button>
+  </div>
 
-<Button
-style={{background:"#f47920",border:"none"}}
-onClick={addStat}
->
+  {data.statsSection?.map((stat, index) => (
+    <Card key={index} className="p-3 mb-3">
 
-<FaPlusCircle className="me-2"/>
+      <Row className="g-3">
 
-Add Stat
+        <Col md={4}>
+          <Form.Control
+            placeholder="Number (e.g. 15,000+)"
+            value={stat.number || ""}
+            onChange={(e) =>
+              handleArrayChange("statsSection", index, "number", e.target.value)
+            }
+          />
+        </Col>
 
-</Button>
+        <Col md={4}>
+          <Form.Control
+            placeholder="Title (e.g. Students Mentored)"
+            value={stat.title || ""}
+            onChange={(e) =>
+              handleArrayChange("statsSection", index, "title", e.target.value)
+            }
+          />
+        </Col>
 
-</div>
+        <Col md={3}>
+          <Form.Control
+            placeholder="Description (optional)"
+            value={stat.description || ""}
+            onChange={(e) =>
+              handleArrayChange("statsSection", index, "description", e.target.value)
+            }
+          />
+        </Col>
 
-{data.statsSection?.map((stat,index)=>(
+        <Col md={1} className="d-flex align-items-center">
+          <Button variant="danger" onClick={() => deleteStat(index)}>
+            <FaTrash />
+          </Button>
+        </Col>
 
-<Card key={index} className="p-3 mb-3">
+      </Row>
 
-<Row className="g-3">
-
-<Col md={5}>
-<Form.Control
-placeholder="Number"
-value={stat.number}
-onChange={(e)=>handleArrayChange("statsSection",index,"number",e.target.value)}
-/>
-</Col>
-
-<Col md={5}>
-<Form.Control
-placeholder="Title"
-value={stat.title}
-onChange={(e)=>handleArrayChange("statsSection",index,"title",e.target.value)}
-/>
-</Col>
-
-<Col md={2} className="d-flex align-items-center">
-
-<Button
-variant="danger"
-onClick={()=>deleteStat(index)}
->
-
-<FaTrash/>
-
-</Button>
-
-</Col>
-
-</Row>
+    </Card>
+  ))}
 
 </Card>
-
-))}
-
-</Card>
-
-
 
 {/* BLOG SECTION */}
 
