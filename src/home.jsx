@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import { motion } from 'framer-motion'; 
 import axios from "axios";
 import { 
-  FaMapMarkedAlt, FaBrain, FaUserTie, FaVideo, FaArrowRight, FaChartBar,
+  FaMapMarkedAlt, FaBrain, FaUserTie, FaVideo, FaArrowRight, 
   FaChevronRight, FaUserGraduate, FaChalkboardTeacher, FaCheckCircle, FaAward, FaGlobe 
 } from 'react-icons/fa';
 
@@ -421,46 +421,29 @@ const HomePage = () => {
         </Container>
       </section>
 
-      {/* ================= STATS SECTION ================= */}
-<section className="impact-section">
-  <div className="bg-dots-pattern"></div>
-
-  <Container className="position-relative" style={{ zIndex: 5 }}>
-    <Row className="g-3 justify-content-center">
-
-      {homeData.statsSection?.map((item, index) => (
-        <Col lg={3} md={6} key={index}>
-
-          <motion.div whileHover={{ y: -5 }} className="stats-card">
-            <div className="stats-icon-box">
-              <FaChartBar />
-            </div>
-            <h3 className="fw-bold mb-1"
-              style={{ fontSize: "2.2rem", color: "#1a1a2e" }}
-            >
-              {item.number}
-            </h3>
-
-            <p className="fw-bold mb-1 text-uppercase"
-              style={{ fontSize: "12px", color: "#555" }}
-            >
-              {item.title}
-            </p>
-
-            <p className="mb-0 text-muted"
-              style={{ fontSize: "11px" }}
-            >
-              {item.description}
-            </p>
-
-          </motion.div>
-
-        </Col>
-      ))}
-
-    </Row>
-  </Container>
-</section>
+      {/* ================= IMPACT / STATS SECTION ================= */}
+      <section className="impact-section">
+        <div className="bg-dots-pattern"></div>
+        <Container className="position-relative" style={{ zIndex: 5 }}>
+          <Row className="g-3 justify-content-center">
+            {[
+              { count: "15,000+", label: "Students Mentored", icon: <FaUserGraduate />, desc: "Academic & Career Growth" },
+              { count: "500+", label: "School Workshops", icon: <FaChalkboardTeacher />, desc: "Across India Coverage" },
+              { count: "20+", label: "Years Excellence", icon: <FaAward />, desc: "Since 2008 Foundations" },
+              { count: "1 Lakh+", label: "Digital Impact", icon: <FaGlobe />, desc: "Monthly Active Visitors" }
+            ].map((item, index) => (
+              <Col lg={3} md={6} key={index}>
+                <motion.div whileHover={{ y: -5 }} className="stats-card">
+                  <div className="stats-icon-box">{item.icon}</div>
+                  <h3 className="fw-bold mb-1" style={{ fontSize: '2.2rem', color: '#1a1a2e' }}>{item.count}</h3>
+                  <p className="fw-bold mb-1 text-uppercase" style={{ fontSize: '12px', color: '#555' }}>{item.label}</p>
+                  <p className="mb-0 text-muted" style={{ fontSize: '11px' }}>{item.desc}</p>
+                </motion.div>
+              </Col>
+            ))}
+          </Row>
+        </Container>
+      </section>
 
       {/* ================= BLOG SLIDER ================= */}
       <section className="blog-section">

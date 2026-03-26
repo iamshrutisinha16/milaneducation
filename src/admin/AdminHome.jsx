@@ -234,52 +234,34 @@ const handleFounderImageUpload = async (e, field) => {
   }
 };
 
+
 /* UPDATE PAGE */
 
-const updatePage = async () => {
-  setIsSaving(true);
+const updatePage = async ()=>{
+setIsSaving(true)
 
-  try {
+try{
 
-    // ✅ stats clean (empty remove)
-    const cleanStats = (data.statsSection || []).filter(
-      (item) => item.number?.trim() !== "" && item.title?.trim() !== ""
-    );
+await axios.put(
+"https://collegemilan-backend-2.onrender.com/api/admin/home",
+data
+)
 
-    // ✅ services clean (important 🔥)
-    const cleanServices = (data.servicesSection || []).filter(
-      (item) => item.title?.trim() !== "" && item.description?.trim() !== ""
-    );
+setShowToast(true)
 
-    // ✅ final data
-    const finalData = {
-      ...data,
-      statsSection: cleanStats,
-      servicesSection: cleanServices
-    };
+}catch(err){
 
-    await axios.put(
-      "https://collegemilan-backend-2.onrender.com/api/admin/home",
-      finalData
-    );
+console.log("Save Error:", err)
+alert("Update Failed: " + (err.response?.data?.message || err.message))
 
-    setShowToast(true);
+} finally {
+setIsSaving(false) 
+}
 
-  } catch (err) {
+}
 
-    console.log("Save Error:", err);
+if(!data) return <p className="text-center mt-5">Loading...</p>
 
-    alert(
-      "Update Failed: " +
-      (err.response?.data?.message || err.message)
-    );
-
-  } finally {
-    setIsSaving(false);
-  }
-};
-
-if (!data) return <p className="text-center mt-5">Loading...</p>;
 
 
 
@@ -628,68 +610,72 @@ onClick={()=>deleteService(index)}
 
 </Card>
 
+
 {/* STATS SECTION */}
+
 <Card className="p-3 mb-4">
 
-  <div className="d-flex justify-content-between align-items-center mb-3">
-    <h5 className="mb-0">Stats Section</h5>
+<div className="d-flex justify-content-between align-items-center mb-3">
 
-    <Button
-      style={{ background: "#f47920", border: "none" }}
-      onClick={addStat}
-    >
-      <FaPlusCircle className="me-2" />
-      Add Stat
-    </Button>
-  </div>
+<h5 className="mb-0">Stats Section</h5>
 
-  {data.statsSection?.map((stat, index) => (
-    <Card key={index} className="p-3 mb-3">
+<Button
+style={{background:"#f47920",border:"none"}}
+onClick={addStat}
+>
 
-      <Row className="g-3">
+<FaPlusCircle className="me-2"/>
 
-        <Col md={4}>
-          <Form.Control
-            placeholder="Number (e.g. 15,000+)"
-            value={stat.number || ""}
-            onChange={(e) =>
-              handleArrayChange("statsSection", index, "number", e.target.value)
-            }
-          />
-        </Col>
+Add Stat
 
-        <Col md={4}>
-          <Form.Control
-            placeholder="Title (e.g. Students Mentored)"
-            value={stat.title || ""}
-            onChange={(e) =>
-              handleArrayChange("statsSection", index, "title", e.target.value)
-            }
-          />
-        </Col>
+</Button>
 
-        <Col md={3}>
-          <Form.Control
-            placeholder="Description (optional)"
-            value={stat.description || ""}
-            onChange={(e) =>
-              handleArrayChange("statsSection", index, "description", e.target.value)
-            }
-          />
-        </Col>
+</div>
 
-        <Col md={1} className="d-flex align-items-center">
-          <Button variant="danger" onClick={() => deleteStat(index)}>
-            <FaTrash />
-          </Button>
-        </Col>
+{data.statsSection?.map((stat,index)=>(
 
-      </Row>
+<Card key={index} className="p-3 mb-3">
 
-    </Card>
-  ))}
+<Row className="g-3">
+
+<Col md={5}>
+<Form.Control
+placeholder="Number"
+value={stat.number}
+onChange={(e)=>handleArrayChange("statsSection",index,"number",e.target.value)}
+/>
+</Col>
+
+<Col md={5}>
+<Form.Control
+placeholder="Title"
+value={stat.title}
+onChange={(e)=>handleArrayChange("statsSection",index,"title",e.target.value)}
+/>
+</Col>
+
+<Col md={2} className="d-flex align-items-center">
+
+<Button
+variant="danger"
+onClick={()=>deleteStat(index)}
+>
+
+<FaTrash/>
+
+</Button>
+
+</Col>
+
+</Row>
 
 </Card>
+
+))}
+
+</Card>
+
+
 
 {/* BLOG SECTION */}
 
