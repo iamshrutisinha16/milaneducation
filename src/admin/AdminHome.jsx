@@ -234,34 +234,52 @@ const handleFounderImageUpload = async (e, field) => {
   }
 };
 
-
 /* UPDATE PAGE */
 
-const updatePage = async ()=>{
-setIsSaving(true)
+const updatePage = async () => {
+  setIsSaving(true);
 
-try{
+  try {
 
-await axios.put(
-"https://collegemilan-backend-2.onrender.com/api/admin/home",
-data
-)
+    // ✅ stats clean (empty remove)
+    const cleanStats = (data.statsSection || []).filter(
+      (item) => item.number?.trim() !== "" && item.title?.trim() !== ""
+    );
 
-setShowToast(true)
+    // ✅ services clean (important 🔥)
+    const cleanServices = (data.servicesSection || []).filter(
+      (item) => item.title?.trim() !== "" && item.description?.trim() !== ""
+    );
 
-}catch(err){
+    // ✅ final data
+    const finalData = {
+      ...data,
+      statsSection: cleanStats,
+      servicesSection: cleanServices
+    };
 
-console.log("Save Error:", err)
-alert("Update Failed: " + (err.response?.data?.message || err.message))
+    await axios.put(
+      "https://collegemilan-backend-2.onrender.com/api/admin/home",
+      finalData
+    );
 
-} finally {
-setIsSaving(false) 
-}
+    setShowToast(true);
 
-}
+  } catch (err) {
 
-if(!data) return <p className="text-center mt-5">Loading...</p>
+    console.log("Save Error:", err);
 
+    alert(
+      "Update Failed: " +
+      (err.response?.data?.message || err.message)
+    );
+
+  } finally {
+    setIsSaving(false);
+  }
+};
+
+if (!data) return <p className="text-center mt-5">Loading...</p>;
 
 
 
