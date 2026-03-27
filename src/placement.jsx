@@ -87,7 +87,7 @@ View Gallery
 <div className="col-lg-6 mt-5 mt-lg-0 text-center">
 
 <motion.img 
-src={`https://collegemilan-backend-2.onrender.com/uploads/${data.heroImage}`}
+src={data.heroImage}
 alt="Placement Hero"
 className="img-fluid rounded-4 shadow-lg border border-warning"
 initial={{ scale: 0.8, opacity: 0 }}

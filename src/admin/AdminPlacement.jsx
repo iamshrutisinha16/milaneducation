@@ -215,14 +215,30 @@ value={data.heroDescription}
 onChange={handleChange}
 />
 
-<input
-className="form-control mb-3"
-placeholder="Hero Image Filename"
-name="heroImage"
-value={data.heroImage}
-onChange={handleChange}
-/>
+<Form.Group className="mb-3">
+  <Form.Label>Upload Hero Image</Form.Label>
 
+  <Form.Control
+    type="file"
+    accept="image/*"
+    onChange={handleHeroImageUpload}
+  />
+
+  {data.heroImage && (
+    <img
+      src={data.heroImage}
+      alt="preview"
+      style={{
+        width: "150px",
+        height: "150px",
+        objectFit: "cover",
+        marginTop: "10px",
+        borderRadius: "8px",
+        border: "1px solid #ddd"
+      }}
+    />
+  )}
+</Form.Group>
 
 {/* ABOUT */}
 
