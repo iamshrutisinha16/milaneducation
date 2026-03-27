@@ -49,7 +49,30 @@ setData({
 
 }
 
+const handleHeroImageUpload = async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
 
+  const formData = new FormData();
+  formData.append("image", file);
+
+  try {
+    const res = await axios.post(
+      "https://collegemilan-backend-2.onrender.com/api/admin/upload",
+      formData
+    );
+
+    const imageUrl = res.data.imageUrl;
+
+    setData({
+      ...data,
+      heroImage: imageUrl
+    });
+
+  } catch (err) {
+    console.log("Upload error:", err);
+  }
+};
 
 // feature change
 
