@@ -75,6 +75,31 @@ const handleHeroImageUpload = async (e) => {
   }
 };
 
+const handleAboutImageUpload = async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const formData = new FormData();
+  formData.append("image", file);
+
+  try {
+    const res = await axios.post(
+      "https://collegemilan-backend-2.onrender.com/api/admin/upload",
+      formData
+    );
+
+    const imageUrl = res.data.imageUrl;
+
+    setData({
+      ...data,
+      heroImage: imageUrl
+    });
+
+  } catch (err) {
+    console.log("Upload error:", err);
+  }
+};
+
 // feature change
 
 const featureChange=(index,field,value)=>{
@@ -284,14 +309,30 @@ value={data.aboutDescription}
 onChange={handleChange}
 />
 
-<input
-className="form-control mb-3"
-placeholder="About Image Filename"
-name="aboutImage"
-value={data.aboutImage}
-onChange={handleChange}
-/>
+<Form.Group className="mb-3">
+  <Form.Label>Upload about Image</Form.Label>
 
+  <Form.Control
+    type="file"
+    accept="image/*"
+    onChange={handleAboutImageUpload}
+  />
+
+  {data.aboutImage && (
+    <img
+      src={data.aboutImage}
+      alt="preview"
+      style={{
+        width: "150px",
+        height: "150px",
+        objectFit: "cover",
+        marginTop: "10px",
+        borderRadius: "8px",
+        border: "1px solid #ddd"
+      }}
+    />
+  )}
+</Form.Group>
 
 
 {/* FEATURES */}

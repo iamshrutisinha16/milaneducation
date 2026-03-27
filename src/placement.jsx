@@ -113,7 +113,7 @@ transition={{ duration: 0.6 }}
 <div className="about-img-box">
 
 <motion.img 
-src={`https://collegemilan-backend-2.onrender.com/uploads/${data.aboutImage}`}
+src={data.aboutImage}
 alt="Placement Meeting"
 className="about-img"
 whileHover={{ scale: 1.05 }}
