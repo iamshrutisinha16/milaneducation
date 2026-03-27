@@ -92,11 +92,11 @@ const handleAboutImageUpload = async (e) => {
 
     setData({
       ...data,
-      heroImage: imageUrl
+      aboutImage: imageUrl
     });
 
   } catch (err) {
-    console.log("Upload error:", err);
+    console.log("About Upload error:", err);
   }
 };
 
