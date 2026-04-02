@@ -31,7 +31,6 @@ const LearningTypes = () => {
   });
 
   const [universities, setUniversities] = useState([]);
-  const [campus, setCampus] = useState([]); // (optional - future use)
   const [courses, setCourses] = useState([]);
   const [qualifications, setQualifications] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -76,17 +75,17 @@ const LearningTypes = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // ================= FINAL SUBMIT =================
+  // ================= SUBMIT =================
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!agreed) {
-      alert("Please agree before submitting.");
+      alert("Please agree to continue.");
       return;
     }
 
-    if (!formData.course) {
-      alert("Please select Course.");
+    if (!formData.course || !formData.university) {
+      alert("Please select University and Course.");
       return;
     }
 
@@ -99,7 +98,7 @@ const LearningTypes = () => {
           mobile: formData.phone,
           email: formData.email,
           course: formData.course,
-          campus: formData.campus || "School of Art and Architecture",
+          campus: formData.campus || null,
           university: formData.university,
           qualification: formData.qualification,
           gender: formData.gender,
@@ -112,7 +111,7 @@ const LearningTypes = () => {
         { headers }
       );
 
-      // ✅ 2. SEND TO NOPAPERFORMS
+      // ✅ 2. SEND TO CLIENT (NoPaperForms)
       await axios.post(
         "https://api.nopaperforms.com/dataporting/712/milan_consultancy_services",
         {
@@ -136,13 +135,14 @@ const LearningTypes = () => {
 
       setIsSubmitted(true);
     } catch (err) {
-      console.error("Submit Enquiry Error:", err);
+      console.error("Submit Error:", err);
       alert("Something went wrong.");
     }
   };
 
   return (
     <div className="cm-wrapper">
+
       {/* HERO */}
       <section className="cm-hero text-center text-white">
         <motion.div initial={{ opacity: 0, y: -30 }} animate={{ opacity: 1, y: 0 }}>
@@ -153,12 +153,18 @@ const LearningTypes = () => {
 
       {/* FORM */}
       <div className="container my-5">
-        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="card shadow-lg border-0">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="card shadow-lg border-0"
+        >
           <div className="card-header text-white text-center fw-bold py-3" style={{ background: orange }}>
             {mode.toUpperCase()} ADMISSION FORM
           </div>
 
           <form className="p-4" onSubmit={handleSubmit}>
+
+            {/* Course Section */}
             <h5 className="section-title">Course & University Details</h5>
             <div className="row g-3">
 
@@ -202,38 +208,104 @@ const LearningTypes = () => {
             {/* PERSONAL INFO */}
             <h5 className="section-title mt-4">Student Personal Information</h5>
             <div className="row g-3">
+
               <div className="col-md-6">
-                <input type="text" name="name" className="form-control" placeholder="Name" required onChange={handleChange} />
+                <label className="form-label">
+                  <User size={16} /> Full Name (As per 10th Certificate)*
+                </label>
+                <input type="text" name="name" className="form-control" required onChange={handleChange} />
               </div>
+
               <div className="col-md-6">
-                <input type="email" name="email" className="form-control" placeholder="Email" required onChange={handleChange} />
+                <label className="form-label"><Mail size={16} /> Email*</label>
+                <input type="email" name="email" className="form-control" required onChange={handleChange} />
               </div>
+
               <div className="col-md-6">
-                <input type="tel" name="phone" className="form-control" placeholder="Phone" required onChange={handleChange} />
+                <label className="form-label">Gender*</label>
+                <select name="gender" className="form-select" required onChange={handleChange}>
+                  <option value="">Select</option>
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Other</option>
+                </select>
               </div>
+
               <div className="col-md-6">
-                <input type="text" name="city" className="form-control" placeholder="City" required onChange={handleChange} />
+                <label className="form-label"><Phone size={16} /> Mobile*</label>
+                <input type="tel" name="phone" className="form-control" required onChange={handleChange} />
               </div>
+
               <div className="col-md-6">
-                <input type="text" name="state" className="form-control" placeholder="State" required onChange={handleChange} />
+                <label className="form-label"><MapPin size={16} /> City*</label>
+                <input type="text" name="city" className="form-control" required onChange={handleChange} />
               </div>
+
+              <div className="col-md-6">
+                <label className="form-label"><Flag size={16} /> State*</label>
+                <input type="text" name="state" className="form-control" required onChange={handleChange} />
+              </div>
+
+              <div className="col-12">
+                <label className="form-label"><Home size={16} /> Address*</label>
+                <textarea name="address" rows="3" className="form-control" required onChange={handleChange} />
+              </div>
+
             </div>
 
+            {/* AGREEMENT */}
             <div className="form-check my-3">
-              <input className="form-check-input" type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} />
-              <label className="form-check-label">I agree</label>
+              <input
+                className="form-check-input"
+                type="checkbox"
+                checked={agreed}
+                onChange={(e) => setAgreed(e.target.checked)}
+              />
+              <label className="form-check-label">
+                I agree to share my information with College Milan and its partner institutions.
+              </label>
             </div>
 
-            <button className="btn w-100" style={{ background: orange, color: "#fff" }}>
-              Submit
-            </button>
+            {/* BUTTON */}
+            <div className="text-center mt-4">
+              <motion.button
+                whileHover={{ scale: 1.07 }}
+                whileTap={{ scale: 0.95 }}
+                type="submit"
+                className="btn px-5 py-2 fw-bold"
+                style={{ background: orange, color: "#fff" }}
+              >
+                Submit Enquiry
+              </motion.button>
+            </div>
+
           </form>
         </motion.div>
       </div>
 
+      {/* SUCCESS MODAL */}
       <AnimatePresence>
-        {isSubmitted && <div className="text-center mt-3 text-success">Submitted Successfully</div>}
+        {isSubmitted && (
+          <div className="cm-modal">
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="modal-box text-center"
+            >
+              <h4 style={{ color: orange }}>Enquiry Submitted!</h4>
+              <p>Our counselor will contact you soon.</p>
+              <button
+                className="btn w-100"
+                style={{ background: orange, color: "#fff" }}
+                onClick={() => setIsSubmitted(false)}
+              >
+                Done
+              </button>
+            </motion.div>
+          </div>
+        )}
       </AnimatePresence>
+
     </div>
   );
 };
