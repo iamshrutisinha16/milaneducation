@@ -106,6 +106,7 @@ const AdminEnquiries = () => {
               <th>Mobile</th>
               <th>Course</th>
               <th>University</th>
+              <th>Campus</th>
               <th>Qualification</th>
               <th>City</th>
               <th>State</th>
@@ -122,6 +123,7 @@ const AdminEnquiries = () => {
                 <td>{enq.mobile}</td>
                 <td>{enq.course?.course_name || "-"}</td>
                 <td>{enq.university?.name || "-"}</td>
+                <td>{enq.campus || "-"}</td>
                 <td>{enq.qualification?.name || "-"}</td> 
                 <td>{enq.city || "-"}</td>
                 <td>{enq.state || "-"}</td>
