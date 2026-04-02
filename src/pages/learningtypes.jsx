@@ -158,19 +158,6 @@ const LearningTypes = () => {
               </div>
 
               <div className="col-md-4">
-                <label className="form-label">Select Campus*</label>
-                <select
-                  className="form-select"
-                  onChange={(e) => setFormData({ ...formData, campus: e.target.value })}
-                >
-                  <option value="">Select Campus</option>
-                  <option value="School of Art and Architecture">
-                    School of Art and Architecture
-                  </option>
-                </select>
-              </div>
-
-              <div className="col-md-4">
                 <label className="form-label">Select Course*</label>
                 <Select
                   options={courses.map((c) => ({ value: c._id, label: c.course_name }))}
@@ -187,6 +174,18 @@ const LearningTypes = () => {
                 onChange={(val) => setFormData({ ...formData, qualification: val.value })}
               />
             </div>
+             <div className="col-md-4">
+                <label className="form-label">Select Campus*</label>
+                <select
+                  className="form-select"
+                  onChange={(e) => setFormData({ ...formData, campus: e.target.value })}
+                >
+                  <option value="">Select Campus</option>
+                  <option value="School of Art and Architecture">
+                    School of Art and Architecture
+                  </option>
+                </select>
+              </div>
             </div>
 
             {/* PERSONAL INFO */}
