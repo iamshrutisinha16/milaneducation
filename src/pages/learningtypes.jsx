@@ -111,28 +111,6 @@ const LearningTypes = () => {
         { headers }
       );
 
-      // ✅ 2. SEND TO CLIENT (NoPaperForms)
-      await axios.post(
-        "https://api.nopaperforms.com/dataporting/712/milan_consultancy_services",
-        {
-          name: formData.name,
-          email: formData.email,
-          mobile: formData.phone,
-          state: formData.state,
-          city: formData.city,
-          campus: formData.campus || "School of Art and Architecture",
-          course: formData.course,
-          source: "milan consultancy services",
-          college_id: "712",
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "access-key": "7f71cef029a77f941f86814f89177ab0",
-          },
-        }
-      );
-
       setIsSubmitted(true);
     } catch (err) {
       console.error("Submit Error:", err);
@@ -202,7 +180,13 @@ const LearningTypes = () => {
                   placeholder="Search course..."
                 />
               </div>
-
+            <div className="col-md-3">
+              <label>Qualification*</label>
+              <Select
+                options={qualifications.map(q => ({ value: q._id, label: q.name }))}
+                onChange={(val) => setFormData({ ...formData, qualification: val.value })}
+              />
+            </div>
             </div>
 
             {/* PERSONAL INFO */}
