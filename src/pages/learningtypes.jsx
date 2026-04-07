@@ -167,7 +167,12 @@ const LearningTypes = () => {
 
               <div className="col-md-4">
                 <label className="form-label"><GraduationCap size={16} /> Select University*</label>
-                <Select
+               <Select
+  menuPlacement="top"   // 👈 dropdown upar khulega
+  menuPortalTarget={document.body} // 👈 overlap fix
+  styles={{
+    menuPortal: (base) => ({ ...base, zIndex: 9999 })
+  }}
   value={universities
     .map(u => ({ value: u._id, label: u.name }))
     .find(option => option.value === formData.university)
