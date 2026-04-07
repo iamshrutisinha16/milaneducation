@@ -160,10 +160,9 @@ const LearningTypes = () => {
               <div className="col-md-4">
                 <label className="form-label">Select Course*</label>
                 <Select
-                  options={courses.map((c) => ({ value: c._id, label: c.course_name }))}
-                  onChange={(selected) =>
-                    setFormData({ ...formData, course: selected ? selected.value : "" })
-                  }
+                  options={courses.map((c) => ({ value: c.course_name, label: c.course_name }))}
+                 onChange={(selected) => setFormData({ ...formData, course: selected.name,    
+                 courseId: selected.value  })}
                   placeholder="Search course..."
                 />
               </div>
