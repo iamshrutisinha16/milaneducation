@@ -27,6 +27,7 @@ import ProtectAdmin from "./admin/ProtectAdmin";
 import Courses from './admin/Courses';
 import AdminQualifications from './admin/AdminQualifications';
 import AdminUniversities from './admin/AdminUniversities';
+import Campus from './admin/Campus';
 import AdminEvent from './admin/AdminEvent';
 import AdminCareer from './admin/AdminCareer';
 import AdminHome from './admin/AdminHome';
@@ -86,6 +87,7 @@ function LayoutWrapper() {
             <Route path="universities" element={< AdminUniversities />} />
             <Route path="qualifications" element={<AdminQualifications/>} />
             <Route path="courses" element={<Courses />} />
+            <Route path="campuses" element={<Campus />} />
             <Route path="careers" element={<AdminCareer />} />
             <Route path="events" element={<AdminEvent />} />
             <Route path="home" element={<AdminHome />} /> 

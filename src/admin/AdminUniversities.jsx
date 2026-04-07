@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const AdminUniversities = () => {
   const [universities, setUniversities] = useState([]);
@@ -53,14 +54,24 @@ const AdminUniversities = () => {
           formData,
           { headers }
         );
-        alert("University updated successfully!");
+        Swal.fire({
+  icon: 'success',
+  title: 'Success!',
+  text: 'University updated successfully!',
+  confirmButtonText: 'OK'
+});
       } else {
         await axios.post(
           `${API_BASE_URL}/api/admin/universities`,
           formData,
           { headers }
         );
-        alert("University added successfully!");
+        Swal.fire({
+  icon: 'success',
+  title: 'Success!',
+  text: 'University added successfully!',
+  confirmButtonText: 'OK'
+});
       }
 
       // Reset form
@@ -78,7 +89,12 @@ const AdminUniversities = () => {
         "Error saving university:",
         error.response?.data || error.message
       );
-      alert("Failed to save University. Check console.");
+     Swal.fire({
+  icon: 'error',
+  title: 'Failed!',
+  text: 'Failed to save University.',
+  confirmButtonText: 'OK'
+});
     }
   };
 
@@ -102,11 +118,21 @@ const AdminUniversities = () => {
         `${API_BASE_URL}/api/admin/universities/${id}`,
         { headers }
       );
-      alert("University deleted!");
+      Swal.fire({
+  icon: 'success',
+  title: 'Deleted!',
+  text: 'University deleted successfully!',
+  confirmButtonText: 'OK'
+});
       fetchUniversities();
     } catch (error) {
       console.error("Error deleting university:", error);
-      alert("Cannot delete university.");
+      Swal.fire({
+  icon: 'success',
+  title: 'Deleted!',
+  text: 'Cannot deleted University!',
+  confirmButtonText: 'OK'
+});
     }
   };
 

@@ -32,6 +32,7 @@ const LearningTypes = () => {
 
   const [universities, setUniversities] = useState([]);
   const [courses, setCourses] = useState([]);
+  const [campuses, setCampuses] = useState([]);
   const [qualifications, setQualifications] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [agreed, setAgreed] = useState(false);
@@ -46,6 +47,19 @@ const LearningTypes = () => {
       .get("https://collegemilan-backend-2.onrender.com/api/universities", { headers })
       .then((res) => setUniversities(res.data.data || res.data || []))
       .catch((err) => console.error("Universities fetch error:", err));
+  }, []);
+
+    // API se campuses fetch karein
+  useEffect(() => {
+    const fetchCampuses = async () => {
+      try {
+        const res = await axios.get("https://collegemilan-backend-2.onrender.com/api/campuses");
+        setCampuses(res.data);
+      } catch (err) {
+        console.error("Error fetching campuses", err);
+      }
+    };
+    fetchCampuses();
   }, []);
 
   // ================= FETCH COURSES =================
@@ -114,7 +128,12 @@ const LearningTypes = () => {
       setIsSubmitted(true);
     } catch (err) {
       console.error("Submit Error:", err);
-      alert("Something went wrong.");
+      Swal.fire({
+  icon: 'error',
+  title: 'Oops...',
+  text: 'Something went wrong!',
+  confirmButtonText: 'OK'
+});
     }
   };
 
@@ -190,18 +209,25 @@ const LearningTypes = () => {
                 onChange={(val) => setFormData({ ...formData, qualification: val.value })}
               />
             </div>
-             <div className="col-md-4">
-                <label className="form-label">Select Campus*</label>
-                <select
-                  className="form-select"
-                  onChange={(e) => setFormData({ ...formData, campus: e.target.value })}
-                >
-                  <option value="">Select Campus</option>
-                  <option value="School of Art and Architecture">
-                    School of Art and Architecture
-                  </option>
-                </select>
-              </div>
+             <div className="col-md-4 mb-3"> 
+  <label className="form-label fw-bold">Select Campus*</label>
+  <div className="position-relative"> {/* Isse dropdown overlap nahi hoga */}
+    <select
+      className="form-select shadow-sm"
+      value={formData.campus}
+      onChange={(e) => setFormData({ ...formData, campus: e.target.value })}
+      required
+      style={{ zIndex: 1 }} // Ensure proper layering
+    >
+      <option value="">Select Campus</option>
+      {campuses.map((item) => (
+        <option key={item._id} value={item.name}>
+          {item.name}
+        </option>
+      ))}
+    </select>
+  </div>
+</div>
             </div>
 
             {/* PERSONAL INFO */}

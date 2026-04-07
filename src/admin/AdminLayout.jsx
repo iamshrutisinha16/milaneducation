@@ -78,6 +78,11 @@ const AdminLayout = () => {
                   </Link>
                 </li>
                 <li className="nav-item">
+                  <Link className="nav-link text-white" to="/admin/campuses">
+                    Campus
+                  </Link>
+                </li>
+                <li className="nav-item">
                   <Link className="nav-link text-white" to="/admin/careers">
                     Career
                   </Link>
