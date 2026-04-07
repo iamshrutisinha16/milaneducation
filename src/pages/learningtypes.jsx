@@ -167,12 +167,7 @@ const LearningTypes = () => {
 
               <div className="col-md-4">
                 <label className="form-label"><GraduationCap size={16} /> Select University*</label>
-               <Select
-  menuPlacement="top"   // 👈 dropdown upar khulega
-  menuPortalTarget={document.body} // 👈 overlap fix
-  styles={{
-    menuPortal: (base) => ({ ...base, zIndex: 9999 })
-  }}
+                <Select
   value={universities
     .map(u => ({ value: u._id, label: u.name }))
     .find(option => option.value === formData.university)
@@ -216,15 +211,25 @@ const LearningTypes = () => {
             </div>
              <div className="col-md-4 mb-3"> 
   <label className="form-label fw-bold">Select Campus*</label>
-  <div className="position-relative"> {/* Isse dropdown overlap nahi hoga */}
+  <div className="position-relative">
     <select
       className="form-select shadow-sm"
       value={formData.campus}
       onChange={(e) => setFormData({ ...formData, campus: e.target.value })}
       required
-      style={{ zIndex: 1 }} // Ensure proper layering
+      style={{ zIndex: 1 }}
     >
       <option value="">Select Campus</option>
+
+      {/* 🔥 Hardcoded options */}
+      <option value="School of Art and Architecture">
+        School of Art and Architecture
+      </option>
+      <option value="School of Business and Management">
+        School of Business and Management
+      </option>
+
+      {/* ✅ Dynamic options */}
       {campuses.map((item) => (
         <option key={item._id} value={item.name}>
           {item.name}
