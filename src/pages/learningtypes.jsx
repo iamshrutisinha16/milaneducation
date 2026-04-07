@@ -167,11 +167,21 @@ const LearningTypes = () => {
               <div className="col-md-4">
                 <label className="form-label">Select Course*</label>
                 <Select
-                  options={courses.map((c) => ({ value: c.course_name, label: c.course_name }))}
-                 onChange={(selected) => setFormData({ ...formData, course: selected.name,    
-                 courseId: selected.value  })}
-                  placeholder="Search course..."
-                />
+  value={courses
+    .map(c => ({ value: c.course_name, label: c.course_name }))
+    .find(option => option.value === formData.course)
+  }
+  options={courses.map((c) => ({
+    value: c.course_name,
+    label: c.course_name
+  }))}
+  onChange={(selected) =>
+    setFormData({
+      ...formData,
+      course: selected ? selected.value : ""
+    })
+  }
+/>
               </div>
             <div className="col-md-3">
               <label>Qualification*</label>
