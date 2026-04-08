@@ -53,8 +53,8 @@ const LearningTypes = () => {
   useEffect(() => {
     const fetchCampuses = async () => {
       try {
-        const res = await axios.get("https://collegemilan-backend-2.onrender.com/api/campuses");
-        setCampuses(res.data);
+        const res = await axios.get("https://collegemilan-backend-2.onrender.com/api/admin/campuses");
+         setCampuses(res.data.data || res.data || []);
       } catch (err) {
         console.error("Error fetching campuses", err);
       }
