@@ -231,7 +231,7 @@ const ContactPage = () => {
       </Container>
     <section className="map-section mt-5">
        <iframe title="College Milan Map"
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3501.956897148858!2d77.37130091508264!3d28.631024582415956!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd26c8b9d7e3%3A0x6b4904a08a28731!2sSector%2062%2C%20Noida%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1676900000000!5m2!1sen!2sin" 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6999.893872112506!2d76.9248161433193!3d28.69123390253069!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d0eae6da3a8d5%3A0x23a997ce6e6e33fd!2sBasant%20Vihar%2C%20Bahadurgarh%2C%20Haryana%20124507!5e0!3m2!1sen!2sin!4v1776238365415!5m2!1sen!2sin" 
         width="100%" height="450" style={{ border: 0 }}
          allowFullScreen loading="lazy" >
         </iframe> 
@@ -241,3 +241,4 @@ const ContactPage = () => {
 };
 
 export default ContactPage;
+
