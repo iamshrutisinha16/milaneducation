@@ -168,11 +168,9 @@ const LearningTypes = () => {
               <div className="col-md-4">
                 <label className="form-label"><GraduationCap size={16} /> Select University*</label>
                 <Select
-                  menuPlacement="top" 
-  value={universities
-    .map(u => ({ value: u._id, label: u.name }))
-    .find(option => option.value === formData.university)
-  }
+                  menuPlacement="top" value={universities
+                 .map(u => ({ value: u._id, label: u.name }))
+                 .find(option => option.value === formData.university)}
   options={universities.map((u) => ({ value: u._id, label: u.name }))}
   onChange={(selected) =>
     setFormData({
@@ -186,8 +184,7 @@ const LearningTypes = () => {
 
               <div className="col-md-4">
                 <label className="form-label">Select Course*</label>
-                <Select
-  value={courses
+                <Select value={courses
     .map(c => ({ value: c.course_name, label: c.course_name }))
     .find(option => option.value === formData.course)
   }

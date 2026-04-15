@@ -444,8 +444,7 @@ const HomePage = () => {
           </Row>
         </Container>
       </section>
-
-      {/* ================= BLOG SLIDER ================= */}
+     {/* blog section
       <section className="blog-section">
         <Container>
           <div className="text-center mb-5">
@@ -458,8 +457,6 @@ const HomePage = () => {
           </div>
 
           <Carousel indicators controls interval={4000} pause="hover" className="education-slider">
-  
-  {/* Slide 1 */}
   <Carousel.Item>
     <Row className="px-md-5 g-4">
       {[
@@ -498,7 +495,6 @@ const HomePage = () => {
     </Row>
   </Carousel.Item>
 
-  {/* Slide 2 */}
   <Carousel.Item>
     <Row className="px-md-5 g-4">
       {[
@@ -539,7 +535,90 @@ const HomePage = () => {
 
 </Carousel>
         </Container>
-      </section>
+      </section> */}
+
+<section className="blog-section">
+  <Container>
+    <div className="text-center mb-5">
+      <span style={{
+        color: "#f47920",
+        fontWeight: "bold",
+        textTransform: "uppercase",
+        letterSpacing: "2px",
+        fontSize: "14px"
+      }}>
+        Knowledge Hub
+      </span>
+
+      <h2 className="fw-bold mt-2" style={{ fontSize: "2.5rem", color: "#1a1a1a" }}>
+        Latest From <span style={{ color: "#f47920" }}>Milan Education</span>
+      </h2>
+    </div>
+
+    {/* CAROUSEL */}
+    <Carousel indicators controls interval={4000} pause="hover">
+
+      {groupedBlogs.map((group, slideIndex) => (
+        <Carousel.Item key={slideIndex}>
+          <Row className="px-md-5 g-4">
+
+            {group.map((blog) => (
+              <Col md={4} key={blog._id}>
+
+                <div className="blog-card">
+
+                  {/* IMAGE */}
+                  <div className="blog-img-wrapper">
+                    <img
+                      src={blog.image}
+                      alt={blog.title}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover"
+                      }}
+                    />
+
+                    <span className="blog-tag">
+                      {blog.category}
+                    </span>
+                  </div>
+
+                  {/* CONTENT */}
+                  <div className="p-4 bg-white text-center">
+
+                    <h5
+                      className="fw-bold mb-3"
+                      style={{ fontSize: "1.1rem", cursor: "pointer" }}
+                      onClick={() => navigate(blog.link)}
+                    >
+                      {blog.title}
+                    </h5>
+
+                    <Button
+                      variant="link"
+                      onClick={() => navigate(blog.link)}
+                      className="p-0 fw-bold text-decoration-none"
+                      style={{ color: "#f47920" }}
+                    >
+                      Read More →
+                    </Button>
+
+                  </div>
+
+                </div>
+
+              </Col>
+            ))}
+
+          </Row>
+        </Carousel.Item>
+      ))}
+
+    </Carousel>
+
+  </Container>
+</section>
 
 <section className="dark-mesh-section">
   <div className="dark-mesh-dots"></div>

@@ -12,10 +12,9 @@ const AdminPaymentSettings = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
 
-  // 1. Page load hote hi purani keys Database se mangwao
   useEffect(() => {
     axios
-      .get("https://collegemilan-backend-2.onrender.com/api/admin/payment-settings") // Apna Sahi URL daalna
+      .get("https://collegemilan-backend-2.onrender.com/api/admin/payment-settings") 
       .then((res) => {
         if (res.data) {
           setSettings({

@@ -676,79 +676,108 @@ onClick={()=>deleteStat(index)}
 </Card>
 
 
-
 {/* BLOG SECTION */}
-
 <Card className="p-3 mb-4">
 
-<div className="d-flex justify-content-between align-items-center mb-3">
+  <div className="d-flex justify-content-between align-items-center mb-3">
+    <h5 className="mb-0">Blog Section</h5>
 
-<h5 className="mb-0">Blog Section</h5>
+    <Button
+      style={{ background: "#f47920", border: "none" }}
+      onClick={addBlog}
+    >
+      <FaPlusCircle className="me-2" />
+      Add Blog
+    </Button>
+  </div>
 
-<Button
-style={{background:"#f47920",border:"none"}}
-onClick={addBlog}
->
+  {/* EMPTY STATE */}
+  {(!data.blogSection || data.blogSection.length === 0) && (
+    <p className="text-muted">No blogs added yet.</p>
+  )}
 
-<FaPlusCircle className="me-2"/>
+  {data.blogSection?.map((blog, index) => (
+    <Card key={blog._id || index} className="p-3 mb-3 shadow-sm">
 
-Add Blog
+      <Row className="g-3 align-items-center">
 
-</Button>
+        {/* TITLE */}
+        <Col md={3}>
+          <Form.Control
+            placeholder="Blog Title"
+            value={blog.title}
+            onChange={(e) =>
+              handleArrayChange("blogSection", index, "title", e.target.value)
+            }
+          />
+        </Col>
 
-</div>
+        {/* CATEGORY */}
+        <Col md={2}>
+          <Form.Control
+            placeholder="Category"
+            value={blog.category}
+            onChange={(e) =>
+              handleArrayChange("blogSection", index, "category", e.target.value)
+            }
+          />
+        </Col>
 
-{data.blogSection?.map((blog,index)=>(
+        {/* IMAGE */}
+        <Col md={3}>
+          <Form.Control
+            placeholder="Image URL"
+            value={blog.image}
+            onChange={(e) =>
+              handleArrayChange("blogSection", index, "image", e.target.value)
+            }
+          />
 
-<Card key={index} className="p-3 mb-3">
+          {/* IMAGE PREVIEW */}
+          {blog.image && (
+            <img
+              src={blog.image}
+              alt="preview"
+              style={{
+                width: "100%",
+                height: "60px",
+                objectFit: "cover",
+                marginTop: "5px",
+                borderRadius: "5px"
+              }}
+            />
+          )}
+        </Col>
 
-<Row className="g-3">
+        {/* LINK (IMPORTANT FIX) */}
+        <Col md={2}>
+          <Form.Control
+            placeholder="Page Link (/blog/slug)"
+            value={blog.link || ""}
+            onChange={(e) =>
+              handleArrayChange("blogSection", index, "link", e.target.value)
+            }
+          />
+        </Col>
 
-<Col md={3}>
-<Form.Control
-placeholder="Title"
-value={blog.title}
-onChange={(e)=>handleArrayChange("blogSection",index,"title",e.target.value)}
-/>
-</Col>
+        {/* ACTIONS */}
+        <Col md={2} className="d-flex gap-2 align-items-center">
 
-<Col md={3}>
-<Form.Control
-placeholder="Category"
-value={blog.category}
-onChange={(e)=>handleArrayChange("blogSection",index,"category",e.target.value)}
-/>
-</Col>
+          <Button
+            variant="danger"
+            onClick={() => deleteBlog(blog._id || index)}
+          >
+            <FaTrash />
+          </Button>
 
-<Col md={4}>
-<Form.Control
-placeholder="Image URL"
-value={blog.image}
-onChange={(e)=>handleArrayChange("blogSection",index,"image",e.target.value)}
-/>
-</Col>
+        </Col>
 
-<Col md={2} className="d-flex align-items-center">
+      </Row>
 
-<Button
-variant="danger"
-onClick={()=>deleteBlog(index)}
->
-
-<FaTrash/>
-
-</Button>
-
-</Col>
-
-</Row>
+    </Card>
+  ))}
 
 </Card>
-
-))}
-
-</Card>
-
 
 
 {/* TESTIMONIAL */}
