@@ -244,7 +244,7 @@ const HomePage = () => {
 
                 <p className="text-muted">
                    <strong>College Milan</strong> is more than just a career platform.
-                   It’s a dedicated ecosystem led by Mr. <strong>Sanjeev Sagwan</strong>, designed to bridge the gap
+                   It’s a dedicated ecosystem led by Mr. <strong>Sanjeev Sangwan</strong>, designed to bridge the gap
                    between student potential and career excellence.
                    <br /><br />
                    Our mission is to guide students at every stage of their journey,

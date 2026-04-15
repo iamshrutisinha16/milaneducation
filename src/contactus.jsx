@@ -129,7 +129,7 @@ const ContactPage = () => {
                 <div>
                   <h6 style={{ color: 'white' }}>Address</h6>
                   <p style={{ color: 'white', margin: 0 }}>
-                    C917, Sector 7, Dwarka, New Delhi - 110075
+                    College Milan, Radha Ganga Arcked, Mod, Basant VIhar, Jhajjar, Bahadurgarh, Haryana 124507
                   </p>
                 </div>
               </div>
@@ -149,7 +149,7 @@ const ContactPage = () => {
                 <div>
                   <h6 style={{ color: 'white' }}>Email</h6>
                   <p style={{ margin: 0, color: "white" }}>
-                    enquiry@collagemilan.com
+                    ssanjeevsangwan@collegemilan.com , info@collegemilan.com
                   </p>
                 </div>
               </div>
