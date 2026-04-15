@@ -206,7 +206,7 @@ const HomePage = () => {
                   transition={{ duration: 0.8 }}
                   className="collage-img-1"
                 >
-                  <img src="https://i.pinimg.com/736x/63/20/ed/6320ed9a61834db5beb4a6df8788f40d.jpg" alt="Founder" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  <img src="frontend/public/assets/event6.jpeg" alt="Founder" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 </motion.div>
 
                 <motion.div
