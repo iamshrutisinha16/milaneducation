@@ -224,7 +224,7 @@ const HomePage = () => {
                   transition={{ duration: 0.8, delay: 0.4 }}
                   className="collage-img-3"
                 >
-                  <img src="/assets/event6.jpeg" alt="Detail" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  <img src="/assets/event5.jpeg" alt="Detail" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 </motion.div>
               </div>
             </Col>
@@ -480,7 +480,7 @@ const HomePage = () => {
             Wall of Fame
           </span>
           <h2 className="display-4 fw-bold mb-4 text-white mt-3">
-            Success Stories at <br/> <span style={{ color: "#f47920" }}>Milan Education</span>
+            Success Stories at <br/> <span style={{ color: "#f47920" }}>College Milan</span>
           </h2>
           <Carousel indicators={true} controls={false} interval={3000} fade>
             {[
