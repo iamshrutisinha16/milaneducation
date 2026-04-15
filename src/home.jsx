@@ -206,7 +206,7 @@ const HomePage = () => {
                   transition={{ duration: 0.8 }}
                   className="collage-img-1"
                 >
-                  <img src="frontend/public/assets/event6.jpeg" alt="Founder" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  <img src="https://i.pinimg.com/736x/63/20/ed/6320ed9a61834db5beb4a6df8788f40d.jpg" alt="Founder" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 </motion.div>
 
                 <motion.div
@@ -224,7 +224,7 @@ const HomePage = () => {
                   transition={{ duration: 0.8, delay: 0.4 }}
                   className="collage-img-3"
                 >
-                  <img src="https://i.pinimg.com/1200x/7a/83/7c/7a837c860b767d640b16c66da66b512b.jpg" alt="Detail" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  <img src="/assets/event6.jpeg" alt="Detail" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 </motion.div>
               </div>
             </Col>
